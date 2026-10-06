@@ -47,14 +47,24 @@ function VoiceSettings() {
             onChange={(e) => set({ voiceURI: e.target.value || null })}
             className="min-h-11 w-full max-w-md rounded-lg border border-border-strong bg-surface px-2"
           >
-            <option value="">Automatic (prefer voices on this device)</option>
+            <option value="">Automatic (best voice available)</option>
             {voices.map((v) => (
               <option key={v.uri} value={v.uri}>
-                {v.name} ({v.lang}){v.local ? '' : ' — online'}
+                {v.name} ({v.lang}){v.quality === 'natural' ? ' — natural' : v.quality === 'robotic' ? ' — robotic, not recommended' : ''}
+                {v.local ? '' : ' — online'}
               </option>
             ))}
           </select>
         </label>
+      )}
+      {ready && voices[0] && voices[0].quality !== 'natural' && (
+        <div className="rounded-xl bg-surface-2 p-3 text-sm">
+          <p className="font-semibold">For a more natural Finnish voice</p>
+          <ul className="mt-1 list-disc space-y-0.5 pl-5">
+            <li>macOS / iPhone / iPad: in Spoken Content → Manage Voices → Finnish, download the higher-quality Satu voice (Enhanced or Premium), then reload this page.</li>
+            <li>Or open Sija in Microsoft Edge, which has free natural Finnish voices (Noora, Harri, Selma). They need an internet connection.</li>
+          </ul>
+        </div>
       )}
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => void speak(SAMPLE, 'normal')} icon={<Play aria-hidden className="size-4" />}>

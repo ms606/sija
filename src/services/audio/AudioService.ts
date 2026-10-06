@@ -3,19 +3,25 @@
  *
  * Provider chain: a recorded file (if the manifest has one for the text)
  * overrides text-to-speech; otherwise the Web Speech API speaks with a
- * Finnish (fi-FI) voice, preferring on-device voices so audio also works
- * offline where the operating system provides them.
+ * Finnish (fi-FI) voice. Natural-sounding voices are ranked first; Apple's
+ * robotic Eloquence voices last. Online voices are skipped while offline.
+ * Finnish is never spoken with a non-Finnish voice: an English voice reading
+ * Finnish teaches the wrong pronunciation, so silence is better.
  */
 
 export type Rate = 'normal' | 'slow'
 
 export const RATE_VALUE: Readonly<Record<Rate, number>> = { normal: 1, slow: 0.7 }
 
+/** natural: neural/enhanced voices; standard: ordinary voices; robotic: Apple's Eloquence voices. */
+export type VoiceQuality = 'natural' | 'standard' | 'robotic'
+
 export interface VoiceInfo {
   uri: string
   name: string
   lang: string
   local: boolean
+  quality: VoiceQuality
 }
 
 export interface AudioState {
@@ -36,6 +42,36 @@ const RECORDED: Readonly<Record<string, string>> = {}
 
 function normalizeKey(text: string): string {
   return text.normalize('NFC').trim().toLowerCase()
+}
+
+type VoiceLike = Pick<SpeechSynthesisVoice, 'name' | 'voiceURI' | 'lang' | 'localService'>
+
+function isFinnish(v: VoiceLike): boolean {
+  return v.lang.toLowerCase().replace('_', '-').startsWith('fi')
+}
+
+// Apple ships these Eloquence voices for every language; they share one robotic
+// formant engine and sound like an English speaker reading Finnish.
+const ELOQUENCE = /eloquence|^(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley)\b/i
+// Edge: "Microsoft Noora Online (Natural)"; Apple: "Satu (Enhanced)", "com.apple.voice.premium.fi-FI.Satu".
+const NATURAL = /natural|neural|enhanced|premium/i
+
+export function voiceQuality(v: VoiceLike): VoiceQuality {
+  if (ELOQUENCE.test(v.name) || ELOQUENCE.test(v.voiceURI)) return 'robotic'
+  if (NATURAL.test(v.name) || NATURAL.test(v.voiceURI)) return 'natural'
+  return 'standard'
+}
+
+const QUALITY_RANK: Readonly<Record<VoiceQuality, number>> = { natural: 2, standard: 1, robotic: 0 }
+
+/** Best first: quality, then on-device, then Satu (Apple's native Finnish voice), then name. */
+export function compareVoices(a: VoiceLike, b: VoiceLike): number {
+  return (
+    QUALITY_RANK[voiceQuality(b)] - QUALITY_RANK[voiceQuality(a)] ||
+    Number(b.localService) - Number(a.localService) ||
+    Number(/satu/i.test(b.name)) - Number(/satu/i.test(a.name)) ||
+    a.name.localeCompare(b.name)
+  )
 }
 
 export class AudioService {
@@ -62,9 +98,9 @@ export class AudioService {
     if (!this.synth) return
     const all = this.synth.getVoices()
     const voices = all
-      .filter((v) => v.lang.toLowerCase().replace('_', '-').startsWith('fi'))
-      .map((v) => ({ uri: v.voiceURI, name: v.name, lang: v.lang, local: v.localService }))
-      .sort((a, b) => Number(b.local) - Number(a.local) || a.name.localeCompare(b.name))
+      .filter(isFinnish)
+      .sort(compareVoices)
+      .map((v) => ({ uri: v.voiceURI, name: v.name, lang: v.lang, local: v.localService, quality: voiceQuality(v) }))
     this.setState({ voices, ready: this.state.ready || all.length > 0 })
   }
 
@@ -91,15 +127,17 @@ export class AudioService {
     return this.state.voices.length > 0
   }
 
-  private pickVoice(): SpeechSynthesisVoice | undefined {
-    const voices = this.synth?.getVoices() ?? []
-    const fi = voices.filter((v) => v.lang.toLowerCase().replace('_', '-').startsWith('fi'))
-    return (
-      fi.find((v) => v.voiceURI === this.preferredUri) ??
-      fi.find((v) => v.localService && /satu/i.test(v.name)) ??
-      fi.find((v) => v.localService) ??
-      fi[0]
-    )
+  /**
+   * The chosen voice, or the best available one. `null` means voices are listed
+   * but none is Finnish; `undefined` means the browser lists no voices at all,
+   * so only the utterance's lang can select one.
+   */
+  private pickVoice(localOnly = false): SpeechSynthesisVoice | null | undefined {
+    const all = this.synth?.getVoices() ?? []
+    if (all.length === 0) return undefined
+    const offline = typeof navigator !== 'undefined' && navigator.onLine === false
+    const fi = all.filter((v) => isFinnish(v) && (v.localService || !(offline || localOnly))).sort(compareVoices)
+    return fi.find((v) => v.voiceURI === this.preferredUri) ?? fi[0] ?? null
   }
 
   stop(): void {
@@ -116,20 +154,29 @@ export class AudioService {
     if (recorded) return this.playRecorded(text, recorded, rate)
     const synth = this.synth
     if (!synth) return Promise.resolve()
+    const voice = this.pickVoice()
+    if (voice === null) return Promise.resolve()
     return new Promise((resolve) => {
-      const u = new SpeechSynthesisUtterance(text)
-      u.lang = 'fi-FI'
-      u.rate = RATE_VALUE[rate]
-      const voice = this.pickVoice()
-      if (voice) u.voice = voice
       const done = () => {
         if (this.state.speaking === text) this.setState({ speaking: null, rate: null })
         resolve()
       }
-      u.onend = done
-      u.onerror = done
+      const say = (v: SpeechSynthesisVoice | undefined) => {
+        const u = new SpeechSynthesisUtterance(text)
+        u.lang = 'fi-FI'
+        u.rate = RATE_VALUE[rate]
+        if (v) u.voice = v
+        u.onend = done
+        u.onerror = (e) => {
+          // An online voice failed (network): retry once with an on-device one.
+          const local = v && !v.localService && e.error !== 'interrupted' && e.error !== 'canceled' ? this.pickVoice(true) : null
+          if (local) say(local)
+          else done()
+        }
+        synth.speak(u)
+      }
       this.setState({ speaking: text, rate })
-      synth.speak(u)
+      say(voice)
     })
   }
 
