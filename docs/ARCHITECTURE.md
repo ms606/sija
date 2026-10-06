@@ -92,9 +92,11 @@ produced by the reviewed pipeline in `tools/images/`.
 
 ## Audio
 
-`AudioService` uses the Web Speech API with a Finnish voice (on-device voices
-preferred) at normal (1.0) and slow (0.7) speed. A recorded file overrides TTS
-when one exists for the text. Audio is an enhancement: every task works without it.
+`AudioService` uses the Web Speech API with a Finnish voice at normal (1.0) and
+slow (0.7) speed. Natural-sounding voices are ranked first and Apple's robotic
+Eloquence voices last; Finnish is never spoken with a non-Finnish voice. A
+recorded file overrides TTS when one exists for the text. Audio is an
+enhancement: every task works without it. Details: [SPEC.md §12](SPEC.md#12-audio).
 
 ## Testing
 

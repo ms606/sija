@@ -62,6 +62,7 @@ npm run dev          # http://localhost:5173
 
 ## Documentation
 
+- [docs/SPEC.md](docs/SPEC.md): the full technical specification: every layer, data model, service, store, build, deployment and verification step
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): layers, data flow, state, offline support
 - [docs/GRAMMAR_ENGINE.md](docs/GRAMMAR_ENGINE.md): how forms are derived, how to add words and types, the planned import pipeline
 - [docs/VERIFICATION.md](docs/VERIFICATION.md): how correctness is checked, adjudicated differences, open items
