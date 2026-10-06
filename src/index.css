@@ -1,0 +1,310 @@
+@import 'tailwindcss';
+
+/* Dark mode follows data-theme on <html> (set from settings: system / light / dark). */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+  --bg: #f6f7f4;
+  --surface: #ffffff;
+  --surface-2: #eef1ec;
+  --surface-3: #e3e8e1;
+  --border: #d4dbd1;
+  --border-strong: #b7c2b4;
+  --text: #1b2420;
+  --text-muted: #56625b;
+  --primary: #1f5f99;
+  --primary-strong: #174a78;
+  --primary-soft: #e2edf8;
+  --on-primary: #ffffff;
+  --focus: #2b7bd3;
+  --success: #23733f;
+  --success-soft: #e3f4e8;
+  --error: #b42318;
+  --error-soft: #fdeceb;
+  --warning: #9a5500;
+  --warning-soft: #fdf1df;
+  --shadow: 0 1px 2px rgb(16 24 20 / 0.06), 0 2px 8px rgb(16 24 20 / 0.06);
+
+  /* Grammar roles: background / text / border. Colour is never the only cue. */
+  --root-bg: #e5effa;
+  --root-fg: #1b4c80;
+  --root-bd: #86b2e2;
+  --stem-bg: #f1e9fb;
+  --stem-fg: #59358f;
+  --stem-bd: #b39ade;
+  --grade-bg: #fdeedd;
+  --grade-fg: #8f4205;
+  --grade-bd: #eaa564;
+  --ending-bg: #e2f4e7;
+  --ending-fg: #1c6438;
+  --ending-bd: #86c99d;
+  --plural-bg: #fbf3cf;
+  --plural-fg: #6b4e00;
+  --plural-bd: #dbbd52;
+  --px-bg: #fbe7f2;
+  --px-fg: #942160;
+  --px-bd: #e6a1c7;
+  --exception-bg: #fde6e6;
+  --exception-fg: #9f1a1a;
+  --exception-bd: #ec9c9c;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e161d;
+  --surface: #15202a;
+  --surface-2: #1b2934;
+  --surface-3: #233441;
+  --border: #2a3b48;
+  --border-strong: #3d5263;
+  --text: #e6edf2;
+  --text-muted: #a1b2c0;
+  --primary: #79b6ef;
+  --primary-strong: #a3cdf5;
+  --primary-soft: #1a324a;
+  --on-primary: #0b1724;
+  --focus: #8cc4ff;
+  --success: #6fd394;
+  --success-soft: #16301f;
+  --error: #ff9b91;
+  --error-soft: #3a1714;
+  --warning: #f4b86a;
+  --warning-soft: #392611;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 2px 10px rgb(0 0 0 / 0.3);
+
+  --root-bg: #172d44;
+  --root-fg: #a9cdf3;
+  --root-bd: #3e6b98;
+  --stem-bg: #2a2140;
+  --stem-fg: #cdb6f2;
+  --stem-bd: #6c55a0;
+  --grade-bg: #3a2715;
+  --grade-fg: #f7bf86;
+  --grade-bd: #a8682b;
+  --ending-bg: #15301f;
+  --ending-fg: #93dcab;
+  --ending-bd: #3f8a5a;
+  --plural-bg: #332a0e;
+  --plural-fg: #ecd27a;
+  --plural-bd: #8f7726;
+  --px-bg: #3a1a2c;
+  --px-fg: #f2aed3;
+  --px-bd: #9c4877;
+  --exception-bg: #3c1818;
+  --exception-fg: #ffadad;
+  --exception-bd: #a24a4a;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-on-primary: var(--on-primary);
+  --color-focus: var(--focus);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-error: var(--error);
+  --color-error-soft: var(--error-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --shadow-card: var(--shadow);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--primary-soft);
+}
+
+/* Finnish word forms: slightly wider tracking for readability of endings. */
+.fi-form {
+  font-feature-settings: 'tnum';
+  letter-spacing: 0.01em;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 100;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Grammar roles (MorphologyBreakdown)                                 */
+/* ------------------------------------------------------------------ */
+.seg {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.4em;
+  padding: 0.04em 0.12em;
+  line-height: 1.15;
+  border: 2px solid transparent;
+  transition: box-shadow 150ms ease, transform 150ms ease, opacity 150ms ease;
+}
+.seg-root {
+  background: var(--root-bg);
+  color: var(--root-fg);
+  box-shadow: inset 0 -3px 0 var(--root-bd);
+}
+.seg-stem {
+  background: var(--stem-bg);
+  color: var(--stem-fg);
+  border: 2px dashed var(--stem-bd);
+}
+.seg-grade {
+  background: var(--grade-bg);
+  color: var(--grade-fg);
+  text-decoration: underline wavy var(--grade-bd);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+  border: 2px solid var(--grade-bd);
+}
+/* With a label below, only the letters get the wavy line (decorations would also cross the label). */
+.seg-grade:has(> .seg-text) {
+  text-decoration: none;
+}
+.seg-grade > .seg-text {
+  text-decoration: underline wavy var(--grade-bd);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.05em;
+}
+.seg-grade > .seg-text.seg-ghost {
+  text-decoration: line-through;
+}
+.seg-ending {
+  background: var(--ending-bg);
+  color: var(--ending-fg);
+  border: 2px solid var(--ending-bd);
+  border-radius: 999px;
+  padding-inline: 0.25em;
+}
+.seg-plural {
+  background: var(--plural-bg);
+  color: var(--plural-fg);
+  border: 2px dotted var(--plural-bd);
+}
+.seg-possessive {
+  background: var(--px-bg);
+  color: var(--px-fg);
+  border-bottom: 4px double var(--px-bd);
+}
+.seg-exception {
+  background: var(--exception-bg);
+  color: var(--exception-fg);
+  border: 2px solid var(--exception-bd);
+}
+.seg-ghost {
+  opacity: 0.55;
+  text-decoration: line-through;
+  font-size: 0.7em;
+  align-self: center;
+}
+.seg-dim {
+  opacity: 0.35;
+}
+.seg-focus {
+  box-shadow: 0 0 0 3px var(--focus);
+  transform: translateY(-2px);
+}
+.seg-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: 0.4em;
+  text-decoration: none;
+}
+
+/* Swatches used in legends */
+.swatch-root { background: var(--root-bg); color: var(--root-fg); border-color: var(--root-bd); }
+.swatch-stem { background: var(--stem-bg); color: var(--stem-fg); border-color: var(--stem-bd); border-style: dashed; }
+.swatch-grade { background: var(--grade-bg); color: var(--grade-fg); border-color: var(--grade-bd); }
+.swatch-ending { background: var(--ending-bg); color: var(--ending-fg); border-color: var(--ending-bd); }
+.swatch-plural { background: var(--plural-bg); color: var(--plural-fg); border-color: var(--plural-bd); border-style: dotted; }
+.swatch-possessive { background: var(--px-bg); color: var(--px-fg); border-color: var(--px-bd); }
+.swatch-exception { background: var(--exception-bg); color: var(--exception-fg); border-color: var(--exception-bd); }
+
+/* ------------------------------------------------------------------ */
+/* Motion                                                              */
+/* ------------------------------------------------------------------ */
+@keyframes grade-shrink {
+  0%, 25% { max-width: 2ch; opacity: 1; }
+  60%, 100% { max-width: 0; opacity: 0; }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 45%, transparent); }
+  100% { box-shadow: 0 0 0 10px transparent; }
+}
+.animate-rise-in {
+  animation: rise-in 220ms ease-out both;
+}
+.animate-speaking {
+  animation: pulse-ring 1s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+:root[data-motion='reduce'] *,
+:root[data-motion='reduce'] *::before,
+:root[data-motion='reduce'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

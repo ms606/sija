@@ -1,0 +1,143 @@
+# Linguistic rule tables read by tools/audit/sentence-audit.py.
+#
+# These are the audit's grammar knowledge, kept as data so they can be
+# extended without touching code. Each [[table]] entry may set `severity`
+# (error | warning | info) to override its check's default, and `note`, which
+# is shown with every finding the entry produces.
+#
+# Words in `words` are matched as written (lower-cased); `lemmas` are matched
+# against the GiellaLT analyser's lemma for each word, so every inflected form
+# of the verb or noun counts.
+
+[clauses]
+# S04–S10 look at word order inside one clause. A clause ends at punctuation
+# and at these joining words.
+boundary_words = [
+  "ja", "mutta", "vaan", "tai", "sekä", "eli", "joten", "koska", "että", "kun",
+  "jos", "kuin", "vaikka", "jotta", "kunnes", "joka", "jonka", "jossa", "johon",
+  "josta", "mikä", "minkä", "missä", "mihin", "mistä", "jolla", "jolle", "jolta",
+]
+
+# --------------------------------------------------------------------- S05
+# Quantifiers: the noun after them (past any agreeing adjectives) must be in
+# one of `requires`. Only checked when that noun is in a grammatical case
+# (nominative, genitive, accusative, partitive): in other cases the quantifier
+# is adverbial (Pidän paljon kahvista) or inflects with the noun (kahdessa talossa).
+
+[[quantifier]]
+numerals = true          # cardinal numerals in the nominative (kaksi, kolme, 10)
+except = ["yksi"]
+requires = ["sg.partitive"]
+note = "After a numeral from two up, the noun is in the singular partitive: kaksi taloa."
+
+[[quantifier]]
+lemmas = ["monta"]
+requires = ["sg.partitive"]
+note = "monta takes the singular partitive: monta taloa."
+
+[[quantifier]]
+words = ["paljon", "vähän", "liikaa", "tarpeeksi", "riittävästi", "enemmän", "vähemmän"]
+requires = ["sg.partitive", "pl.partitive"]
+note = "Amount words take the partitive: paljon vettä, vähän ihmisiä."
+
+[[quantifier]]
+lemmas = ["kilo", "gramma", "litra", "desilitra", "metri", "pullo", "kuppi", "lasi", "pala", "pussi", "paketti", "purkki", "annos", "tölkki", "laatikko", "kori"]
+requires = ["sg.partitive", "pl.partitive"]
+note = "A measure is followed by the partitive: kilo omenoita, kuppi kahvia."
+
+# --------------------------------------------------------------------- S06
+# Adpositions. position = "after": the noun comes right before the word
+# (postposition); "before": right after it (preposition).
+
+[[adposition]]
+position = "after"
+words = [
+  "edessä", "edestä", "eteen", "takana", "takaa", "taakse", "alla", "alta", "alle",
+  "vieressä", "vierestä", "viereen", "luona", "luota", "luokse", "luo", "kanssa",
+  "jälkeen", "takia", "vuoksi", "aikana", "kautta", "ympärillä", "ympäriltä", "ympärille",
+  "sisällä", "sisältä", "sisälle", "yläpuolella", "alapuolella", "ulkopuolella",
+  "välissä", "välistä", "väliin", "avulla", "puolesta", "sijaan", "lähellä", "läheltä", "lähelle",
+]
+requires = ["genitive"]
+note = "Postpositions take the genitive: talon edessä, ystävän kanssa."
+
+[[adposition]]
+position = "after"
+words = ["päällä", "päältä", "päälle"]
+requires = ["genitive"]
+severity = "warning"
+note = "päällä 'on top of' takes the genitive (pöydän päällä); after a nominative it can also mean 'on, switched on' (takki päällä)."
+
+[[adposition]]
+position = "before"
+words = ["ilman", "ennen"]
+requires = ["partitive"]
+severity = "warning"
+note = "As prepositions, ilman and ennen take the partitive: ilman sokeria, ennen joulua. (ilman is also the genitive of ilma; ennen also means 'formerly'.)"
+
+# --------------------------------------------------------------------- S07
+# Verb government: the noun right after a form of the verb (past agreeing
+# adjectives), when it is in a grammatical case, must be in one of `object`.
+# Nouns in other cases are adverbials and are not checked.
+
+[[verb]]
+lemmas = [
+  "odottaa", "auttaa", "rakastaa", "kuunnella", "etsiä", "ajatella", "harrastaa",
+  "opiskella", "pelätä", "vihata", "kiittää", "onnitella", "tervehtiä", "katsella",
+  "koskettaa", "häiritä",
+]
+object = ["partitive"]
+note = "These verbs always take a partitive object: Odotan bussia, Autan äitiä."
+
+[[verb]]
+lemmas = ["tykätä", "nauttia", "kiinnostua", "huolehtia", "haaveilla", "unelmoida", "innostua", "kieltäytyä"]
+object = ["elative"]
+note = "These verbs take the elative: Tykkään kahvista, Nautin kesästä."
+
+# pitää is deliberately absent: 'like' takes the elative (Pidän kahvista), but with a
+# partitive or accusative it means 'hold, keep' (pitää kokous), so the case alone
+# cannot show an error.
+
+[[verb]]
+lemmas = ["luottaa", "tutustua", "osallistua", "kyllästyä", "rakastua", "tottua", "keskittyä"]
+object = ["illative"]
+note = "These verbs take the illative: Luotan ystävään, Tutustun kaupunkiin."
+
+# --------------------------------------------------------------------- S09
+# A total object in the nominative form (Osta maito!) needs a trigger in its
+# clause: an imperative, a passive, an A-infinitive or a necessity word.
+
+[nominative_object]
+trigger_tags = ["Imprt", "Pss", "InfA"]
+trigger_lemmas = ["täytyä", "pitää", "tarvita", "kannattaa", "pakko", "saada"]
+
+# --------------------------------------------------------------------- S13
+# Sentence id prefixes that promise a case: every sentence c.par.* must show
+# the partitive in a (focus) token.
+
+[case_sentence_ids]
+"c.nom." = "nominative"
+"c.gen." = "genitive"
+"c.par." = "partitive"
+"c.acc." = "accusative"
+"c.ine." = "inessive"
+"c.ela." = "elative"
+"c.ill." = "illative"
+"c.ade." = "adessive"
+"c.abl." = "ablative"
+"c.all." = "allative"
+"c.ess." = "essive"
+"c.tra." = "translative"
+"c.abe." = "abessive"
+"c.com." = "comitative"
+"c.ins." = "instructive"
+
+# --------------------------------------------------------------------- S20
+# Finnish copy (lesson text, glossary, YKI answers): words the spell check skips.
+# Linguistic notation such as -ssa, kiele-, talo|ssa and *audon is skipped automatically.
+
+[copy]
+ignore_words = [
+  "konsonanttiloppuinen", "konsonanttiloppuiset",  # grammar term (konsonantti + loppuinen) the analyser lacks
+  "spoken",                                        # English label inside case-page corrections: "(spoken: mun talo)"
+]

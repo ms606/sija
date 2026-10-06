@@ -1,0 +1,35 @@
+# Native-speaker review of critical learner-facing forms: the authoritative record.
+#
+# A critical form is one the app shows or accepts that the independent analyser
+# (GiellaLT) does not confirm; the engine's form was settled against a second
+# source (Wiktionary, Kotus, Kielitoimiston ohjepankki) by the app's authors.
+# The forms are reviewed in 25 groups. docs/NATIVE_REVIEW.md lists every group
+# and form, explains what to check, and gives a ready-made entry for each group.
+#
+# Only people write to this file; no tool ever does. After editing it, run
+# `npm run audit:grammar`: every group shows VERIFIED, NEEDS CORRECTION or PENDING.
+#
+#   VERIFIED          a native speaker answered every dimension the group asks
+#                     about with "correct" and listed no incorrect form
+#   NEEDS CORRECTION  any reviewer answered "incorrect" or listed an incorrect form;
+#                     the developers fix the engine or data, then the group is re-reviewed
+#   PENDING           anything else, including "unsure", unanswered dimensions and
+#                     reviews by non-native reviewers
+#
+# Dimensions (a group lists the ones it needs):
+#   morphology  is each form a correct Finnish form of the word in this slot?
+#   usage       would a native speaker use it; is standard / variant / rare right?
+#   semantics   is it linked to the right word and meaning?
+#   pedagogy    is the explanation the app shows correct and clear?
+# Each takes "correct", "incorrect" or "unsure".
+#
+# [[review]]
+# group = "oracle-defect:pl-allative-vn"  # group id from docs/NATIVE_REVIEW.md
+# reviewer = "Full name"
+# role = "native-speaker"                 # native-speaker | linguist | author (only native-speaker verifies)
+# date = "2026-10-12"
+# morphology = "correct"
+# usage = "correct"
+# pedagogy = "correct"
+# incorrect_forms = []                    # any form you find wrong, e.g. ["lapsilleen"]
+# note = ""

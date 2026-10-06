@@ -1,0 +1,20 @@
+# Grammar audit settings. See tools/audit/README.md.
+#
+# Every check can be tuned in a [checks.<ID>] table:
+#   enabled  = false            skip the check
+#   severity = "info"           report all its findings at this severity
+#   <option> = value            options the check declares (`--list` shows them)
+
+[report]
+fail_on = "error"        # lowest unwaived severity that fails a run: error | warning | info | never
+show_per_check = 5       # findings printed per check on the console
+report_per_check = 50    # findings listed per check in report.md (report.html lists all)
+
+[checks.V07]
+min_sentences_core = 3   # a core word should appear in at least this many sentences
+
+[checks.S02]
+report_ambiguous = false # also flag hand-typed words that could be read as a verb, adverb…
+
+[checks.S20]
+min_sentences = 2        # list a lemma missing from the lexicon once it is used this often

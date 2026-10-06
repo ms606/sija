@@ -1,0 +1,57 @@
+# Findings that were reviewed and accepted as they are.
+#
+# A waiver matches findings by check id, subject and (optionally) key; subject
+# and key may use shell wildcards (* ? [abc]). Waived findings still appear in
+# the report, with the reason, but do not fail the run. A waiver that no longer
+# matches anything is reported as stale so this file stays honest.
+#
+# Disagreements with the GiellaLT oracle are settled in
+# tools/morph-oracle/adjudicated.json (base forms) and in the "known oracle
+# defects" of morphology-audit.py (possessives), not here.
+#
+# [[waiver]]
+# check    = "S07"                    # check id
+# subject  = "sentence:n.67"          # exact or wildcard: "sentence:c.par.*"
+# key      = "Odota>hetki"            # optional; omit to waive every finding of the check on the subject
+# reason   = "Why this is correct."   # required
+# reviewed = "2026-10-05"             # when, and ideally by whom
+
+[[waiver]]
+check = "S13"
+subject = "sentence:c.abe.2"
+key = "abessive"
+reason = "The abessive page contrasts formal -tta with everyday ilman + partitive (usage 'Without (formal) vs. ilman + partitive'); this sentence is the ilman half of the pair."
+reviewed = "2026-10-05"
+
+[[waiver]]
+check = "S07"
+subject = "sentence:n.67"
+key = "Odota>hetki"
+reason = "In Odota hetki! the word hetki is an adverbial of duration (how long to wait), not the object of odottaa; the nominative form is standard."
+reviewed = "2026-10-05"
+
+[[waiver]]
+check = "S04"
+subject = "sentence:x.64"
+key = "suukon>poskeen"
+reason = "GiellaLT tags suukko only as an adjective; in Annan suukon poskeen it is the noun object of antaa, not an attribute of poskeen."
+reviewed = "2026-10-05"
+
+[[waiver]]
+check = "S11"
+subject = "sentence:t.56"
+key = "saareen"
+reason = "saari takes outer locatives for location (saarella), but for direction both saarelle and saareen 'to the island' are standard; loc: 'both' would wrongly generate 'in the island → saaressa' prompts."
+reviewed = "2026-10-06"
+
+[[waiver]]
+check = "V06"
+key = "image"
+subject = [
+  "lexeme:suku", "lexeme:naapuri", "lexeme:henki", "lexeme:lahti", "lexeme:kylki", "lexeme:juuri", "lexeme:sääri",
+  "lexeme:hiili", "lexeme:liesi", "lexeme:reisi", "lexeme:kansi", "lexeme:varsi", "lexeme:liike", "lexeme:parveke",
+  "lexeme:sisar", "lexeme:pää", "lexeme:asiakas", "lexeme:asukas", "lexeme:lattia", "lexeme:työpaikka", "lexeme:keskus",
+  "lexeme:kunta", "lexeme:resepti", "lexeme:opas", "lexeme:vatsa",
+]
+reason = "No emoji depicts these words faithfully (no head, belly, lid, bay, balcony, neighbour… emoji), and a misleading picture is worse than none. They keep the no-picture layout until original illustrations are drawn."
+reviewed = "2026-10-06"

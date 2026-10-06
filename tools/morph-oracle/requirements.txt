@@ -1,0 +1,2 @@
+uralicNLP==2.1.1
+pyhfst==1.4.0
