@@ -109,7 +109,7 @@ export const CASE_SENTENCES: ExampleSentence[] = [
   s('c.ess.6', 'Olen {*=kotona|koti:ess}.', "I'm at home."),
 
   // Translative — becoming; in a language
-  s('c.tra.1', 'Hän opiskelee {*lääkäri:tra}.', 'She is studying to become a doctor.', { level: 2 }),
+  s('c.tra.1', 'Hän opiskelee {*lääkäri:tra}.', 'He/She is studying to become a doctor.', { level: 2 }),
   s('c.tra.2', 'Mitä tämä on {*suomi:tra}?', 'What is this in Finnish?'),
   s('c.tra.3', '{sää} muuttui {*kylmä:tra}.', 'The weather turned cold.', { level: 2 }),
   s('c.tra.4', '{lapsi} kasvoi {*suuri:tra}.', 'The child grew big.'),

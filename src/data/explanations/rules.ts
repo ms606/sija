@@ -29,7 +29,10 @@ export const RULES: Record<RuleId, ModeText> = {
     'Pankki-type (Kotus {kotus}, model risti): the -i stays in the stem. Typical of loanwords and newer words — but you cannot always tell from spelling: lasi is pankki-type, käsi is not.',
     'Pankki-tyyppi: i säilyy vartalossa (pankin, pankkia). Tyyppi on opittava sanan mukana.',
   ),
-  'type.k6.membership': m('Longer loanwords in -i like paperi (Kotus {kotus}): -i stays, and the plural has two series (papereita / papereja).', 'Paperi-tyyppi.'),
+  'type.k6.membership': m(
+    'Longer -i words like paperi (Kotus {kotus}), many of them loanwords: the -i stays in the singular stem, and the plural has two series (papereita / papereja).',
+    'Paperi-tyyppi.',
+  ),
   'type.k7.membership': m(
     'Lehti-type (Kotus {kotus}, model ovi): an old Finnish word whose -i turns into -e- in the stem, and the partitive is built on that stem (lehteä). Must be learned with the word.',
     'Lehti-tyyppi: i → e vartalossa, partitiivi vokaalivartalosta (lehteä).',
@@ -39,7 +42,7 @@ export const RULES: Record<RuleId, ModeText> = {
     'Kala-tyyppi: monikossa a → o (kauppoja).',
   ),
   'type.k10.membership': m(
-    'An -ä word, or an -a word with o or u in the first syllable (Kotus {kotus}, model koira): the final vowel drops before the plural -i- (koiria, päiviä).',
+    'Words like koira (Kotus {kotus}): the final -a/-ä drops before the plural -i- (koiria, päiviä). The type includes most two-syllable -ä words, two-syllable -a words with o or u in the first syllable, and longer words such as asema and opettaja.',
     'Koira-tyyppi: loppuvokaali katoaa monikossa (koiria).',
   ),
   'type.k11.membership': m('omena-type (Kotus {kotus}): two complete plural series, both correct (omenia / omenoita).', 'Omena-tyyppi: kaksi monikkosarjaa.'),
@@ -151,7 +154,7 @@ export const RULES: Record<RuleId, ModeText> = {
   ),
 
   /* ---------------- plural ---------------- */
-  'plural.t': m('Plural nominative: weak-grade stem + -t (the -t is the plural marker here).', 'Monikon nominatiivi: vartalo + t.'),
+  'plural.t': m('Plural nominative: vowel stem + -t (here the -t is the plural marker). Words with consonant gradation take the weak grade.', 'Monikon nominatiivi: vartalo + t.'),
   'plural.i': m('The plural marker -i- (monikon tunnus).', 'Monikon tunnus i.'),
   'plural.append': m('Plural stem: add the plural marker -i- (talo → taloi-).', 'Monikkovartalo: talo + i.'),
   'plural.a-to-o': m('Plural stem: {from} → {to} before the plural -i- (kauppa → kauppoi-).', 'Monikossa {from} → {to}.'),
@@ -181,18 +184,18 @@ export const RULES: Record<RuleId, ModeText> = {
   'ending.translative': m('Translative (translatiivi) {ending}: "becoming, into (a state)".', 'Translatiivi {ending}: miksi?'),
   'ending.abessive': m('Abessive (abessiivi) {ending}: "without" — rare; usually ilman + partitive is used.', 'Abessiivi {ending}: ilman. Harvinainen.'),
   'ending.comitative': m('Comitative (komitatiivi) -ine-: "together with". Nouns always add a possessive suffix.', 'Komitatiivi -ine- + omistusliite.'),
-  'ending.comitative.agreement': m('Adjectives and numerals in the comitative take -ine without a possessive suffix (uusine taloineen).', 'Määrite: -ine ilman omistusliitettä.'),
+  'ending.comitative.agreement': m('Adjectives and numerals in the comitative take -ine without a possessive suffix: only the noun they describe carries one.', 'Määrite: -ine ilman omistusliitettä.'),
   'ending.instructive': m('Instructive (instruktiivi) -in: "by means of" — only in fixed expressions (käsin, omin silmin, paljain jaloin).', 'Instruktiivi: vakiintuneet ilmaukset.'),
-  'ending.genitive-pl.en': m('Plural genitive -en after the plural -i- (written -jen between vowels: talojen; koirien).', 'Monikon genetiivi -en/-jen.'),
+  'ending.genitive-pl.en': m('Plural genitive -en after the plural -i-. After a vowel the i is written j (talojen); after a consonant it stays i (koirien).', 'Monikon genetiivi -en/-jen.'),
   'ending.genitive-pl.vowel-en': m('Plural genitive: pankki-type words add -en to the -i stem (pankkien).', 'Monikon genetiivi: pankkien.'),
-  'ending.genitive-pl.den': m('Plural genitive -den after a long plural stem (maiden, perheiden).', 'Monikon genetiivi -iden.'),
+  'ending.genitive-pl.den': m('Plural genitive -den after the plural -i- (maiden, perheiden).', 'Monikon genetiivi -iden.'),
   'ending.genitive-pl.tten': m('Plural genitive -tten — a less common alternative to -den (maitten).', 'Monikon genetiivi -itten.'),
   'ending.genitive-pl.ten': m('Plural genitive -ten on the consonant stem (kielten, naisten, lasten).', 'Monikon genetiivi -ten konsonanttivartaloon.'),
-  'ending.partitive-pl.a': m('Plural partitive {ending} after the plural -i- (written -ja/-jä between vowels: taloja; kieliä).', 'Monikon partitiivi -a/-ja.'),
-  'ending.partitive-pl.ta': m('Plural partitive -ita/-itä after a long plural stem (maita, perheitä).', 'Monikon partitiivi -ita.'),
+  'ending.partitive-pl.a': m('Plural partitive {ending} after the plural -i-. After a vowel the i is written j (taloja); after a consonant it stays i (kieliä).', 'Monikon partitiivi -a/-ja.'),
+  'ending.partitive-pl.ta': m('Plural partitive -ta/-tä after the plural -i- (maita, perheitä).', 'Monikon partitiivi -ita.'),
   'ending.illative-pl.hin': m('Plural illative -hin after a vowel + i (taloihin, maihin).', 'Monikon illatiivi -ihin.'),
-  'ending.illative-pl.in': m('Plural illative: the plural -i- becomes long (-iin) after a consonant (kieliin, koiriin).', 'Monikon illatiivi -iin.'),
-  'ending.illative-pl.siin': m('Plural illative -isiin after a long-vowel stem (perheisiin, vieraisiin).', 'Monikon illatiivi -isiin.'),
+  'ending.illative-pl.in': m('Plural illative -in after the plural -i-: together they make a long -iin (kieliin, koiriin).', 'Monikon illatiivi -iin.'),
+  'ending.illative-pl.siin': m('Plural illative -siin after the plural -i- (perheisiin, vieraisiin).', 'Monikon illatiivi -isiin.'),
 
   /* ---------------- vowel harmony & spelling ---------------- */
   'harmony.back': m('Vowel harmony (vokaalisointu): the word has back vowels ({vowels}), so the ending uses a/o/u: {ending}.', 'Takavokaalit ({vowels}) → pääte {ending}.'),

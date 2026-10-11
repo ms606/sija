@@ -15,6 +15,7 @@ export function SentenceLine({
   showTranslation,
   size = 'md',
   audio = true,
+  sentenceId,
   className,
 }: {
   view: RenderedSentence
@@ -22,9 +23,12 @@ export function SentenceLine({
   showTranslation?: boolean
   size?: 'sm' | 'md' | 'lg'
   audio?: boolean
+  /** The curated sentence id: a tapped form is then explained in this sentence. */
+  sentenceId?: string
   className?: string
 }) {
   const open = useExplain((s) => s.open)
+  const id = sentenceId ?? ('sentence' in view ? (view as { sentence?: { id?: string } }).sentence?.id : undefined)
   const showSetting = useSettings((s) => s.showTranslations)
   const show = showTranslation ?? showSetting
   const text = size === 'lg' ? 'text-xl' : size === 'sm' ? 'text-[0.95rem]' : 'text-lg'
@@ -42,7 +46,16 @@ export function SentenceLine({
                 <button
                   key={i}
                   type="button"
-                  onClick={() => lexemeId && open({ lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}), variantText: p.text })}
+                  onClick={() =>
+                    lexemeId &&
+                    open({
+                      lexemeId,
+                      slot: t.slot,
+                      ...(t.person ? { person: t.person } : {}),
+                      variantText: p.text.split(' ').pop() ?? p.text,
+                      ...(id ? { sentenceId: id } : {}),
+                    })
+                  }
                   className={cx(
                     'rounded-sm text-left',
                     t.focus

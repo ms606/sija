@@ -40,7 +40,7 @@ export default function GenitiveLabPage() {
       />
 
       <Card>
-        <CardTitle sub="Vowel stem + -n. The stem is in the weak grade — except in inverse words like sade, where the stem is strong.">
+        <CardTitle sub="Vowel stem + -n. Words with consonant gradation take the weak grade here — except inverse words like sade, whose vowel stem is strong.">
           The singular genitive <StatusLabel label="rule" className="ml-1 align-middle" />
         </CardTitle>
         <ul className="grid gap-x-4 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">

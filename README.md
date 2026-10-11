@@ -12,6 +12,12 @@ BASE WORD → WORD TYPE → STEM → STEM CHANGE → NUMBER & CASE → FINAL FOR
 All forms come from a rule-based **grammar engine** (`src/grammar/`). The user
 interface never contains grammar logic of its own: it asks the engine.
 
+Every form can be explained on its own terms ("Explain this form"): the base
+word and its meaning, the stem this form uses, each change with its reason
+(or an explicit "no consonant gradation" and why), the ending, the finished
+form, and why the case is used in a real sentence. The explanation is built
+from the engine's derivation of *that* form, not from a general example.
+
 ## Features
 
 - **Learn**: 54 lessons in 8 levels, each with a goal, worked examples and a
@@ -57,6 +63,7 @@ npm run dev          # http://localhost:5173
 | `npm run verify:kotus` | Check every word's declension type against the Kotus word list (dev-only download) |
 | `npm run verify:morph` | Compare every engine form and sentence with an independent analyser (dev-only, see docs) |
 | `npm run audit:grammar` | Grammar audit of the lexicon, all forms (possessives included), sentences and Finnish copy, with an HTML report (dev-only, see `tools/audit/README.md`) |
+| `npm run audit:explanations` | Explanation audit: every form explained from its own derivation, sentence reasons valid, rule-text examples follow their rule; coverage and gaps in `tools/audit/out/explanations.md` |
 | `npm run verify:all` | Every verification step plus the native-speaker review status, with a final VERIFIED / NOT VERIFIED summary |
 | `npm run images:fetch` | Re-run the photo pipeline from `tools/images/commons-manifest.json` |
 

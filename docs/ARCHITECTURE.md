@@ -8,9 +8,13 @@
 2. **Content refers to forms; it does not contain them.** Lessons, exercises and
    sentences store *references* (lexeme id + slot), and the engine produces the
    text. Example sentence templates look like `Menen {*kauppa:ill}.`
-3. **Explanations are content, keyed by the engine's rule ids.** The engine says
-   *which* rule applied (`grade.weak.closed-syllable`, `ending.partitive.ta-consonant`);
-   `src/data/explanations/` says *how to explain it* in each learner mode.
+3. **Explanations are content, keyed by the engine's rule ids, and explain the
+   word on screen.** The engine says *which* rule applied and records the
+   before/after text of every step; `src/data/explanations/` holds templates
+   for each rule id; `src/services/explain/` fills them with *that word's*
+   derivation (its stem, its change, its ending) and checks the result against
+   the engine. General rules are shown separately, with examples that the
+   engine confirms follow the same steps.
 4. **Everything works offline.** No core content depends on a network request.
 
 ## Layers
@@ -45,9 +49,10 @@ ESLint (`eslint.config.js`) enforces the two important boundaries:
 | `src/services/grammar.ts` | The app's engine instance: `createGrammar(LEXICON)`. |
 | `src/services/exercises/` | Exercise generators (10 types), answer checking with diagnosis, session builder, skill tagging. |
 | `src/services/learning/` | Spaced repetition (SM-2 lite), mastery, XP/streak, achievements, curriculum helpers. |
-| `src/services/content/` | Text selection per mode, rendering of sentences, the derivation-to-stages mapping used by the pipeline view. |
+| `src/services/content/` | Text selection per mode, rendering of sentences. |
+| `src/services/explain/` | "Explain this form": word-specific explanations built from the engine's derivation, sentence reasons, same-pattern examples, general rules. |
 | `src/stores/` | Zustand stores: settings (localStorage), progress and reviews (IndexedDB), the "how is this built?" sheet. |
-| `src/components/grammar/` | Teaching components: `DerivationPipeline`, `MorphologyBreakdown`, `DeclensionTable`, `GradeMap`, `ITypeComparison`, `WordBuilder`, `SpatialCaseDiagram`, … |
+| `src/components/grammar/` | Teaching components: `FormExplainer`, `MorphologyBreakdown`, `DeclensionTable`, `GradeMap`, `ITypeComparison`, `WordBuilder`, `SpatialCaseDiagram`, … |
 | `src/components/exercises/` | `ExerciseCard` (four answer modes: text, choice, tap a part, build from tiles), `FeedbackPanel`, `ExerciseRunner`. |
 
 ## How a form reaches the screen
@@ -62,9 +67,10 @@ ESLint (`eslint.config.js`) enforces the two important boundaries:
      irregular, variant, advanced).
 3. `MorphologyBreakdown` and `ColoredForm` colour the pieces. Colour is always
    paired with a label, border style or accessible name.
-4. `DerivationPipeline` regroups the steps into the teaching stages
-   (`services/content/pipeline.ts`) and looks up each rule's explanation for the
-   current learner mode.
+4. `FormExplainer` asks `explainForm()` (`services/explain/`) for a
+   word-specific explanation: summary, chain of intermediate forms, formula,
+   step-by-step walkthrough, why the case is used in a real sentence, related
+   forms and, separately, the general rule.
 
 ## State and persistence
 

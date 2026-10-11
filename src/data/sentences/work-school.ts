@@ -96,4 +96,6 @@ export const WORK_SCHOOL_SENTENCES: ExampleSentence[] = [
   s('w.92', 'Tässä {*kirja:ine} on sata sivua.', 'There are a hundred pages in this book.', { tags: ['school'] }),
   s('w.93', 'Luen {*lehti:par} joka {aamu}.', 'I read the newspaper every morning.', { tags: ['leisure'] }),
   s('w.94', 'Luin {uutinen:acc} {*lehti:ela}.', 'I read the news in the paper.', { tags: ['leisure'], level: 4 }),
+  s('w.95', '{koulu:ine} on paljon {*opettaja:pl.par}.', 'There are many teachers at the school.', { tags: ['school'], level: 2 }),
+  s('w.96', '{koulu:ine} on {kaksi} {*opettaja:par}.', 'There are two teachers at the school.', { tags: ['school'], level: 2 }),
 ]

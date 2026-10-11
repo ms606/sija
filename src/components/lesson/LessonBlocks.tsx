@@ -2,7 +2,7 @@ import { Lightbulb } from 'lucide-react'
 import { CaseCard } from '../grammar/CaseCard'
 import { CompareTable } from '../grammar/CompareTable'
 import { DeclensionTable } from '../grammar/DeclensionTable'
-import { DerivationPipeline } from '../grammar/DerivationPipeline'
+import { FormExplainer } from '../grammar/FormExplainer'
 import { EndingExplainer } from '../grammar/EndingExplainer'
 import { FormLine } from '../grammar/FormLine'
 import { GradationVisualizer } from '../grammar/GradationVisualizer'
@@ -64,13 +64,13 @@ export function LessonBlockView({ block }: { block: LessonBlock }) {
           <BlockTitle>
             How <Fi className="normal-case">{grammar.primary(grammar.require(block.nounId), block.slot)}</Fi> is built
           </BlockTitle>
-          <DerivationPipeline lexemeId={block.nounId} slot={block.slot} {...(block.person ? { person: block.person } : {})} />
+          <FormExplainer lexemeId={block.nounId} slot={block.slot} {...(block.person ? { person: block.person } : {})} />
         </Card>
       )
     case 'builder':
       return (
         <Card>
-          <DerivationPipeline lexemeId={block.nounId} slot={block.slot} stepMode />
+          <FormExplainer lexemeId={block.nounId} slot={block.slot} stepMode />
         </Card>
       )
     case 'paradigm':

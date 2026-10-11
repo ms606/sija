@@ -105,7 +105,7 @@ These four questions are answered separately, so that a correct form with a poor
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *taloilleen*, `px.3.vn`: “Third person: after a short vowel, the suffix can also be the vowel repeated + n (talossaan = talossansa). Not after the genitive or illative, which end in -n: taloonsa, taloihinsa.” / “Kolmas persoona: myös -Vn (talossaan), mutta ei genetiivissä eikä illatiivissa (taloonsa).”
+- *taloilleen*, `px.3.vn`: “Add the third-person suffix -en ("his, her, their"). After a short vowel, this suffix can be the vowel repeated + n: taloille + -en → taloilleen.”
 
 <details><summary><b>All 264 forms</b></summary>
 
@@ -552,14 +552,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *verten*, `stem.consonant.drop-i`: “Consonant stem (konsonanttivartalo): drop the final -i. Endings beginning with t (-ta/-tä, -ten) attach here.” / “Konsonanttivartalo: i katoaa (kiel-).”
-- *verten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *vertensä*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *vertensä*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *verteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *vertesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *vertemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
-- *vertenne*, `px.2pl`: “Possessive suffix -nne "your" (several people).” / “Omistusliite -nne (teidän).”
+- *verten*, `stem.consonant.drop-i`: “This form is built on the consonant stem: drop the final -i of veri: veri → ver-.”
+- *verten*, `nograd.no-kpt`: “No consonant gradation: the consonant before the last vowel of the stem is r (ve·re-). Only k, p and t (alone or in clusters such as kk, nt, lt) take part in gradation, so nothing changes.”
+- *verten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: ver- + -ten → verten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *vertensä*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: verten → verte-.”
+- *vertensä*, `px.3.nsa`: “Add the possessive suffix -nsä ("his, her, their"): verte + -nsä → vertensä.”
+- *verteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): verte + -ni → verteni.”
+- *vertesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): verte + -si → vertesi.”
+- *vertemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): verte + -mme → vertemme.”
 
 <details><summary><b>All 71 forms</b></summary>
 
@@ -678,8 +678,8 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *katujensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *katujensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
+- *katujensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: katujen → katuje-.”
+- *katujensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): katuje + -nsa → katujensa.”
 
 <details><summary><b>All 23 forms</b></summary>
 
@@ -749,14 +749,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *tyttäriä*, `grade.inverse.strong-stem`: “Inverse gradation (käänteinen astevaihtelu): the base form has the weak grade, the stem has the strong grade: t → tt.” / “Käänteinen astevaihtelu: perusmuodossa heikko aste, vartalossa vahva (t → tt).”
-- *tyttäriä*, `stem.add-e`: “Vowel stem: add -e- after the final consonant (sisar → sisare-).” / “Vokaalivartaloon tulee e.”
-- *tyttäriä*, `plural.drop-final`: “Plural stem: the final -e drops before the plural -i- (koira → koiri-, kiele- → kieli-).” / “Monikossa e katoaa.”
-- *tyttäriä*, `ending.partitive-pl.a`: “Plural partitive -ä after the plural -i- (written -ja/-jä between vowels: taloja; kieliä).” / “Monikon partitiivi -a/-ja.”
-- *tyttäriä*, `harmony.front`: “Vowel harmony: the word has front vowels (y, ä), so the ending uses ä/ö/y: ä.” / “Etuvokaalit (y, ä) → pääte ä.”
-- *tyttäriään*, `px.3.vn`: “Third person: after a short vowel, the suffix can also be the vowel repeated + n (talossaan = talossansa). Not after the genitive or illative, which end in -n: taloonsa, taloihinsa.” / “Kolmas persoona: myös -Vn (talossaan), mutta ei genetiivissä eikä illatiivissa (taloonsa).”
-- *tyttäriänsä*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *tyttäriäni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
+- *tyttäriä*, `grade.inverse.strong-stem`: “tytär has inverse gradation: the base form has the weak grade (t), but the stem has the strong grade (tt): tytär → tyttär-.”
+- *tyttäriä*, `stem.add-e`: “tytär ends in a consonant, so the vowel stem adds -e: tyttär- → tyttäre-.”
+- *tyttäriä*, `plural.drop-final`: “Before the plural marker -i-, the final -e of the stem drops, and the plural marker takes its place: tyttäre- → tyttär- + i → tyttäri-. This is the plural stem.”
+- *tyttäriä*, `ending.partitive-pl.a`: “Add the partitive ending -ä after the plural stem: tyttäri- + -ä → tyttäriä.”
+- *tyttäriä*, `harmony.front`: “Vowel harmony: tytär has the front vowels y, ä, so the ending uses ä/ö/y: -ä, not the a/o/u version.”
+- *tyttäriään*, `px.3.vn`: “Add the third-person suffix -än ("his, her, their"). After a short vowel, this suffix can be the vowel repeated + n: tyttäriä + -än → tyttäriään.”
+- *tyttäriänsä*, `px.3.nsa`: “Add the possessive suffix -nsä ("his, her, their"): tyttäriä + -nsä → tyttäriänsä.”
+- *tyttäriäni*, `px.1sg`: “Add the possessive suffix -ni ("my"): tyttäriä + -ni → tyttäriäni.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -806,14 +806,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *tulten*, `stem.consonant.drop-i`: “Consonant stem (konsonanttivartalo): drop the final -i. Endings beginning with t (-ta/-tä, -ten) attach here.” / “Konsonanttivartalo: i katoaa (kiel-).”
-- *tulten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *tultensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *tultensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *tulteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *tultesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *tultemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
-- *tultenne*, `px.2pl`: “Possessive suffix -nne "your" (several people).” / “Omistusliite -nne (teidän).”
+- *tulten*, `stem.consonant.drop-i`: “This form is built on the consonant stem: drop the final -i of tuli: tuli → tul-.”
+- *tulten*, `nograd.no-kpt`: “No consonant gradation: the consonant before the last vowel of the stem is l (tu·le-). Only k, p and t (alone or in clusters such as kk, nt, lt) take part in gradation, so nothing changes. The t earlier in tuli is not at that position, so it does not change either.”
+- *tulten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: tul- + -ten → tulten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *tultensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: tulten → tulte-.”
+- *tultensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): tulte + -nsa → tultensa.”
+- *tulteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): tulte + -ni → tulteni.”
+- *tultesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): tulte + -si → tultesi.”
+- *tultemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): tulte + -mme → tultemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -862,14 +862,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *tyttäriin*, `grade.inverse.strong-stem`: “Inverse gradation (käänteinen astevaihtelu): the base form has the weak grade, the stem has the strong grade: t → tt.” / “Käänteinen astevaihtelu: perusmuodossa heikko aste, vartalossa vahva (t → tt).”
-- *tyttäriin*, `stem.add-e`: “Vowel stem: add -e- after the final consonant (sisar → sisare-).” / “Vokaalivartaloon tulee e.”
-- *tyttäriin*, `plural.drop-final`: “Plural stem: the final -e drops before the plural -i- (koira → koiri-, kiele- → kieli-).” / “Monikossa e katoaa.”
-- *tyttäriin*, `ending.illative-pl.in`: “Plural illative: the plural -i- becomes long (-iin) after a consonant (kieliin, koiriin).” / “Monikon illatiivi -iin.”
-- *tyttäriinsä*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *tyttäriinsä*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *tyttäriini*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *tyttäriisi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
+- *tyttäriin*, `grade.inverse.strong-stem`: “tytär has inverse gradation: the base form has the weak grade (t), but the stem has the strong grade (tt): tytär → tyttär-.”
+- *tyttäriin*, `stem.add-e`: “tytär ends in a consonant, so the vowel stem adds -e: tyttär- → tyttäre-.”
+- *tyttäriin*, `plural.drop-final`: “Before the plural marker -i-, the final -e of the stem drops, and the plural marker takes its place: tyttäre- → tyttär- + i → tyttäri-. This is the plural stem.”
+- *tyttäriin*, `ending.illative-pl.in`: “Add the plural illative ending -in: tyttäri- + -in → tyttäriin. The plural i and the i of the ending together make a long ii.”
+- *tyttäriinsä*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: tyttäriin → tyttärii-.”
+- *tyttäriinsä*, `px.3.nsa`: “Add the possessive suffix -nsä ("his, her, their"): tyttärii + -nsä → tyttäriinsä.”
+- *tyttäriini*, `px.1sg`: “Add the possessive suffix -ni ("my"): tyttärii + -ni → tyttäriini.”
+- *tyttäriisi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): tyttärii + -si → tyttäriisi.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -918,14 +918,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *vierasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *vierasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *vierastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *vierastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *vierasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *vierastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *vierastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
-- *vierastenne*, `px.2pl`: “Possessive suffix -nne "your" (several people).” / “Omistusliite -nne (teidän).”
+- *vierasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For vieras, the consonant stem is the base form itself: vieras-.”
+- *vierasten*, `nograd.no-kpt`: “No consonant gradation: the consonant before the last vowel of the stem is r (vie·raa-). Only k, p and t (alone or in clusters such as kk, nt, lt) take part in gradation, so nothing changes.”
+- *vierasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: vieras- + -ten → vierasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *vierastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: vierasten → vieraste-.”
+- *vierastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): vieraste + -nsa → vierastensa.”
+- *vierasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): vieraste + -ni → vierasteni.”
+- *vierastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): vieraste + -si → vierastesi.”
+- *vierastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): vieraste + -mme → vierastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -974,7 +974,7 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *lumeaan*, `px.3.vn`: “Third person: after a short vowel, the suffix can also be the vowel repeated + n (talossaan = talossansa). Not after the genitive or illative, which end in -n: taloonsa, taloihinsa.” / “Kolmas persoona: myös -Vn (talossaan), mutta ei genetiivissä eikä illatiivissa (taloonsa).”
+- *lumeaan*, `px.3.vn`: “Add the third-person suffix -an ("his, her, their"). After a short vowel, this suffix can be the vowel repeated + n: lumea + -an → lumeaan.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1020,7 +1020,7 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *hi’illeen*, `px.3.vn`: “Third person: after a short vowel, the suffix can also be the vowel repeated + n (talossaan = talossansa). Not after the genitive or illative, which end in -n: taloonsa, taloihinsa.” / “Kolmas persoona: myös -Vn (talossaan), mutta ei genetiivissä eikä illatiivissa (taloonsa).”
+- *hi’illeen*, `px.3.vn`: “Add the third-person suffix -en ("his, her, their"). After a short vowel, this suffix can be the vowel repeated + n: hi’ille + -en → hi’illeen.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1065,14 +1065,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *teiden*, `stem.same`: “The vowel stem (vokaalivartalo) is the base form itself: {to}.” / “Vokaalivartalo on sama kuin perusmuoto.”
-- *teiden*, `plural.shorten`: “Plural stem: the long vowel ee shortens before the plural -i- (maa → mai-, perhee- → perhei-).” / “Pitkä vokaali lyhenee (maita).”
-- *teiden*, `ending.genitive-pl.den`: “Plural genitive -den after a long plural stem (maiden, perheiden).” / “Monikon genetiivi -iden.”
-- *teidensä*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *teidensä*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *teideni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *teidesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *teidemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *teiden*, `stem.same`: “The stem of tee is the same as the base form: tee-.”
+- *teiden*, `nograd.monosyllable`: “No consonant gradation: tee has only one syllable. Gradation changes the consonant at the start of a later syllable, so one-syllable words never have it.”
+- *teiden*, `plural.shorten`: “Before the plural marker -i-, the long vowel -ee becomes short, and then the plural marker follows: tee- → te- + i → tei-. This is the plural stem.”
+- *teiden*, `ending.genitive-pl.den`: “Add the plural genitive ending -den after the plural stem: tei- + -den → teiden.”
+- *teidensä*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: teiden → teide-.”
+- *teidensä*, `px.3.nsa`: “Add the possessive suffix -nsä ("his, her, their"): teide + -nsä → teidensä.”
+- *teideni*, `px.1sg`: “Add the possessive suffix -ni ("my"): teide + -ni → teideni.”
+- *teidesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): teide + -si → teidesi.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1127,14 +1127,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *tyttärien*, `grade.inverse.strong-stem`: “Inverse gradation (käänteinen astevaihtelu): the base form has the weak grade, the stem has the strong grade: t → tt.” / “Käänteinen astevaihtelu: perusmuodossa heikko aste, vartalossa vahva (t → tt).”
-- *tyttärien*, `stem.add-e`: “Vowel stem: add -e- after the final consonant (sisar → sisare-).” / “Vokaalivartaloon tulee e.”
-- *tyttärien*, `plural.drop-final`: “Plural stem: the final -e drops before the plural -i- (koira → koiri-, kiele- → kieli-).” / “Monikossa e katoaa.”
-- *tyttärien*, `ending.genitive-pl.en`: “Plural genitive -en after the plural -i- (written -jen between vowels: talojen; koirien).” / “Monikon genetiivi -en/-jen.”
-- *tyttäriensä*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *tyttäriensä*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *tyttärieni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *tyttäriesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
+- *tyttärien*, `grade.inverse.strong-stem`: “tytär has inverse gradation: the base form has the weak grade (t), but the stem has the strong grade (tt): tytär → tyttär-.”
+- *tyttärien*, `stem.add-e`: “tytär ends in a consonant, so the vowel stem adds -e: tyttär- → tyttäre-.”
+- *tyttärien*, `plural.drop-final`: “Before the plural marker -i-, the final -e of the stem drops, and the plural marker takes its place: tyttäre- → tyttär- + i → tyttäri-. This is the plural stem.”
+- *tyttärien*, `ending.genitive-pl.en`: “Add the plural genitive ending -en after the plural stem: tyttäri- + -en → tyttärien.”
+- *tyttäriensä*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: tyttärien → tyttärie-.”
+- *tyttäriensä*, `px.3.nsa`: “Add the possessive suffix -nsä ("his, her, their"): tyttärie + -nsä → tyttäriensä.”
+- *tyttärieni*, `px.1sg`: “Add the possessive suffix -ni ("my"): tyttärie + -ni → tyttärieni.”
+- *tyttäriesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): tyttärie + -si → tyttäriesi.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1183,9 +1183,10 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *vaikeata*, `stem.same`: “The vowel stem (vokaalivartalo) is the base form itself: {to}.” / “Vokaalivartalo on sama kuin perusmuoto.”
-- *vaikeata*, `ending.partitive.ta-vowel`: “Partitive -ta: after a long vowel or two vowels (maata, radiota).” / “Partitiivi -ta pitkän vokaalin tai kahden vokaalin jälkeen.”
-- *vaikeata*, `harmony.back`: “Vowel harmony (vokaalisointu): the word has back vowels (a), so the ending uses a/o/u: ta.” / “Takavokaalit (a) → pääte ta.”
+- *vaikeata*, `stem.same`: “The stem of vaikea is the same as the base form: vaikea-.”
+- *vaikeata*, `nograd.no-site`: “No consonant gradation: no consonant stands before the last vowel of the stem (vai·ke·a), so there is nothing to change.”
+- *vaikeata*, `ending.partitive.ta-vowel`: “Add the partitive ending -ta: vaikea- + -ta → vaikeata. The stem ends in two vowels (ea), so the partitive is -ta/-tä.”
+- *vaikeata*, `harmony.back`: “Vowel harmony: vaikea has the back vowels a, so the ending uses a/o/u: -ta, not the ä/ö/y version.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1229,9 +1230,10 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *vihreätä*, `stem.same`: “The vowel stem (vokaalivartalo) is the base form itself: {to}.” / “Vokaalivartalo on sama kuin perusmuoto.”
-- *vihreätä*, `ending.partitive.ta-vowel`: “Partitive -tä: after a long vowel or two vowels (maata, radiota).” / “Partitiivi -tä pitkän vokaalin tai kahden vokaalin jälkeen.”
-- *vihreätä*, `harmony.front`: “Vowel harmony: the word has front vowels (ä), so the ending uses ä/ö/y: tä.” / “Etuvokaalit (ä) → pääte tä.”
+- *vihreätä*, `stem.same`: “The stem of vihreä is the same as the base form: vihreä-.”
+- *vihreätä*, `nograd.no-site`: “No consonant gradation: no consonant stands before the last vowel of the stem (vih·re·ä), so there is nothing to change.”
+- *vihreätä*, `ending.partitive.ta-vowel`: “Add the partitive ending -tä: vihreä- + -tä → vihreätä. The stem ends in two vowels (eä), so the partitive is -ta/-tä.”
+- *vihreätä*, `harmony.front`: “Vowel harmony: vihreä has the front vowels ä, so the ending uses ä/ö/y: -tä, not the a/o/u version.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1275,14 +1277,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *asiakasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *asiakasten*, `grade.inverse.weak-base`: “This form is built on the base form, which has the weak grade (k) — the stem forms have the strong grade.” / “Perusmuodossa heikko aste (k).”
-- *asiakasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *asiakastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *asiakastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *asiakasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *asiakastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *asiakastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *asiakasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For asiakas, the consonant stem is the base form itself: asiakas-.”
+- *asiakasten*, `grade.inverse.weak-base`: “asiakas has inverse gradation: the stem has a strong grade, but this form is built on the base form, so it keeps the base form's weak grade (k).”
+- *asiakasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: asiakas- + -ten → asiakasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *asiakastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: asiakasten → asiakaste-.”
+- *asiakastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): asiakaste + -nsa → asiakastensa.”
+- *asiakasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): asiakaste + -ni → asiakasteni.”
+- *asiakastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): asiakaste + -si → asiakastesi.”
+- *asiakastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): asiakaste + -mme → asiakastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1331,14 +1333,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *asukasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *asukasten*, `grade.inverse.weak-base`: “This form is built on the base form, which has the weak grade (k) — the stem forms have the strong grade.” / “Perusmuodossa heikko aste (k).”
-- *asukasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *asukastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *asukastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *asukasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *asukastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *asukastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *asukasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For asukas, the consonant stem is the base form itself: asukas-.”
+- *asukasten*, `grade.inverse.weak-base`: “asukas has inverse gradation: the stem has a strong grade, but this form is built on the base form, so it keeps the base form's weak grade (k).”
+- *asukasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: asukas- + -ten → asukasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *asukastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: asukasten → asukaste-.”
+- *asukastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): asukaste + -nsa → asukastensa.”
+- *asukasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): asukaste + -ni → asukasteni.”
+- *asukastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): asukaste + -si → asukastesi.”
+- *asukastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): asukaste + -mme → asukastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1387,14 +1389,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *hammasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *hammasten*, `grade.inverse.weak-base`: “This form is built on the base form, which has the weak grade (mm) — the stem forms have the strong grade.” / “Perusmuodossa heikko aste (mm).”
-- *hammasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *hammastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *hammastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *hammasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *hammastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *hammastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *hammasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For hammas, the consonant stem is the base form itself: hammas-.”
+- *hammasten*, `grade.inverse.weak-base`: “hammas has inverse gradation: the stem has a strong grade, but this form is built on the base form, so it keeps the base form's weak grade (mm).”
+- *hammasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: hammas- + -ten → hammasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *hammastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: hammasten → hammaste-.”
+- *hammastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): hammaste + -nsa → hammastensa.”
+- *hammasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): hammaste + -ni → hammasteni.”
+- *hammastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): hammaste + -si → hammastesi.”
+- *hammastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): hammaste + -mme → hammastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1443,14 +1445,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *lounasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *lounasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *lounastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *lounastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *lounasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *lounastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *lounastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
-- *lounastenne*, `px.2pl`: “Possessive suffix -nne "your" (several people).” / “Omistusliite -nne (teidän).”
+- *lounasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For lounas, the consonant stem is the base form itself: lounas-.”
+- *lounasten*, `nograd.no-kpt`: “No consonant gradation: the consonant before the last vowel of the stem is n (lou·naa-). Only k, p and t (alone or in clusters such as kk, nt, lt) take part in gradation, so nothing changes.”
+- *lounasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: lounas- + -ten → lounasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *lounastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: lounasten → lounaste-.”
+- *lounastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): lounaste + -nsa → lounastensa.”
+- *lounasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): lounaste + -ni → lounasteni.”
+- *lounastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): lounaste + -si → lounastesi.”
+- *lounastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): lounaste + -mme → lounastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1499,14 +1501,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *opasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *opasten*, `grade.inverse.weak-base`: “This form is built on the base form, which has the weak grade (p) — the stem forms have the strong grade.” / “Perusmuodossa heikko aste (p).”
-- *opasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *opastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *opastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *opasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *opastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *opastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *opasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For opas, the consonant stem is the base form itself: opas-.”
+- *opasten*, `grade.inverse.weak-base`: “opas has inverse gradation: the stem has a strong grade, but this form is built on the base form, so it keeps the base form's weak grade (p).”
+- *opasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: opas- + -ten → opasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *opastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: opasten → opaste-.”
+- *opastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): opaste + -nsa → opastensa.”
+- *opasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): opaste + -ni → opasteni.”
+- *opastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): opaste + -si → opastesi.”
+- *opastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): opaste + -mme → opastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1555,14 +1557,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *rengasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *rengasten*, `grade.inverse.weak-base`: “This form is built on the base form, which has the weak grade (ng) — the stem forms have the strong grade.” / “Perusmuodossa heikko aste (ng).”
-- *rengasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *rengastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *rengastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *rengasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *rengastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *rengastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *rengasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For rengas, the consonant stem is the base form itself: rengas-.”
+- *rengasten*, `grade.inverse.weak-base`: “rengas has inverse gradation: the stem has a strong grade, but this form is built on the base form, so it keeps the base form's weak grade (ng).”
+- *rengasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: rengas- + -ten → rengasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *rengastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: rengasten → rengaste-.”
+- *rengastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): rengaste + -nsa → rengastensa.”
+- *rengasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): rengaste + -ni → rengasteni.”
+- *rengastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): rengaste + -si → rengastesi.”
+- *rengastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): rengaste + -mme → rengastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1611,14 +1613,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *taivasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *taivasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *taivastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *taivastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *taivasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *taivastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *taivastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
-- *taivastenne*, `px.2pl`: “Possessive suffix -nne "your" (several people).” / “Omistusliite -nne (teidän).”
+- *taivasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For taivas, the consonant stem is the base form itself: taivas-.”
+- *taivasten*, `nograd.no-kpt`: “No consonant gradation: the consonant before the last vowel of the stem is v (tai·vaa-). Only k, p and t (alone or in clusters such as kk, nt, lt) take part in gradation, so nothing changes. The t earlier in taivas is not at that position, so it does not change either.”
+- *taivasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: taivas- + -ten → taivasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *taivastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: taivasten → taivaste-.”
+- *taivastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): taivaste + -nsa → taivastensa.”
+- *taivasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): taivaste + -ni → taivasteni.”
+- *taivastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): taivaste + -si → taivastesi.”
+- *taivastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): taivaste + -mme → taivastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1667,14 +1669,14 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *tehdasten*, `stem.consonant.lemma`: “The consonant stem is the base form itself. Endings beginning with t attach directly: {to}-ta.” / “Konsonanttivartalo on sama kuin perusmuoto.”
-- *tehdasten*, `grade.inverse.weak-base`: “This form is built on the base form, which has the weak grade (hd) — the stem forms have the strong grade.” / “Perusmuodossa heikko aste (hd).”
-- *tehdasten*, `ending.genitive-pl.ten`: “Plural genitive -ten on the consonant stem (kielten, naisten, lasten).” / “Monikon genetiivi -ten konsonanttivartaloon.”
-- *tehdastensa*, `px.drop-n`: “The final -n of the ending drops before the possessive suffix (taloon → talooni).” / “Päätteen n katoaa (talooni).”
-- *tehdastensa*, `px.3.nsa`: “Possessive suffix -nsa/-nsä "his, her, their".” / “Omistusliite -nsa/-nsä (hänen, heidän).”
-- *tehdasteni*, `px.1sg`: “Possessive suffix -ni "my" (omistusliite).” / “Omistusliite -ni (minun).”
-- *tehdastesi*, `px.2sg`: “Possessive suffix -si "your" (one person).” / “Omistusliite -si (sinun).”
-- *tehdastemme*, `px.1pl`: “Possessive suffix -mme "our".” / “Omistusliite -mme (meidän).”
+- *tehdasten*, `stem.consonant.lemma`: “This form is built on the consonant stem. For tehdas, the consonant stem is the base form itself: tehdas-.”
+- *tehdasten*, `grade.inverse.weak-base`: “tehdas has inverse gradation: the stem has a strong grade, but this form is built on the base form, so it keeps the base form's weak grade (hd).”
+- *tehdasten*, `ending.genitive-pl.ten`: “Add the plural genitive ending -ten to the consonant stem: tehdas- + -ten → tehdasten. This form has no plural -i-: the ending -ten itself shows plural and genitive.”
+- *tehdastensa*, `px.drop-n`: “Before a possessive suffix, the final -n of the ending drops: tehdasten → tehdaste-.”
+- *tehdastensa*, `px.3.nsa`: “Add the possessive suffix -nsa ("his, her, their"): tehdaste + -nsa → tehdastensa.”
+- *tehdasteni*, `px.1sg`: “Add the possessive suffix -ni ("my"): tehdaste + -ni → tehdasteni.”
+- *tehdastesi*, `px.2sg`: “Add the possessive suffix -si ("your", one person): tehdaste + -si → tehdastesi.”
+- *tehdastemme*, `px.1pl`: “Add the possessive suffix -mme ("our"): tehdaste + -mme → tehdastemme.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|
@@ -1723,9 +1725,10 @@ note = ""
 
 **Explanation the app shows** (beginner mode in English; intermediate mode in Finnish):
 
-- *teitten*, `stem.same`: “The vowel stem (vokaalivartalo) is the base form itself: {to}.” / “Vokaalivartalo on sama kuin perusmuoto.”
-- *teitten*, `plural.shorten`: “Plural stem: the long vowel ee shortens before the plural -i- (maa → mai-, perhee- → perhei-).” / “Pitkä vokaali lyhenee (maita).”
-- *teitten*, `ending.genitive-pl.tten`: “Plural genitive -tten — a less common alternative to -den (maitten).” / “Monikon genetiivi -itten.”
+- *teitten*, `stem.same`: “The stem of tee is the same as the base form: tee-.”
+- *teitten*, `nograd.monosyllable`: “No consonant gradation: tee has only one syllable. Gradation changes the consonant at the start of a later syllable, so one-syllable words never have it.”
+- *teitten*, `plural.shorten`: “Before the plural marker -i-, the long vowel -ee becomes short, and then the plural marker follows: tee- → te- + i → tei-. This is the plural stem.”
+- *teitten*, `ending.genitive-pl.tten`: “Add the plural genitive ending -tten after the plural stem: tei- + -tten → teitten. This is a less common alternative to -den.”
 
 | # | Word | Slot | Engine form | App label | GiellaLT generates | GiellaLT reads the engine form as | Basis |
 |--:|---|---|---|---|---|---|---|

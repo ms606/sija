@@ -10,6 +10,8 @@ import { PageHeader } from '../../components/ui/PageHeader'
 import { UmlautKeys } from '../../components/ui/UmlautKeys'
 import { grammar } from '../../services/grammar'
 import { pickText, PERSON_LABEL, slotLabel, typeName } from '../../services/content/text'
+import type { PersonId, SlotKey } from '../../grammar/types'
+import { explainForm } from '../../services/explain'
 import { search } from '../../services/search'
 import { useSettings } from '../../stores/settings'
 
@@ -52,6 +54,18 @@ function UnknownWord({ word }: { word: string }) {
         Look it up in Kielitoimiston sanakirja <ExternalLink aria-hidden className="size-4" />
       </a>
     </Card>
+  )
+}
+
+/** How the found form is built, in one line: kaupan = kaupa- + -n. */
+function FormulaLine({ lexemeId, analysis }: { lexemeId: string; analysis: { slot: SlotKey; person?: PersonId; form: string } }) {
+  const exp = explainForm(lexemeId, analysis.slot, { ...(analysis.person ? { person: analysis.person } : {}), variantText: analysis.form })
+  if (!exp || exp.formula.parts.length < 2) return null
+  return (
+    <p className="text-sm text-muted">
+      <Fi className="font-semibold text-text">{exp.form}</Fi> = <Fi>{exp.formula.parts.map((p) => p.text).join(' + ')}</Fi>
+      <span> ({exp.formula.parts.map((p) => p.label).join(' + ')})</span>
+    </p>
   )
 }
 
@@ -131,6 +145,7 @@ export default function ReferencePage() {
                     {r.kind === 'loose-form' && <span className="text-muted"> (check the dots: ä / ö)</span>}
                   </p>
                 )}
+                {r.analyses[0] && <FormulaLine lexemeId={r.noun.id} analysis={r.analyses[0]} />}
               </div>
               <Badge className="hidden sm:inline-flex">{typeName(r.noun.typeId)}</Badge>
             </Link>

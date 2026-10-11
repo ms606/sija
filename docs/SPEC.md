@@ -564,7 +564,10 @@ throw at load time.
 | File | Content |
 |---|---|
 | `explanations/text.ts` | `t(en, fi?)` → `LocalizedText`; `m(en, fi?, adv?)` → `ModeText` (beginner / intermediate / advanced) |
-| `explanations/rules.ts` | `RULES`: an explanation for **every** rule id the engine can emit (a test enforces this). `{placeholders}` are filled from step params |
+| `explanations/rules.ts` | `RULES`: a short general explanation for **every** rule id the engine can emit (a test enforces this). `{placeholders}` are filled from step params |
+| `explanations/walkthrough.ts` | Word-specific step templates for "Explain this form", keyed by the same rule ids and filled with the word's own derivation (before/after text, stem, ending, consonant change); plain-English definitions of grammar terms; why a form has no gradation; rough English meanings; English plural exceptions |
+| `explanations/general.ts` | `GENERAL_RULES`: general statements with no example words of their own (examples come from the engine); `PLURAL_ENDING_NOTES`: statements whose example forms are listed as data and checked by tests |
+| `explanations/usage.ts` | "Why this case here?": reusable reasons (`USAGE_REASONS`), meanings of trigger words (`CUE_GLOSS`) and one annotation per sentence (`SENTENCE_USAGE`: reason, trigger word as written, notes, a contrasting sentence) |
 | `explanations/diagnoses.ts` | `DIAGNOSES`: feedback text for each diagnosis id |
 | `cases.ts` | `CASES_INFO`: Finnish name, group, questions, endings, meaning, usages (with sentence ids), common mistakes, spatial meaning, demo word and slot |
 | `gradation-patterns.ts` | Teaching info per gradation pattern; notes on words without gradation |
@@ -660,8 +663,28 @@ then:
   `ruleText`, `stepText` and `diagnosisText` look up explanations and fill
   `{placeholders}`. It also holds the labels for cases, slots, persons, roles,
   predictability, -i families, types and gradation patterns.
-- `pipeline.ts`: `buildStages(variant)` regroups derivation steps into the six
-  teaching stages: BASE → TYPE → STEM → STEM CHANGE → NUMBER & CASE → FINAL FORM.
+
+### 9.3a Word-specific explanations (`services/explain/`)
+
+`explainForm(lexeme, slot, { person?, variantText? })` turns the engine's
+derivation of one form into an explanation of that form: a short summary, the
+chain of intermediate forms (base word → stem → plural stem → form), the
+formula (stem + ending + suffix), labelled pieces that spell exactly the form
+(removed letters are markers, never letters), the step-by-step walkthrough in
+derivation order, and an explicit consonant-gradation statement (including why
+there is none: one syllable, no k/p/t before the last vowel, a cluster that
+never alternates, or a Kotus entry without a gradation letter). Everything is
+read from the engine's steps, pieces and stem set; each explanation checks
+itself (pieces spell the form, the named stem is one of the word's stems, stem +
+ending reproduces the engine's result) and lists what it could not explain in
+`issues`. Memorized forms (overrides such as *vuonna*, lexicalised sentence forms
+such as *kotona*) get coverage `recorded` and no invented derivation.
+
+`usageFor(explanation, { sentenceId? })` picks a sentence that contains exactly
+this form (the tapped sentence first) and fills its annotated reason;
+`samePattern` finds other words derived with exactly the same steps;
+`generalRules` and `compareForms` give the general rule and related forms of the
+same word. Results are cached; nothing uses the network.
 - `sentences.ts`: `renderSentenceById` (cached), `sentencesFor(lexeme, slot?,
   maxLevel)` and `allSentenceViews`.
 - `types.ts`: words of a type, the example word for a type, all type definitions.
@@ -729,7 +752,7 @@ ExerciseRunner ──► useProgress.recordAttempt({ exercise, verdict, ms, dail
 |---|---|
 | `layout/` | `AppShell`, `AppStatus`, `HeaderStatus`, `nav.ts` |
 | `ui/` | Primitives: `Button`, `Card`, `Badge`, `Disclosure`, `Sheet`, `Segmented`, `ProgressBar`, `PageHeader`, `StatusLabel`, `UmlautKeys` (on-screen ä/ö), `Fi` (marks Finnish text with `lang="fi"`) |
-| `grammar/` | Teaching views: `DerivationPipeline` (the central view), `MorphologyBreakdown`, `ColoredForm`, `FormLine`, `DeclensionTable`, `CompareTable`, `CaseCard`, `SpatialCaseDiagram`, `GradationVisualizer`, `GradeMap`, `ITypeComparison`, `PluralStemExplainer`, `PossessiveBuilder`, `WordBuilder`, `SyllableView`, `VowelHarmonyMeter`, `MinimalPairs`, `EndingExplainer`, `SentenceLine`, `WordPicker`, `ExplainSheet` |
+| `grammar/` | Teaching views: `FormExplainer` (the central "Explain this form" view), `MorphologyBreakdown`, `RichText`, `ColoredForm`, `FormLine`, `DeclensionTable`, `CompareTable`, `CaseCard`, `SpatialCaseDiagram`, `GradationVisualizer`, `GradeMap`, `ITypeComparison`, `PluralStemExplainer`, `PossessiveBuilder`, `WordBuilder`, `SyllableView`, `VowelHarmonyMeter`, `MinimalPairs`, `EndingExplainer`, `SentenceLine`, `WordPicker`, `ExplainSheet` |
 | `exercises/` | `ExerciseRunner`, `ExerciseCard` (four answer modes: text, choice, tap a part, build from tiles), `FeedbackPanel` |
 | `lesson/` | `LessonBlocks`: renders each `LessonBlock` kind |
 | `media/` | `NounImage`, `illustrations`, `illustration-art` (original SVGs) |
@@ -741,11 +764,15 @@ ExerciseRunner ──► useProgress.recordAttempt({ exercise, verdict, ms, dail
 1. A component asks the engine, e.g. `grammar.inflect(noun, 'sg.genitive')`.
 2. `MorphologyBreakdown` / `ColoredForm` colour the variant's `pieces` by role.
    Colour is always paired with a label, border style or accessible name.
-3. `DerivationPipeline` calls `buildStages(variant)` and shows each stage with
-   its explanation for the current learner mode (`stepText`). In `stepMode` it
-   reveals one stage at a time (Word Builder).
+3. `FormExplainer` calls `explainForm` and shows the base word and form, the
+   pieces, the chain and formula, a short summary, the step-by-step walkthrough
+   (collapsible; in `stepMode` one step at a time for the Word Builder), "Why
+   this case here?" with an annotated sentence, related forms of the same word
+   and, in a separate collapsed panel, the general rule with other words built
+   the same way.
 4. Tables, sentences and feedback can open `ExplainSheet` (`useExplain.open`)
-   for any lexeme, slot and person.
+   for any lexeme, slot, person and variant; a word tapped in a sentence
+   passes that sentence's id, so the sheet explains the form in that sentence.
 
 ### 11.3 Pictures
 
@@ -862,7 +889,7 @@ Voice quality depends on each device. The planned fix is pre-recorded audio
 | `npm test` / `npm run test:watch` | Vitest |
 | `npm run e2e` | Playwright (builds and previews on port 4173 first) |
 | `npm run lint` / `npm run typecheck` | ESLint / TypeScript |
-| `npm run verify:kotus`, `verify:morph`, `audit:grammar`, `audit:test`, `verify:all` | Verification (§15) |
+| `npm run verify:kotus`, `verify:morph`, `audit:grammar`, `audit:test`, `audit:explanations`, `verify:all` | Verification (§15) |
 | `npm run images:fetch` | Re-run the photo pipeline |
 
 The build is about 4.2 MB in total (largest JS chunk about 450 KB before
@@ -900,11 +927,12 @@ open clients see the update prompt from the service worker.
 |---|---|---|
 | Engine | `src/grammar/__tests__/engine.test.ts`, `golden.test.ts` | Golden principal parts for 131 words across all 35 types, harmony, gradation sites, inverse gradation, illatives, plural stems, possessives, agreement, analysis ambiguity, error diagnosis |
 | Content integrity | `src/data/__tests__/` | Sentences render, are complete and punctuated; case content references existing sentences and words; featured words really show their pattern or -i family; every type is in exactly one family; every rule id and diagnosis has explanation text; lessons have unique ordered ids, valid prerequisites, resolving block references and generatable checks; photos have complete per-file credits, local files and emoji fallbacks; YKI checklist forms appear in model answers exactly as the engine builds them |
-| Services | `src/services/__tests__/` | Exercise generation and checking, backup parsing, voice ranking |
+| Services | `src/services/__tests__/` | Exercise generation and checking, backup parsing, voice ranking; word-specific explanations (`explain.test.ts`: *opettajia* and *lääkäriksi* in detail, every base form explained without self-check issues, pieces spell the form, named stems are the word's stems, no unrelated words, rule-note examples follow their rule, labels, recorded forms, selection changes, sentence annotations, offline) |
+| Components | `src/components/grammar/__tests__/` (jsdom) | `FormExplainer` follows the selected word and form; pieces carry their labels |
 | Smoke | `src/test/smoke.test.ts` | The test toolchain runs |
-| End-to-end | `tests/e2e/` (desktop + Pixel 7) | Every route loads without errors or sideways scrolling; not-found page; completing lesson 1.1; word builder; search; -i lab; diagnosis of *uusin*; progress survives reload; audio (stubbed speech); offline after first visit; axe accessibility; keyboard (desktop); reduced motion |
+| End-to-end | `tests/e2e/` (desktop + Pixel 7) | Every route loads without errors or sideways scrolling; not-found page; completing lesson 1.1; word builder; search; -i lab; diagnosis of *uusin*; progress survives reload; audio (stubbed speech); offline after first visit; axe accessibility; keyboard (desktop); reduced motion; "Explain this form" on the translative and partitive pages; a word tapped in a sentence explained in that sentence |
 
-Unit tests currently: 216 passing. The e2e helper `stubSpeech` replaces
+Unit and component tests currently: 249 passing. The e2e helper `stubSpeech` replaces
 `speechSynthesis` with a recorder and one Finnish voice.
 
 On Apple Silicon with an x86_64 Node, Playwright would start Chrome under
@@ -919,6 +947,7 @@ through `arch -arm64`; the Playwright config and `tools/shot.mjs` use it.
 | Morphology oracle | `tools/export-paradigms.ts` + `tools/morph-oracle/check.py` | Every engine form is analysed by GiellaLT as exactly that lemma, number and case; every standard GiellaLT form is among the engine's variants. Differences are adjudicated in `adjudicated.json` |
 | Sentences | `tools/morph-oracle/sentences.py` | Every rendered sentence is recognised (817 / 817) |
 | Grammar audit | `tools/audit/` (`npm run audit:grammar`) | Vocabulary, morphology (including about 36k possessive forms) and sentence audits on one snapshot; HTML/Markdown report with waivers and new/resolved tracking |
+| Explanations | `tools/audit/explanation-audit.ts` (`npm run audit:explanations`, `-- --px` for possessives) | Every form has a derivation-backed explanation; pieces and steps match the engine; sentence annotations are valid; every Finnish form cited in a rule text follows that rule. Reports coverage and gaps in `tools/audit/out/explanations.md`. Not a linguistic verification |
 | Native review | `tools/audit/native-review.py` → `docs/NATIVE_REVIEW.md` | 459 forms in 25 groups that rest on a source judgement; verdicts are recorded in `tools/audit/reviews.toml` |
 | All of it | `npm run verify:all` | Final VERIFIED / NOT VERIFIED summary |
 
@@ -934,7 +963,7 @@ are never distributed, and nothing from them is copied into the app's data.
 |---|---|
 | `tools/images/` | Photo pipeline: reads each Commons file's own metadata, rejects incomplete or non-accepted licences, downloads a 500 px thumbnail, writes `photos.ts` with one verbatim credit per photo. Also has search and contact-sheet helpers |
 | `tools/wiktionary/decl.py` | Prints Wiktionary declension tables for spot checks |
-| `tools/audit/explain-forms.ts` | Renders the app's own explanations for the native-review packet |
+| `tools/audit/explain-forms.ts` | Renders the app's word-specific explanations for the native-review packet |
 | `tools/icons/` | Renders the PWA icons from SVG |
 | `tools/shot.mjs` | Screenshots in native Chrome |
 
@@ -968,7 +997,8 @@ harvested reaches learners without human review.
 | Audio quality | Depends on the learner's device voices. The recorded-audio path exists but has no files. Plan: generate clips with a neural Finnish voice and ship them with per-file licence records. |
 | Lexicon size | 293 hand-curated words. A reviewed import pipeline is designed but not built. |
 | Sync | Progress is per device; moving it needs JSON export/import. |
-| Interface language | The interface is English; Finnish appears in explanations according to learner mode. |
+| Interface language | The interface is English; Finnish appears in explanations according to learner mode. The word-specific walkthrough is English in every mode (with Finnish terms outside beginner mode). |
+| Example sentences | Most of the ~8,500 standard forms have no example sentence of their own; their explanation shows the general meaning of the case, labelled as general. 817 of 820 sentences have a "why this case" note. Notes, like sentences, await native-speaker review. |
 | Scope | Nouns, adjectives and numerals only; no verbs. |
 | Deployment | Manual, from the developer's machine; no CI pipeline. |
 

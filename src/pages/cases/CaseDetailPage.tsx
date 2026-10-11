@@ -1,18 +1,20 @@
 import { ArrowLeft, ArrowRight, Dumbbell, X } from 'lucide-react'
-import { Link, useParams } from 'react-router'
+import { Link, useParams, useSearchParams } from 'react-router'
 import { AudioButton } from '../../components/audio/AudioButton'
-import { DerivationPipeline } from '../../components/grammar/DerivationPipeline'
+import { FormExplainer } from '../../components/grammar/FormExplainer'
 import { FormLine } from '../../components/grammar/FormLine'
+import { WordPicker } from '../../components/grammar/WordPicker'
 import { SentenceLine } from '../../components/grammar/SentenceLine'
 import { SpatialCaseDiagram } from '../../components/grammar/SpatialCaseDiagram'
 import { Badge } from '../../components/ui/Badge'
 import { ButtonLink } from '../../components/ui/Button'
 import { Card, CardTitle } from '../../components/ui/Card'
 import { Fi } from '../../components/ui/FiText'
+import { Segmented } from '../../components/ui/Segmented'
 import { CASES_INFO, CASE_ORDER } from '../../data/cases'
-import { SLOT_GRADE, type CaseId, type SlotKey } from '../../grammar'
+import { SLOT_GRADE, type CaseId, type NumberId, type SlotKey } from '../../grammar'
 import { grammar } from '../../services/grammar'
-import { pickLabel, pickText } from '../../services/content/text'
+import { pickLabel, pickText, slotLabel } from '../../services/content/text'
 import { renderSentenceById } from '../../services/content/sentences'
 import { useSettings } from '../../stores/settings'
 import { capitalize } from '../../utils/text'
@@ -21,17 +23,25 @@ import NotFoundPage from '../NotFoundPage'
 /** Words of different types, to show how one ending meets different stems. */
 const EXAMPLE_WORDS = ['talo', 'kauppa', 'pankki', 'kieli', 'vesi', 'perhe', 'nainen', 'maa']
 
+/**
+ * The general gradation rule for a case, without an example word: whether a
+ * particular word changes is explained in "Explain this form".
+ */
 function gradeNote(caseId: CaseId): string | null {
   const sg = SLOT_GRADE[`sg.${caseId}` as SlotKey]
   const pl = SLOT_GRADE[`pl.${caseId}` as SlotKey]
   if (!sg && !pl) return null
-  const word = (g: typeof sg) => (g === 'weak' ? 'weak grade (kaupa-)' : 'strong grade (kauppa-)')
-  if (sg === pl && sg) return `Words with consonant gradation take the ${word(sg)} in both singular and plural.`
-  return [sg && `Singular: ${word(sg)}.`, pl && `Plural: ${word(pl)}.`].filter(Boolean).join(' ')
+  const grade = (g: typeof sg) => `${g} grade`
+  if (sg === pl && sg) return `Words that have consonant gradation take the ${grade(sg)} here, in the singular and in the plural.`
+  return `Words that have consonant gradation take the ${[sg && `${grade(sg)} in the singular`, pl && `${grade(pl)} in the plural`].filter(Boolean).join(' and the ')}.`
 }
+
+/** A comparison word that shows the gradation rule (kept separate from the word being explained). */
+const GRADATION_COMPARE = 'kauppa'
 
 export default function CaseDetailPage() {
   const { caseId = '' } = useParams()
+  const [params, setParams] = useSearchParams()
   const mode = useSettings((s) => s.mode)
   if (!(caseId in CASES_INFO)) return <NotFoundPage />
   const id = caseId as CaseId
@@ -44,6 +54,16 @@ export default function CaseDetailPage() {
   const singularUsed = id !== 'comitative' && id !== 'instructive'
   const numbers = singularUsed ? (['sg', 'pl'] as const) : (['pl'] as const)
   const title = mode === 'beginner' ? capitalize(info.en) : capitalize(info.fi)
+  const demoNumber = info.demoSlot.split('.')[0] as NumberId
+  const word = grammar.get(params.get('w') ?? '') ? (params.get('w') as string) : info.demoNounId
+  const requestedNumber = params.get('n') === 'pl' || params.get('n') === 'sg' ? (params.get('n') as NumberId) : demoNumber
+  const number: NumberId = singularUsed ? requestedNumber : 'pl'
+  const slot = `${number}.${id}` as SlotKey
+  const featured = [...new Set([info.demoNounId, ...EXAMPLE_WORDS])]
+  const choose = (patch: { w?: string; n?: NumberId }) =>
+    setParams({ w: patch.w ?? word, n: patch.n ?? number }, { replace: true, preventScrollReset: true })
+  const compare = grammar.require(GRADATION_COMPARE)
+  const gradeSlot = (SLOT_GRADE[`sg.${id}` as SlotKey] ? `sg.${id}` : `pl.${id}`) as SlotKey
 
   return (
     <div className="space-y-6">
@@ -82,19 +102,42 @@ export default function CaseDetailPage() {
             {meaning.gloss && <p className="mt-1 text-sm text-muted">{meaning.gloss}</p>}
             <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-xl bg-surface-2 p-3">
-                <dt className="text-xs font-bold tracking-wide text-muted uppercase">Singular</dt>
+                <dt className="text-xs font-bold tracking-wide text-muted uppercase">Singular ending</dt>
                 <dd className="mt-1 font-semibold">
                   <Fi>{info.endings.sg.join(', ')}</Fi>
                 </dd>
               </div>
               <div className="rounded-xl bg-surface-2 p-3">
-                <dt className="text-xs font-bold tracking-wide text-muted uppercase">Plural</dt>
-                <dd className="mt-1 font-semibold">
-                  <Fi>{info.endings.pl.join(', ')}</Fi>
+                <dt className="text-xs font-bold tracking-wide text-muted uppercase">Plural: marker + ending</dt>
+                <dd className="mt-1 space-y-0.5 font-semibold">
+                  {info.endings.pl.map((e) => (
+                    <Fi key={e} className="block">
+                      {e}
+                    </Fi>
+                  ))}
                 </dd>
               </div>
             </dl>
-            {grade && <p className="mt-3 text-sm text-muted">{grade}</p>}
+            {info.endings.pl.some((e) => e.includes('-i-')) && (
+              <p className="mt-2 text-sm text-muted">
+                In the plural, <Fi className="font-semibold text-text">-i-</Fi> is the plural marker and the ending after it is the same case ending as in the singular.
+              </p>
+            )}
+            {grade && (
+              <div className="mt-3 rounded-xl border border-dashed border-border p-3 text-sm">
+                <p>
+                  <span className="font-semibold">General rule: </span>
+                  {grade}
+                </p>
+                <p className="mt-1 flex flex-wrap items-center gap-x-2 text-muted">
+                  Compare a word that has gradation:
+                  <FormLine lexeme={compare} slot="sg.nominative" size="sm" audio={false} showVariants={false} />→
+                  <FormLine lexeme={compare} slot={gradeSlot} size="sm" audio={false} showVariants={false} />
+                  <span>({slotLabel(gradeSlot, mode)})</span>
+                </p>
+                <p className="mt-1 text-muted">Whether the word you are studying has gradation is shown in "Explain this form".</p>
+              </div>
+            )}
           </Card>
 
           {info.spatial && (
@@ -106,10 +149,25 @@ export default function CaseDetailPage() {
         </div>
 
         <Card>
-          <CardTitle sub="Follow one example from the base word to a sentence.">
-            Why <Fi>{grammar.primary(grammar.require(info.demoNounId), info.demoSlot)}</Fi>?
+          <CardTitle sub="Pick a word and a number: everything below is about that exact form.">
+            Explain this form: <Fi>{grammar.primary(grammar.require(word), slot) ?? '—'}</Fi>
           </CardTitle>
-          <DerivationPipeline lexemeId={info.demoNounId} slot={info.demoSlot} />
+          <div className="mb-4 space-y-2">
+            <WordPicker value={word} onChange={(w) => choose({ w })} featured={featured} />
+            {singularUsed && (
+              <Segmented
+                label="Number"
+                size="sm"
+                value={number}
+                options={[
+                  { value: 'sg', label: slotLabel(`sg.${id}` as SlotKey) },
+                  { value: 'pl', label: slotLabel(`pl.${id}` as SlotKey) },
+                ]}
+                onChange={(n) => choose({ n })}
+              />
+            )}
+          </div>
+          <FormExplainer key={`${word}:${slot}`} lexemeId={word} slot={slot} />
         </Card>
       </div>
 

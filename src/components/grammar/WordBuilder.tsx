@@ -9,7 +9,8 @@ import { AudioButton } from '../audio/AudioButton'
 import { Card } from '../ui/Card'
 import { Fi } from '../ui/FiText'
 import { Segmented } from '../ui/Segmented'
-import { DerivationPipeline } from './DerivationPipeline'
+import { explainForm } from '../../services/explain'
+import { FormExplainer } from './FormExplainer'
 import { MorphologyBreakdown } from './MorphologyBreakdown'
 import { WordPicker } from './WordPicker'
 
@@ -46,6 +47,7 @@ export function WordBuilder({
   const person = lex.pos === 'noun' ? state.person : null
   const form = person ? grammar.withPossessive(lex, state.slot, person) : grammar.inflect(lex, state.slot)
   const variant = form.variants[0]
+  const exp = explainForm(lex.id, state.slot, person ? { person } : {})
   const set = (patch: Partial<BuilderState>) => onChange({ ...state, ...patch })
   const setSlot = (n: NumberId, c: CaseId) => set({ slot: `${n}.${c}` as SlotKey })
   const toggle = (r: PieceRole) =>
@@ -114,10 +116,10 @@ export function WordBuilder({
 
       <div className="min-w-0 space-y-4">
         <Card>
-          {variant && form.status !== 'not-used' ? (
+          {variant && exp && form.status !== 'not-used' ? (
             <>
               <div className="flex flex-wrap items-center gap-3">
-                <MorphologyBreakdown key={`${lex.id}:${state.slot}:${person}`} variant={variant} size="hero" highlight={state.highlight} />
+                <MorphologyBreakdown key={exp.key} explanation={exp} size="hero" highlight={state.highlight} />
                 <AudioButton text={variant.text} />
               </div>
               {form.variants.length > 1 && (
@@ -156,13 +158,16 @@ export function WordBuilder({
           )}
         </Card>
         {variant && form.status !== 'not-used' && (
-          <DerivationPipeline
-            key={`${lex.id}:${state.slot}:${person ?? ''}`}
-            lexemeId={lex.id}
-            slot={state.slot}
-            {...(person ? { person } : {})}
-            stepMode
-          />
+          <Card>
+            <FormExplainer
+              key={`${lex.id}:${state.slot}:${person ?? ''}`}
+              lexemeId={lex.id}
+              slot={state.slot}
+              {...(person ? { person } : {})}
+              stepMode
+              showBreakdown={false}
+            />
+          </Card>
         )}
       </div>
     </div>

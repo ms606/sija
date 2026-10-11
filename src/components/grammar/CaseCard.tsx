@@ -8,6 +8,7 @@ import { useSettings } from '../../stores/settings'
 import { cx } from '../../utils/cx'
 import { AudioButton } from '../audio/AudioButton'
 import { Fi } from '../ui/FiText'
+import { ColoredForm } from './ColoredForm'
 
 /**
  * Summary card for one case: name, question word, endings and a worked
@@ -20,11 +21,6 @@ export function CaseCard({ caseId, className }: { caseId: CaseId; className?: st
   const noun = grammar.require(info.demoNounId)
   const v = grammar.inflect(noun, info.demoSlot).variants[0]
   const meaning = pickText(info.meaning, mode)
-  const ending = v?.pieces
-    .filter((p) => p.role === 'ending' || p.role === 'plural' || p.role === 'possessive')
-    .map((p) => p.text)
-    .join('')
-  const stem = v ? v.text.slice(0, v.text.length - (ending?.length ?? 0)) : ''
   return (
     <article
       className={cx(
@@ -51,10 +47,8 @@ export function CaseCard({ caseId, className }: { caseId: CaseId; className?: st
           <p className="text-[1.05rem]">
             <Fi className="font-semibold">{noun.lemma}</Fi>
             <span className="text-muted"> → </span>
-            <Fi className="font-semibold">
-              {stem}
-              {ending && <span className="text-[var(--ending-fg)]">{ending}</span>}
-            </Fi>
+            {/* The engine's pieces: the plural marker and the case ending keep their own colours. */}
+            <ColoredForm variant={v} className="font-semibold" />
           </p>
           <AudioButton text={v.text} size="sm" slow={false} className="relative z-10" />
           <ArrowRight aria-hidden className="ml-auto size-4 text-muted group-hover:text-primary" />

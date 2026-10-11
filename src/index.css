@@ -224,6 +224,11 @@ body {
   border-radius: 999px;
   padding-inline: 0.25em;
 }
+/* A label under an ending is often wider than the ending: give it room inside the rounded border. */
+.seg-ending:has(> .seg-label) {
+  border-radius: 0.75em;
+  padding-inline: 0.45em;
+}
 .seg-plural {
   background: var(--plural-bg);
   color: var(--plural-fg);
@@ -257,9 +262,13 @@ body {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 1.1;
   margin-top: 0.4em;
   text-decoration: none;
+  /* Two short lines ("plural / marker") keep a one-letter piece narrow. */
+  max-width: 7.5em;
+  text-align: center;
+  white-space: normal;
 }
 
 /* Swatches used in legends */

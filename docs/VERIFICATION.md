@@ -122,6 +122,37 @@ for adjectives; the apostrophe character; *vuonna* as the essive of *vuosi*.
   produce well-formed items whose answers come from the engine; distractors are
   never accepted spellings; error-correction "mistakes" are never real word forms.
 
+### Word-specific explanations
+
+`npm run audit:explanations` (`tools/audit/explanation-audit.ts`) and
+`src/services/__tests__/explain.test.ts` check the "Explain this form"
+explanations against the engine:
+
+- every form (9,007 base-form variants; with `-- --px` also the possessive
+  forms) gets an explanation built from its own derivation, and the explanation
+  checks itself: the coloured pieces spell exactly the form, the named stem is one
+  of the word's stems (`grammar.stems()`), and stem + ending (+ suffix)
+  reproduces the engine's result, replaying any spelling change the engine
+  recorded. Forms handled by an override (*vuonna*, *merta*) or lexicalised in a
+  sentence (*kotona*) are reported as *recorded* and get no regular derivation;
+- each sentence's "why this case here" note uses a reason that fits the token's
+  case and number, and its trigger word really occurs in the sentence;
+- every Finnish form cited in a general rule text is derived with that rule
+  (deliberate counter-examples are listed by name), and the examples of rule
+  notes such as the Plural Lab's show the stated pattern, including the j
+  spelling.
+
+These checks prove consistency with the engine, not linguistic correctness:
+the templates, reasons and notes are curated content and await native-speaker
+review like the sentences.
+
+While building this, one engine metadata problem was found and fixed
+separately: variant stems (*ruoka* → *ruua-*, *ruui-*) marked the whole
+differing tail as a stem change, so the plural *i* of *ruuissa* was coloured as
+part of the change. `altForm` in `src/grammar/stems.ts` now marks only the
+differing letters (*u*, was *o*) and keeps a shared ending with its roles; the
+forms themselves did not change (engine test "variant stems").
+
 ### Native-speaker review
 
 The example sentences, lessons and explanations were drafted for this app and

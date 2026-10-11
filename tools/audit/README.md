@@ -139,6 +139,25 @@ The rules for a group's status:
 To rehearse without touching the record, point `GRAMMAR_AUDIT_REVIEWS` at a
 trial file. The packet then goes to `out/NATIVE_REVIEW.trial.md`.
 
+## Explanation audit (`npm run audit:explanations`)
+
+A separate TypeScript audit of the learner-facing explanations ("Explain this
+form"). It reports, in `out/explanations.md` and `out/explanations.json`:
+
+- how many forms have a complete, derivation-backed explanation, how many are
+  partial, recorded (memorized forms: no derivation claimed) or unexplained;
+- mismatched visual pieces (pieces that do not spell the form) and mismatched
+  derivation steps (formula, stem or result that disagree with the engine);
+- how many forms have an annotated example sentence ("why this case here"),
+  which sentences have no note yet, and invalid annotations (reason does not fit
+  the case or number, trigger word missing from the sentence, …);
+- Finnish forms cited in rule texts whose own derivation does not use the rule,
+  and rule-note examples that do not show the stated pattern.
+
+It exits 1 on failures; missing sentence notes are gaps, not failures. Add
+`-- --px` to include about 41k possessive forms. Like the other audits, a clean
+run is not a linguistic verification.
+
 ## Final verification summary
 
 `npm run verify:all` runs Kotus, the morphology oracle, the golden tests, the
@@ -217,7 +236,8 @@ Create `<name>-audit.py` with `audit = Audit("<name>", "Title")`, checks, and
 | `rules.toml` | Linguistic rule tables |
 | `waivers.toml` | Reviewed findings accepted as correct |
 | `reviews.toml` | Native-speaker review decisions for the critical forms (M10): the authoritative record |
-| `native-review.py`, `explain-forms.ts` | Build docs/NATIVE_REVIEW.md, quoting the app's own explanations |
+| `native-review.py`, `explain-forms.ts` | Build docs/NATIVE_REVIEW.md, quoting the app's own word-specific explanations |
+| `explanation-audit.ts` | `npm run audit:explanations`: explanation coverage, self-checks, sentence-reason validity and rule-text examples (see below) |
 | `verify-all.py` | Runs every verification step and prints the final summary (`npm run verify:all`) |
 | `tests/` | Self-tests (`npm run audit:test`) |
 | `out/` | Generated: snapshot, findings, reports (git-ignored) |

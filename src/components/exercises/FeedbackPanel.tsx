@@ -1,13 +1,14 @@
 import { Check, CircleAlert, X } from 'lucide-react'
 import { RULES } from '../../data/explanations/rules'
-import { grammar } from '../../services/grammar'
 import { diagnosisText, pickText, slotLabel } from '../../services/content/text'
+import { explainForm, samePattern } from '../../services/explain'
 import { useExplain } from '../../stores/explain'
 import { useSettings } from '../../stores/settings'
 import type { CheckResult, Exercise } from '../../types/exercise'
 import { cx } from '../../utils/cx'
 import { AudioButton } from '../audio/AudioButton'
 import { MorphologyBreakdown } from '../grammar/MorphologyBreakdown'
+import { RichText } from '../grammar/RichText'
 import { Button } from '../ui/Button'
 import { Fi } from '../ui/FiText'
 
@@ -16,16 +17,6 @@ const VERDICT = {
   almost: { text: 'Almost!', fi: 'Melkein!', Icon: CircleAlert, cls: 'border-warning/50 bg-warning-soft text-warning' },
   incorrect: { text: 'Not quite', fi: 'Ei aivan', Icon: X, cls: 'border-error/50 bg-error-soft text-error' },
 } as const
-
-/** Another word of the same declension type in the same form — "see the pattern again". */
-function anotherExample(ex: Exercise): { lemma: string; form: string } | null {
-  const t = ex.target
-  const lex = t && grammar.get(t.lexemeId)
-  if (!lex || !t || t.person) return null
-  const other = grammar.lexicon.find((l) => l.typeId === lex.typeId && l.id !== lex.id && l.frequency !== 'extra' && grammar.inflect(l, t.slot).status === 'ok')
-  const form = other && grammar.primary(other, t.slot)
-  return other && form ? { lemma: other.lemma, form } : null
-}
 
 /**
  * What went wrong and why: the diagnosis, the correct form broken into its
@@ -36,15 +27,14 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
   const open = useExplain((s) => s.open)
   const v = VERDICT[result.verdict]
   const t = exercise.target
-  const lex = t && grammar.get(t.lexemeId)
-  const form = lex && t ? (t.person ? grammar.withPossessive(lex, t.slot, t.person) : grammar.inflect(lex, t.slot)) : null
-  const variant = form?.variants.find((x) => x.text === result.expected) ?? form?.variants[0]
+  const exp = t ? explainForm(t.lexemeId, t.slot, { ...(t.person ? { person: t.person } : {}), variantText: result.expected }) : null
   const diagnosis = result.verdict !== 'correct' && result.diagnosisId ? diagnosisText(result.diagnosisId, result.params ?? {}, mode) : null
   const note = result.noteRuleId && RULES[result.noteRuleId] ? pickText(RULES[result.noteRuleId]!, mode) : null
   const errorWhy =
     exercise.prompt.error && result.verdict === 'correct' ? diagnosisText(exercise.prompt.error.diagnosisId, { ...exercise.prompt.error.params, correct: result.expected }, mode) : null
   const others = result.accepted.filter((a) => a !== result.expected)
-  const example = result.verdict === 'incorrect' ? anotherExample(exercise) : null
+  // Another word whose form is derived with exactly the same steps — "see the pattern again".
+  const example = result.verdict === 'incorrect' && exp ? samePattern(exp, 1)[0] : undefined
 
   return (
     <div className={cx('animate-rise-in space-y-3 rounded-2xl border-2 p-4', v.cls)} role="status" aria-live="polite">
@@ -72,10 +62,17 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
             💡 {note.main}
           </p>
         )}
-        {variant && (
-          <div className="flex flex-wrap items-center gap-3 rounded-xl bg-surface p-3">
-            <MorphologyBreakdown variant={variant} size="md" />
-            <AudioButton text={variant.text} size="sm" />
+        {exp && (
+          <div className="space-y-2 rounded-xl bg-surface p-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <MorphologyBreakdown key={exp.key} explanation={exp} size="md" />
+              <AudioButton text={exp.form} size="sm" />
+            </div>
+            {exp.summary.slice(1).map((s, i) => (
+              <p key={i} className="text-sm leading-relaxed">
+                <RichText text={s} />
+              </p>
+            ))}
           </div>
         )}
         {others.length > 0 && (
@@ -88,12 +85,12 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
           <p className="text-sm">
             <span className="text-muted">Same pattern: </span>
             <Fi className="font-semibold">{example.lemma}</Fi> → <Fi className="font-semibold">{example.form}</Fi>{' '}
-            <span className="text-muted">({slotLabel(t.slot, mode)})</span>
+            <span className="text-muted">({slotLabel(t.slot, mode)}, built with the same steps)</span>
           </p>
         )}
         {t && (
-          <Button size="sm" variant="ghost" onClick={() => open({ lexemeId: t.lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}) })}>
-            How is it built?
+          <Button size="sm" variant="ghost" onClick={() => open({ lexemeId: t.lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}), variantText: result.expected })}>
+            Show me step by step
           </Button>
         )}
       </div>

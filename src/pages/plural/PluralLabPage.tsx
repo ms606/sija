@@ -7,6 +7,7 @@ import { Card, CardTitle } from '../../components/ui/Card'
 import { Fi } from '../../components/ui/FiText'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { StatusLabel } from '../../components/ui/StatusLabel'
+import { PLURAL_ENDING_NOTES } from '../../data/explanations/general'
 import type { SlotKey } from '../../grammar/types'
 import { grammar } from '../../services/grammar'
 import { slotLabel } from '../../services/content/text'
@@ -101,15 +102,16 @@ export default function PluralLabPage() {
             </tbody>
           </table>
         </div>
-        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
-          <li>
-            Partitive: <Fi>-ja/-jä</Fi> after a vowel + <Fi>i</Fi> (<Fi>taloja</Fi>), <Fi>-a/-ä</Fi> after a consonant + <Fi>i</Fi> (<Fi>kieliä</Fi>),{' '}
-            <Fi>-ita/-itä</Fi> after a long vowel (<Fi>maita</Fi>, <Fi>perheitä</Fi>).
-          </li>
-          <li>
-            Genitive: <Fi>-jen</Fi>, <Fi>-ien</Fi>, <Fi>-iden/-itten</Fi> or <Fi>-ten</Fi> (<Fi>kielten</Fi>, <Fi>naisten</Fi>). When two forms are given, both are
-            correct.
-          </li>
+        <ul className="mt-3 space-y-1.5 text-sm">
+          {PLURAL_ENDING_NOTES.map((n) => (
+            <li key={n.text} className="flex flex-wrap items-center gap-x-2">
+              <span className="text-muted">{n.text}</span>
+              {n.examples.map((e) => (
+                <FormLine key={`${e.lexemeId}:${e.slot}`} lexeme={grammar.require(e.lexemeId)} slot={e.slot} size="sm" audio={false} showVariants={false} />
+              ))}
+            </li>
+          ))}
+          <li className="text-muted">When two forms are given in the table, both are correct.</li>
         </ul>
       </Card>
 

@@ -36,7 +36,7 @@ test('works offline after the first visit', async ({ page, context }) => {
 test('main pages have no serious accessibility violations', async ({ page }) => {
   // Measure settled colours, not elements halfway through a fade-in.
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  for (const route of ['/', '/learn/1.3', '/cases', '/reference/kauppa', '/practice', '/noun-types/i-words']) {
+  for (const route of ['/', '/learn/1.3', '/cases', '/cases/translative', '/reference/kauppa', '/practice', '/noun-types/i-words']) {
     await page.goto(route)
     await waitForApp(page)
     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()

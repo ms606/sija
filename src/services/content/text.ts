@@ -95,11 +95,11 @@ export const PREDICTABILITY_LABEL: Readonly<Record<Predictability, { short: stri
 }
 
 export const ROLE_LABEL: Readonly<Record<PieceRole, { short: string; long: LocalizedText }>> = {
-  root: { short: 'Root', long: { en: 'Root — the part of the word that stays the same', fi: 'Sanan runko' } },
-  stem: { short: 'Stem', long: { en: 'Stem change — the stem differs from the base form here', fi: 'Vartalon muutos' } },
+  root: { short: 'Unchanged', long: { en: 'Unchanged — the same as in the base form', fi: 'Muuttumaton osa' } },
+  stem: { short: 'Stem change', long: { en: 'Stem change — the stem differs from the base form here', fi: 'Vartalon muutos' } },
   grade: { short: 'Grade', long: { en: 'Consonant gradation — strong or weak grade', fi: 'Astevaihtelu' } },
-  ending: { short: 'Case', long: { en: 'Case ending', fi: 'Sijapääte' } },
-  plural: { short: 'Plural', long: { en: 'Plural marker (-i- or -t)', fi: 'Monikon tunnus' } },
+  ending: { short: 'Case ending', long: { en: 'Case ending', fi: 'Sijapääte' } },
+  plural: { short: 'Plural marker', long: { en: 'Plural marker (-i- or -t)', fi: 'Monikon tunnus' } },
   possessive: { short: 'Possessive', long: { en: 'Possessive suffix', fi: 'Omistusliite' } },
   exception: { short: 'Exception', long: { en: 'Exception — must be memorized', fi: 'Poikkeus' } },
 }

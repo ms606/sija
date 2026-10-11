@@ -31,6 +31,8 @@ export interface StemSummary {
   vowelWeak: { text: string; pieces: Piece[] }
   consonant: { text: string; pieces: Piece[] } | null
   plural: { strong: string; weak: string }[]
+  /** Accepted variant stems (ruoka: ruua-, ruui-), for checks that name a stem. */
+  alt: { vowelWeak?: string; pluralWeak?: string }[]
 }
 
 export function stemSummary(lex: Lexeme): StemSummary {
@@ -42,6 +44,10 @@ export function stemSummary(lex: Lexeme): StemSummary {
     vowelWeak: view(s.vowelWeak),
     consonant: s.consonant ? view(s.consonant) : null,
     plural: s.plurals.map((p) => ({ strong: p.strong.text, weak: p.weak.text })),
+    alt: s.alt.map((a) => ({
+      ...(a.vowelWeak ? { vowelWeak: a.vowelWeak.text } : {}),
+      ...(a.pluralWeak ? { pluralWeak: a.pluralWeak.text } : {}),
+    })),
   }
 }
 
@@ -122,7 +128,7 @@ export { DECLENSION_TYPES, getType } from './declension/registry'
 export type { DeclensionTypeDef, PluralRecipeKind, SlotRecipe } from './declension/schema'
 export { GRADATION_PATTERNS, type GradationPatternDef } from './gradation'
 export { decideHarmony, realize, type HarmonyDecision } from './harmony'
-export { isClosedSyllable, syllabify, syllableCount } from './phonology'
+export { gradationSite, isClosedSyllable, syllabify, syllableCount } from './phonology'
 export { ALL_SLOTS, PRINCIPAL_SLOTS, SLOT_GRADE, parseSlot, slotKey } from './slots'
 export { CASE_ABBR, parseTemplate, type RenderedPart, type RenderedSentence, type TemplateToken } from './sentence'
 export { PX_SUFFIX } from './possessive'

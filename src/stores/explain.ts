@@ -7,6 +7,8 @@ export interface ExplainTarget {
   person?: PersonId
   /** Show this particular variant (e.g. the learner's accepted alternative). */
   variantText?: string
+  /** The sentence the form was tapped in: "why this case here" explains that sentence. */
+  sentenceId?: string
 }
 
 /** Opens the global "how is this form built?" sheet from anywhere in the app. */

@@ -3,7 +3,7 @@ import { CASES_INFO } from '../../data/cases'
 import { RULES } from '../../data/explanations/rules'
 import { AudioButton } from '../../components/audio/AudioButton'
 import { DeclensionTable } from '../../components/grammar/DeclensionTable'
-import { DerivationPipeline } from '../../components/grammar/DerivationPipeline'
+import { FormExplainer } from '../../components/grammar/FormExplainer'
 import { SentenceLine } from '../../components/grammar/SentenceLine'
 import { NounImage } from '../../components/media/NounImage'
 import { Badge } from '../../components/ui/Badge'
@@ -15,6 +15,8 @@ import { ALL_SLOTS, parseSlot, type SlotKey } from '../../grammar'
 import { grammar } from '../../services/grammar'
 import { I_GROUP_LABEL, patternLabel, pickText, slotLabel, typeName } from '../../services/content/text'
 import { sentencesFor } from '../../services/content/sentences'
+import { explainForm } from '../../services/explain'
+import { RichText } from '../../components/grammar/RichText'
 import { useSettings } from '../../stores/settings'
 
 const KEY_SLOTS: SlotKey[] = ['sg.genitive', 'sg.partitive', 'sg.illative', 'sg.inessive', 'pl.nominative', 'pl.genitive', 'pl.partitive']
@@ -154,18 +156,18 @@ export default function NounDetailPage() {
               </>
             ) : (
               <p>
-                No consonant gradation — the stem consonants stay the same in every form.
-                {noun.noGradationNote && RULES[noun.noGradationNote] && <span className="block text-muted">{pickText(RULES[noun.noGradationNote]!, mode).main}</span>}
+                {/* Why this word has no gradation, from its own stem (one syllable, no k/p/t at the site, Kotus entry …). */}
+                <RichText text={explainForm(noun.id, 'sg.genitive')?.gradation.text || 'No consonant gradation.'} />
               </p>
             )}
           </div>
         </Card>
 
         <Card>
-          <CardTitle sub="Pick a form and follow it from the base word to a real sentence.">How a form is built</CardTitle>
+          <CardTitle sub="Pick a form: the explanation below is about this word and this form.">Explain this form</CardTitle>
           <Segmented label="Form to explain" size="sm" value={slot} options={slotOptions} onChange={(v) => setParams({ slot: v }, { replace: true, preventScrollReset: true })} className="mb-4" />
           <p className="mb-3 text-sm text-muted">{slotLabel(slot, mode)}</p>
-          <DerivationPipeline key={slot} lexemeId={noun.id} slot={slot} />
+          <FormExplainer key={slot} lexemeId={noun.id} slot={slot} />
         </Card>
       </div>
 

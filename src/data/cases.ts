@@ -37,7 +37,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'genitive',
     group: 'grammatical',
     questions: [t('kenen? minkä?', 'kenen? minkä?')],
-    endings: { sg: ['-n'], pl: ['-en', '-jen', '-den', '-tten', '-ten'] },
+    endings: { sg: ['-n'], pl: ['-i- + -en (-jen after a vowel)', '-i- + -den / -tten', '-ten (consonant stem, no -i-)'] },
     meaning: m(
       "Belonging and relations: the house's door = talon ovi. Also used before postpositions (talon edessä) and, as the accusative, for a whole object (Ostan auton).",
       'Omistaja ja suhde: talon ovi. Myös postpositioiden kanssa (talon edessä).',
@@ -70,7 +70,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'partitive',
     group: 'grammatical',
     questions: [t('ketä? mitä?', 'ketä? mitä?')],
-    endings: { sg: ['-a/-ä', '-ta/-tä', '-tta/-ttä'], pl: ['-a/-ä', '-ja/-jä', '-ita/-itä'] },
+    endings: { sg: ['-a/-ä', '-ta/-tä', '-tta/-ttä'], pl: ['-i- + -a/-ä (-ja/-jä after a vowel)', '-i- + -ta/-tä'] },
     meaning: m(
       'A part or an unspecified amount (vettä "some water"), after numbers (kaksi taloa), in negative sentences (En juo kahvia), and for an action that is ongoing or not complete (Luen kirjaa).',
       'Osa tai epämääräinen määrä, lukusanan jälkeen, kieltolauseessa ja keskeneräinen teko.',
@@ -125,7 +125,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'inessive',
     group: 'inner-local',
     questions: [t('missä? (kenessä?)', 'missä?')],
-    endings: { sg: ['-ssa/-ssä'], pl: ['-issa/-issä'] },
+    endings: { sg: ['-ssa/-ssä'], pl: ['-i- + -ssa/-ssä'] },
     meaning: m('Location inside something: talossa "in the house". Also time within which something happens (tunnissa "in an hour").', 'Sisällä oleminen: talossa.'),
     usages: [
       { title: t('Inside a place', 'Sisällä'), sentenceIds: ['c.ine.1', 'c.ine.2', 'c.ine.3', 'c.ine.4', 'c.ine.7'] },
@@ -151,7 +151,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'elative',
     group: 'inner-local',
     questions: [t('mistä? (kenestä?)', 'mistä?')],
-    endings: { sg: ['-sta/-stä'], pl: ['-ista/-istä'] },
+    endings: { sg: ['-sta/-stä'], pl: ['-i- + -sta/-stä'] },
     meaning: m(
       'Movement out of something: kaupasta "from the shop". Also "about" a topic (puhua ruoasta), what something is made of (puusta), and with pitää "to like" (pidän kahvista).',
       'Liike sisältä ulos: kaupasta. Myös aihe ja aine.',
@@ -174,7 +174,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'illative',
     group: 'inner-local',
     questions: [t('mihin? (keneen?)', 'mihin?')],
-    endings: { sg: ['-Vn', '-hVn', '-seen'], pl: ['-ihin', '-iin', '-isiin'] },
+    endings: { sg: ['-Vn', '-hVn', '-seen'], pl: ['-i- + -hin', '-i- + -in (→ -iin)', '-i- + -siin'] },
     meaning: m(
       'Movement into something: kauppaan "into the shop". The ending repeats the last vowel (taloon, kauppaan); one-syllable words take h (maahan, työhön); long-vowel stems take -seen (huoneeseen).',
       'Liike sisään: kauppaan.',
@@ -200,7 +200,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'adessive',
     group: 'outer-local',
     questions: [t('millä? missä? (kenellä?)', 'millä? missä?')],
-    endings: { sg: ['-lla/-llä'], pl: ['-illa/-illä'] },
+    endings: { sg: ['-lla/-llä'], pl: ['-i- + -lla/-llä'] },
     meaning: m(
       'On or at something: pöydällä "on the table", asemalla "at the station". Also "having" (Minulla on…), means of transport or payment (bussilla, kortilla) and parts of the day or year (illalla, talvella).',
       'Päällä tai luona: pöydällä. Myös omistus (minulla on) ja väline (bussilla).',
@@ -230,7 +230,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'ablative',
     group: 'outer-local',
     questions: [t('miltä? mistä? (keneltä?)', 'miltä? mistä?')],
-    endings: { sg: ['-lta/-ltä'], pl: ['-ilta/-iltä'] },
+    endings: { sg: ['-lta/-ltä'], pl: ['-i- + -lta/-ltä'] },
     meaning: m(
       'Movement off a surface or away from an outer place or a person: pöydältä "off the table", ystävältä "from a friend". Also how something looks, sounds or tastes (näyttää hyvältä).',
       'Liike pois päältä tai luota: pöydältä, ystävältä.',
@@ -254,7 +254,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'allative',
     group: 'outer-local',
     questions: [t('mille? mihin? (kenelle?)', 'mille? kenelle?')],
-    endings: { sg: ['-lle'], pl: ['-ille'] },
+    endings: { sg: ['-lle'], pl: ['-i- + -lle'] },
     meaning: m(
       'Movement onto a surface or to an outer place or a person: pöydälle "onto the table", äidille "to mother". The ending -lle has no ä-version.',
       'Liike päälle tai luo: pöydälle, äidille.',
@@ -275,7 +275,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'essive',
     group: 'state',
     questions: [t('minä? kenenä? millaisena?', 'minä? kenenä?')],
-    endings: { sg: ['-na/-nä'], pl: ['-ina/-inä'] },
+    endings: { sg: ['-na/-nä'], pl: ['-i- + -na/-nä'] },
     meaning: m(
       'A role or a temporary state: lääkärinä "as a doctor", lapsena "as a child". Also days and some time expressions: maanantaina "on Monday", vuonna 2024.',
       'Rooli tai tila: lääkärinä. Ajanilmaukset: maanantaina.',
@@ -299,7 +299,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'translative',
     group: 'state',
     questions: [t('miksi? keneksi? millaiseksi?', 'miksi? keneksi?')],
-    endings: { sg: ['-ksi'], pl: ['-iksi'] },
+    endings: { sg: ['-ksi'], pl: ['-i- + -ksi'] },
     meaning: m(
       'Becoming something / changing into a state: lääkäriksi "(to become) a doctor", kylmäksi "cold". Also "in a language": suomeksi "in Finnish".',
       'Muutos: lääkäriksi. Kieli: suomeksi.',
@@ -321,7 +321,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'abessive',
     group: 'marginal',
     questions: [t('ilman mitä? (without what?)', 'ilman mitä?')],
-    endings: { sg: ['-tta/-ttä'], pl: ['-itta/-ittä'] },
+    endings: { sg: ['-tta/-ttä'], pl: ['-i- + -tta/-ttä'] },
     meaning: m(
       '"Without". Formal and rare in everyday speech — normally ilman + partitive is used: ilman rahaa.',
       'Ilman: rahatta. Arkikielessä ilman rahaa.',
@@ -338,7 +338,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'comitative',
     group: 'marginal',
     questions: [t('kenen kanssa? (together with whom?)', 'kenen kanssa?')],
-    endings: { sg: ['—'], pl: ['-ine- + possessive (-ineen)'] },
+    endings: { sg: ['—'], pl: ['-i- + -ne + possessive suffix (-ineen)'] },
     meaning: m(
       '"Together with (one\'s own)". Formal; always plural in form and, for nouns, with a possessive suffix: lapsineen "with his/her children". In everyday Finnish: lasten kanssa.',
       'Yhdessä: lapsineen. Arkikielessä kanssa-rakenne.',
@@ -355,7 +355,7 @@ export const CASES_INFO: Readonly<Record<CaseId, CaseInfo>> = {
     en: 'instructive',
     group: 'marginal',
     questions: [t('miten? millä tavalla? (how?)', 'miten?')],
-    endings: { sg: ['—'], pl: ['-in'] },
+    endings: { sg: ['—'], pl: ['-i- + -n'] },
     meaning: m('"By means of, in the manner of" — only in fixed expressions: käsin "by hand", omin silmin "with one\'s own eyes".', 'Vakiintuneet ilmaukset: käsin.'),
     usages: [{ title: t('Fixed expressions', 'Vakiintuneet ilmaukset'), sentenceIds: ['c.ins.1', 'c.ins.2'] }],
     mistakes: [],

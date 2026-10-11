@@ -51,4 +51,5 @@ export const HEALTH_SENTENCES: ExampleSentence[] = [
   s('e.46', 'Hän tarvitsee {*hoito:par}.', 'He needs treatment / care.', { tags: ['health'], level: 4 }),
   s('e.47', 'Olen {*hoito:ine} {sairaala:ine}.', "I'm being treated at the hospital.", { tags: ['health'], level: 4 }),
   s('e.48', 'Hänellä on {pitkä} {*tukka}.', 'She has long hair.', { tags: ['body'], level: 3 }),
+  s('e.49', 'Hän on {*lääkäri}.', 'He/She is a doctor.', { tags: ['health', 'people'], level: 2 }),
 ]

@@ -63,7 +63,7 @@ export default function PartitiveLabPage() {
       </Card>
 
       <Card>
-        <CardTitle sub="After the plural -i-: -ja after a vowel, -a after a consonant, -ita after a long vowel.">Building the plural partitive</CardTitle>
+        <CardTitle sub="Plural stem + -a/-ä (the plural i is written j after a vowel) — or, in some word types, + -ta/-tä.">Building the plural partitive</CardTitle>
         <EndingExplainer slot="pl.partitive" words={PL_WORDS} />
       </Card>
 

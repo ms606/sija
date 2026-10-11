@@ -23,6 +23,7 @@ STEPS = [
     ("Morphology oracle", "morph-oracle", ["npm", "run", "verify:morph"]),
     ("Golden tests", "golden", ["npx", "vitest", "run", "src/grammar/__tests__/golden.test.ts"]),
     ("Grammar audit", "grammar-audit", ["npm", "run", "audit:grammar"]),
+    ("Explanation audit", "explanation-audit", ["npm", "run", "audit:explanations"]),
     ("E2E", "e2e", ["npm", "run", "e2e"]),
 ]
 
