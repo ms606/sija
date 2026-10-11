@@ -1,4 +1,4 @@
-import { Form } from './builder'
+import { Form, type Seg } from './builder'
 import { getType } from './declension/registry'
 import type { DeclensionTypeDef, PluralRecipe } from './declension/schema'
 import { decideHarmony, realize, type HarmonyDecision } from './harmony'
@@ -151,14 +151,38 @@ function buildPlural(recipe: PluralRecipe, lemma: Form, vowelStrong: Form): Form
   }
 }
 
-/** Builds a variant stem from literal text, segmented against the regular stem it varies. */
+/** The regular form's segments from character `from` to the end, roles kept (a straddling segment is cut). */
+function tailSegs(form: Form, from: number): Seg[] {
+  const out: Seg[] = []
+  let pos = 0
+  for (const seg of form.segs) {
+    const end = pos + seg.text.length
+    if (pos >= from) out.push({ ...seg })
+    else if (end > from) {
+      const cut: Seg = { ...seg, text: seg.text.slice(from - pos) }
+      delete cut.was
+      out.push(cut)
+    }
+    pos = end
+  }
+  return out
+}
+
+/**
+ * Builds a variant stem from literal text, segmented against the regular stem
+ * it varies: only the letters that differ are the variant change; a shared
+ * ending keeps its own roles (the i of ruui- stays the plural marker).
+ */
 function altForm(text: string, regular: Form, ruleId: RuleId): Form {
   let k = 0
   const reg = regular.text
   while (k < text.length && k < reg.length && text[k] === reg[k]) k++
+  let s = 0
+  while (s < text.length - k && s < reg.length - k && text[text.length - 1 - s] === reg[reg.length - 1 - s]) s++
   const form = new Form([
     { text: text.slice(0, k), role: 'root' },
-    { text: text.slice(k), role: 'stem', was: reg.slice(k), ruleId },
+    { text: text.slice(k, text.length - s), role: 'stem', was: reg.slice(k, reg.length - s), ruleId },
+    ...(s > 0 ? tailSegs(regular, reg.length - s) : []),
   ])
   form.steps = regular.steps.map((s) => ({ ...s }))
   form.step('stem-change', ruleId, reg, 'variant')

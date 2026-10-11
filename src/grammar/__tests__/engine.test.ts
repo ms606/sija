@@ -105,6 +105,26 @@ describe('the specification examples', () => {
   })
 })
 
+describe('variant stems', () => {
+  it('ruoka → ruuissa: only the changed vowel is the variant; the plural i stays the plural marker', () => {
+    const v = form('ruoka', 'pl.inessive').variants.find((x) => x.text === 'ruuissa')!
+    expect(v.pieces.filter((p) => p.text !== '').map((p) => [p.text, p.role])).toEqual([
+      ['ru', 'root'],
+      ['u', 'stem'],
+      ['i', 'plural'],
+      ['ssa', 'ending'],
+    ])
+    expect(v.pieces.find((p) => p.role === 'stem')).toMatchObject({ text: 'u', was: 'o' })
+    const g = form('ruoka', 'sg.genitive').variants.find((x) => x.text === 'ruuan')!
+    expect(g.pieces.filter((p) => p.text !== '').map((p) => [p.text, p.role])).toEqual([
+      ['ru', 'root'],
+      ['u', 'stem'],
+      ['a', 'root'],
+      ['n', 'ending'],
+    ])
+  })
+})
+
 describe('possessive suffixes', () => {
   const px = (id: string, slot: SlotKey, p: '1sg' | '3') => G.withPossessive(requireNoun(id), slot, p).variants.map((v) => v.text)
   it('drops -n/-t and restores the strong grade', () => {
