@@ -1,7 +1,8 @@
 import { Check, CircleAlert, X } from 'lucide-react'
 import { RULES } from '../../data/explanations/rules'
 import { diagnosisText, pickText, slotLabel } from '../../services/content/text'
-import { explainForm, samePattern } from '../../services/explain'
+import { samePattern } from '../../services/explain'
+import { feedbackSubject } from '../../services/exercises/feedback'
 import { useExplain } from '../../stores/explain'
 import { useSettings } from '../../stores/settings'
 import type { CheckResult, Exercise } from '../../types/exercise'
@@ -27,7 +28,10 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
   const open = useExplain((s) => s.open)
   const v = VERDICT[result.verdict]
   const t = exercise.target
-  const exp = t ? explainForm(t.lexemeId, t.slot, { ...(t.person ? { person: t.person } : {}), variantText: result.expected }) : null
+  // The form the exercise is about (metsänä) — not the expected answer, which may be a label ("essive singular").
+  const subject = feedbackSubject(exercise, mode)
+  const exp = subject?.explanation ?? null
+  const Answer = result.expectedFi ? Fi : 'span'
   const diagnosis = result.verdict !== 'correct' && result.diagnosisId ? diagnosisText(result.diagnosisId, result.params ?? {}, mode) : null
   const note = result.noteRuleId && RULES[result.noteRuleId] ? pickText(RULES[result.noteRuleId]!, mode) : null
   const errorWhy =
@@ -46,7 +50,7 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
         {result.verdict !== 'correct' && (
           <p className="flex flex-wrap items-baseline gap-x-2">
             <span className="text-sm text-muted">Answer:</span>
-            <Fi className="text-lg font-semibold">{result.expected}</Fi>
+            <Answer className="text-lg font-semibold">{result.expected}</Answer>
             {response && (
               <span className="text-sm text-muted">
                 (you: <Fi className="line-through">{response}</Fi>)
@@ -62,8 +66,11 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
             💡 {note.main}
           </p>
         )}
-        {exp && (
+        {subject && exp && (
           <div className="space-y-2 rounded-xl bg-surface p-3">
+            <p className="text-sm">
+              <Fi className="font-semibold">{subject.form}</Fi> <span className="text-muted">— {subject.classification}</span>
+            </p>
             <div className="flex flex-wrap items-center gap-3">
               <MorphologyBreakdown key={exp.key} explanation={exp} size="md" />
               <AudioButton text={exp.form} size="sm" />
@@ -78,7 +85,7 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
         {others.length > 0 && (
           <p className="text-sm">
             <span className="text-muted">Also accepted: </span>
-            <Fi className="font-semibold">{others.join(', ')}</Fi>
+            <Answer className="font-semibold">{others.join(', ')}</Answer>
           </p>
         )}
         {example && t && (
@@ -89,7 +96,7 @@ export function FeedbackPanel({ exercise, result, response }: { exercise: Exerci
           </p>
         )}
         {t && (
-          <Button size="sm" variant="ghost" onClick={() => open({ lexemeId: t.lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}), variantText: result.expected })}>
+          <Button size="sm" variant="ghost" onClick={() => open({ lexemeId: t.lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}), variantText: t.form })}>
             Show me step by step
           </Button>
         )}

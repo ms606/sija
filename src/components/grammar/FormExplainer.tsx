@@ -2,7 +2,8 @@ import { ArrowRight, ChevronRight, RotateCcw } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { CASES_INFO } from '../../data/cases'
 import type { PersonId, SlotKey } from '../../grammar/types'
-import { pickText } from '../../services/content/text'
+import { pickText, slotLabel } from '../../services/content/text'
+import { grammar } from '../../services/grammar'
 import {
   compareForms,
   explainForm,
@@ -366,7 +367,16 @@ export function FormExplainer({
 }) {
   const mode = useSettings((s) => s.mode)
   const exp = explainForm(lexemeId, slot, { ...(person ? { person } : {}), ...(variantText ? { variantText } : {}) })
-  if (!exp) return <p className="text-muted">This form is not used.</p>
+  if (!exp) {
+    const lex = grammar.get(lexemeId)
+    return variantText && lex ? (
+      <p className="text-muted">
+        <Fi className="font-semibold text-text">{variantText}</Fi> is not a form of <Fi>{lex.lemma}</Fi> ({slotLabel(slot, mode)}), so there is nothing to explain.
+      </p>
+    ) : (
+      <p className="text-muted">This form is not used.</p>
+    )
+  }
   const others = exp.alternatives.filter((a) => a.register !== 'rare')
   const rare = exp.alternatives.filter((a) => a.register === 'rare')
 

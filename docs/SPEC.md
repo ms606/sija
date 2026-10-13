@@ -614,7 +614,11 @@ Each generator takes a `GenContext` (seeded `rng`, learner `mode`, word `pool`,
 allowed `slots`, `persons`, `audio`, sentence `tags`, `lemmaHintOnly`) and an
 optional target, and returns an `Exercise`:
 `{ id, type, skills, reviewKey, difficulty, target, prompt, answer }`.
-All correct answers come from the engine.
+All correct answers come from the engine. `target` records the Finnish surface
+form the exercise is about (`form`, e.g. *metsänä*); a check result records
+whether its expected answer is a form, a label ("essive singular") or a word
+part (`answerKind`). Feedback, the explanation it opens and the session summary
+always use `target.form` (`feedback.ts`), never the expected answer.
 
 **Skills** (`skills.ts`): 15 mastery categories (cases, case-endings, singular,
 plural, genitive, partitive, noun-types, i-words, gradation, vowel-harmony,
@@ -928,11 +932,12 @@ open clients see the update prompt from the service worker.
 | Engine | `src/grammar/__tests__/engine.test.ts`, `golden.test.ts` | Golden principal parts for 131 words across all 35 types, harmony, gradation sites, inverse gradation, illatives, plural stems, possessives, agreement, analysis ambiguity, error diagnosis |
 | Content integrity | `src/data/__tests__/` | Sentences render, are complete and punctuated; case content references existing sentences and words; featured words really show their pattern or -i family; every type is in exactly one family; every rule id and diagnosis has explanation text; lessons have unique ordered ids, valid prerequisites, resolving block references and generatable checks; photos have complete per-file credits, local files and emoji fallbacks; YKI checklist forms appear in model answers exactly as the engine builds them |
 | Services | `src/services/__tests__/` | Exercise generation and checking, backup parsing, voice ranking; word-specific explanations (`explain.test.ts`: *opettajia* and *lääkäriksi* in detail, every base form explained without self-check issues, pieces spell the form, named stems are the word's stems, no unrelated words, rule-note examples follow their rule, labels, recorded forms, selection changes, sentence annotations, offline) |
-| Components | `src/components/grammar/__tests__/` (jsdom) | `FormExplainer` follows the selected word and form; pieces carry their labels |
+| Components | `src/components/grammar/__tests__/`, `src/components/exercises/__tests__/` (jsdom) | `FormExplainer` follows the selected word and form; pieces carry their labels; practice feedback and the explanation it opens show the exercise's form (*metsänä*) with its classification, never the answer label |
+| Feedback | `src/services/__tests__/feedback.test.ts` | For every exercise type, feedback explains the exercise's own surface form; labels and word parts are never explained as words |
 | Smoke | `src/test/smoke.test.ts` | The test toolchain runs |
 | End-to-end | `tests/e2e/` (desktop + Pixel 7) | Every route loads without errors or sideways scrolling; not-found page; completing lesson 1.1; word builder; search; -i lab; diagnosis of *uusin*; progress survives reload; audio (stubbed speech); offline after first visit; axe accessibility; keyboard (desktop); reduced motion; "Explain this form" on the translative and partitive pages; a word tapped in a sentence explained in that sentence |
 
-Unit and component tests currently: 249 passing. The e2e helper `stubSpeech` replaces
+Unit and component tests currently: 266 passing. The e2e helper `stubSpeech` replaces
 `speechSynthesis` with a recorder and one Finnish voice.
 
 On Apple Silicon with an x86_64 Node, Playwright would start Chrome under

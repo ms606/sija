@@ -14,7 +14,7 @@ import {
 } from '../../grammar'
 import type { LearnerMode } from '../../stores/settings'
 import type { Noun } from '../../types/content'
-import type { ChoiceOption, Exercise, ExerciseTarget, ExerciseType } from '../../types/exercise'
+import type { ChoiceOption, Exercise, ExerciseSubject, ExerciseTarget, ExerciseType } from '../../types/exercise'
 import { pick, sample, shuffle, type Rng } from '../../utils/random'
 import { caseName, PERSON_LABEL, pickLabel, slotLabel } from '../content/text'
 import { sentencesFor } from '../content/sentences'
@@ -96,15 +96,33 @@ function reviewKey(type: ExerciseType, lex: Lexeme, slot: SlotKey, person?: Pers
   return `${kind}:${lex.id}:${slot}${person ? `:${person}` : ''}`
 }
 
-function base(type: ExerciseType, lex: Noun, slot: SlotKey, person?: PersonId): Pick<Exercise, 'id' | 'type' | 'skills' | 'reviewKey' | 'difficulty' | 'target'> {
+/**
+ * The fields every exercise shares. `form` is the Finnish surface form the
+ * exercise is about (by default the primary form; sentence exercises pass the
+ * form the sentence shows).
+ */
+function base(
+  type: ExerciseType,
+  lex: Noun,
+  slot: SlotKey,
+  person?: PersonId,
+  form?: string,
+): Pick<Exercise, 'id' | 'type' | 'skills' | 'reviewKey' | 'difficulty'> & { target: ExerciseSubject } {
   return {
     id: nextId(type),
     type,
     skills: skillsFor(lex, slot, type, person),
     reviewKey: reviewKey(type, lex, slot, person),
     difficulty: difficulty(lex, slot, person),
-    target: { lexemeId: lex.id, slot, ...(person ? { person } : {}) },
+    target: { lexemeId: lex.id, slot, ...(person ? { person } : {}), form: form ?? formOf(lex, slot, person).variants[0]!.text },
   }
+}
+
+/** The word a phrase token shows for one of its lexemes ("uuden auton" → "auton" for auto), in lower case. */
+function tokenForm(text: string, lexemeIds: readonly string[], lexemeId: string): string {
+  const words = text.split(' ')
+  const i = lexemeIds.indexOf(lexemeId)
+  return (words.length === lexemeIds.length && i >= 0 ? (words[i] as string) : text).toLocaleLowerCase('fi-FI')
 }
 
 function gloss(lex: Noun): string {
@@ -203,7 +221,7 @@ export const fillBlank: Generator = (ctx, target) => {
   const pron = tok.person ? `${(PERSON_LABEL[tok.person].fi ?? '').split(' / ')[0]} ` : ''
   const hint = ctx.mode === 'beginner' && !ctx.lemmaHintOnly ? `${pron}${lemmas} → ${slotLabel(tok.slot, ctx.mode)}` : `${pron}${lemmas}`
   return {
-    ...base('fill-blank', found.lex, found.slot, found.person),
+    ...base('fill-blank', found.lex, found.slot, found.person, tokenForm(found.view.parts[found.blank]!.text, tok.lexemeIds, found.lex.id)),
     prompt: { instruction: 'Fill in the missing word', sentence: { view: found.view, blank: found.blank, translation: found.en, hint } },
     answer: { kind: 'text', accept: tok.accepted },
   }
@@ -387,7 +405,7 @@ export const errorCorrection: Generator = (ctx, target) => {
     const parts = found.view.parts.map((p, i) => (i === found.blank ? { ...p, text: wrongText } : p))
     const view: RenderedSentence = { text: parts.map((p) => p.text).join(''), parts }
     return {
-      ...base('error-correction', found.lex, found.slot),
+      ...base('error-correction', found.lex, found.slot, undefined, tokenForm(shown, tok.lexemeIds, found.lex.id)),
       prompt: {
         instruction: 'The underlined word has a mistake. Write it correctly.',
         sentence: { view, blank: found.blank, translation: found.en, marked: true },

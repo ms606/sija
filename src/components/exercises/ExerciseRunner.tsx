@@ -59,12 +59,15 @@ function SessionSummary({ log, notices, onRestart, exitTo }: { log: LogEntry[]; 
                     <button
                       type="button"
                       className="font-semibold text-primary hover:underline"
-                      onClick={() => open({ lexemeId: t.lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}) })}
+                      onClick={() => open({ lexemeId: t.lexemeId, slot: t.slot, ...(t.person ? { person: t.person } : {}), variantText: t.form })}
                     >
-                      <Fi>{lex.lemma}</Fi> → <Fi>{m.result.expected}</Fi>
+                      {/* The form to look at again — not the expected answer, which may be a label. */}
+                      <Fi>{lex.lemma}</Fi> → <Fi>{t.form}</Fi>
                     </button>
-                  ) : (
+                  ) : m.result.expectedFi ? (
                     <Fi className="font-semibold">{m.result.expected}</Fi>
+                  ) : (
+                    <span className="font-semibold">{m.result.expected}</span>
                   )}
                   {t && <span className="text-sm text-muted">{slotLabel(t.slot, mode)}</span>}
                 </li>

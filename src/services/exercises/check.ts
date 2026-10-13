@@ -7,8 +7,10 @@ export function cleanAnswer(input: string): string {
   return normalizeForm(input).replace(/[.!?,;:]+$/u, '').trim()
 }
 
+const FORM = { answerKind: 'form', expectedFi: true } as const
+
 function diagnoseText(ex: Exercise, answer: string, expected: string, accepted: string[]): CheckResult {
-  const result: CheckResult = { verdict: 'incorrect', expected, accepted }
+  const result: CheckResult = { verdict: 'incorrect', expected, accepted, ...FORM }
   const a = cleanAnswer(answer)
   // Missing dots on ä/ö is a keyboard problem, not a grammar error.
   if (!/[äöå]/.test(a) && accepted.some((c) => /[äö]/.test(c) && looseKey(c) === looseKey(a))) {
@@ -40,9 +42,9 @@ export function checkText(ex: Exercise, input: string): CheckResult {
   const rare = ex.answer.kind === 'text' ? (ex.answer.rare ?? []) : []
   const expected = accepted[0] ?? ''
   const a = cleanAnswer(input)
-  if (!a) return { verdict: 'incorrect', expected, accepted }
-  if (accepted.some((c) => cleanAnswer(c) === a)) return { verdict: 'correct', expected, accepted }
-  if (rare.some((c) => cleanAnswer(c) === a)) return { verdict: 'correct', expected, accepted, rare: true }
+  if (!a) return { verdict: 'incorrect', expected, accepted, ...FORM }
+  if (accepted.some((c) => cleanAnswer(c) === a)) return { verdict: 'correct', expected, accepted, ...FORM }
+  if (rare.some((c) => cleanAnswer(c) === a)) return { verdict: 'correct', expected, accepted, rare: true, ...FORM }
   return diagnoseText(ex, input, expected, accepted)
 }
 
@@ -53,12 +55,15 @@ export function checkChoice(ex: Exercise, optionId: string): CheckResult {
   const expectedOption = options.find((o) => correct.includes(o.id))
   const expected = expectedOption?.label ?? correct[0] ?? ''
   const accepted = options.filter((o) => correct.includes(o.id)).map((o) => o.label)
-  if (correct.includes(optionId)) return { verdict: 'correct', expected, accepted }
+  // Options are either Finnish forms (fi: true) or labels such as "essive singular".
+  const kind = expectedOption?.fi ? FORM : ({ answerKind: 'label', expectedFi: false } as const)
+  if (correct.includes(optionId)) return { verdict: 'correct', expected, accepted, ...kind }
   const chosen = options.find((o) => o.id === optionId)
   return {
     verdict: 'incorrect',
     expected,
     accepted,
+    ...kind,
     ...(chosen?.diagnosisId ? { diagnosisId: chosen.diagnosisId, params: { ...chosen.params, correct: expected, answer: chosen.label } } : {}),
   }
 }
@@ -68,7 +73,7 @@ export function checkPieces(ex: Exercise, index: number): CheckResult {
   if (ex.answer.kind !== 'pieces') throw new Error(`checkPieces on ${ex.answer.kind}`)
   const { pieces, correct } = ex.answer
   const expected = correct.map((i) => pieces[i]?.text ?? '').join(' + ')
-  return { verdict: correct.includes(index) ? 'correct' : 'incorrect', expected, accepted: [expected] }
+  return { verdict: correct.includes(index) ? 'correct' : 'incorrect', expected, accepted: [expected], answerKind: 'part', expectedFi: true }
 }
 
 /** Checks a word built from tiles. */

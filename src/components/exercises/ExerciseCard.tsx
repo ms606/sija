@@ -231,8 +231,15 @@ function Prompt({ exercise }: { exercise: Exercise }) {
       )}
       {p.word && (
         <p className="flex flex-wrap items-center gap-3">
-          <Fi className="text-3xl font-bold sm:text-4xl">{p.word}</Fi>
-          {exercise.type !== 'production' && <AudioButton text={p.word} size="sm" slow={false} />}
+          {/* A production prompt is an English cue ("in the house"), not a Finnish form. */}
+          {exercise.type === 'production' ? (
+            <span className="text-3xl font-bold sm:text-4xl">{p.word}</span>
+          ) : (
+            <>
+              <Fi className="text-3xl font-bold sm:text-4xl">{p.word}</Fi>
+              <AudioButton text={p.word} size="sm" slow={false} />
+            </>
+          )}
         </p>
       )}
       {p.detail && <p className="text-muted">{p.detail}</p>}

@@ -40,6 +40,15 @@ export interface ExerciseTarget {
   person?: PersonId
 }
 
+/**
+ * What a generated exercise is about: the target plus its Finnish surface
+ * form (metsänä). Feedback and explanations use `form`, never the expected
+ * answer, which can be a label ("essive singular") or a word part ("nä").
+ */
+export interface ExerciseSubject extends ExerciseTarget {
+  form: string
+}
+
 export interface ExercisePrompt {
   /** Instruction, e.g. "Write the genitive singular". */
   instruction: string
@@ -78,17 +87,23 @@ export interface Exercise {
   /** Spaced-repetition key, e.g. "form:kauppa:sg.genitive". */
   reviewKey: string
   difficulty: 1 | 2 | 3
-  target?: ExerciseTarget
+  target?: ExerciseSubject
   prompt: ExercisePrompt
   answer: ExerciseAnswer
 }
 
 export type Verdict = 'correct' | 'almost' | 'incorrect'
 
+/** What the expected answer is: a Finnish form, a classification label, or a part of a word. */
+export type AnswerKind = 'form' | 'label' | 'part'
+
 export interface CheckResult {
   verdict: Verdict
-  /** The expected primary answer (text). */
+  /** The expected primary answer (text): a form, a label or a word part — see `answerKind`. */
   expected: string
+  answerKind: AnswerKind
+  /** The expected answer is Finnish text (render with lang="fi"). */
+  expectedFi: boolean
   /** Everything that would have been accepted. */
   accepted: string[]
   /** Accepted but rare ("also correct, but rare"). */

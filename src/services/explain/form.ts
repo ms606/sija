@@ -9,7 +9,8 @@ import {
   type TermId,
   type WalkStepKind,
 } from '../../data/explanations/walkthrough'
-import { gradationSite, parseSlot, syllabify, syllableCount } from '../../grammar'
+import { SENTENCES } from '../../data/sentences'
+import { gradationSite, parseSlot, parseTemplate, syllabify, syllableCount } from '../../grammar'
 import type {
   CaseId,
   DerivationStep,
@@ -828,6 +829,30 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+let literals: Map<string, Set<string>> | null = null
+
+/**
+ * Lexicalised forms that sentences record for a word and slot ({=kotona|koti:ess}).
+ * Only these count as recorded forms: any other text that is not one of the
+ * engine's forms is an error, never a "memorized" form.
+ */
+function recordedLiterals(): Map<string, Set<string>> {
+  if (literals) return literals
+  literals = new Map()
+  for (const s of SENTENCES) {
+    for (const part of parseTemplate(s.fi)) {
+      if (part.kind !== 'token' || part.token.literal === undefined) continue
+      const lex = grammar.resolve(part.token.refs[0] ?? '')
+      if (!lex) continue
+      const key = `${lex.id}:${part.token.slot}`
+      const set = literals.get(key) ?? new Set<string>()
+      set.add(part.token.literal.toLocaleLowerCase('fi-FI'))
+      literals.set(key, set)
+    }
+  }
+  return literals
+}
+
 export interface ExplainOptions {
   person?: PersonId
   /** Explain this accepted variant (or a lexicalised sentence form) instead of the primary one. */
@@ -835,9 +860,10 @@ export interface ExplainOptions {
 }
 
 /**
- * Explains one form of one word. Returns null for slots that are not used.
- * A `variantText` that the engine does not produce is treated as a recorded
- * (lexicalised) form and gets no invented derivation.
+ * Explains one form of one word. Returns null for slots that are not used,
+ * and for a `variantText` that is neither one of the engine's forms nor a
+ * lexicalised form recorded in the sentence data (kotona): a label such as
+ * "essive singular" or a word part is never explained as a word.
  */
 export function explainForm(lexemeId: string, slot: SlotKey, opts: ExplainOptions = {}): FormExplanation | null {
   const key = `${lexemeId}:${slot}:${opts.person ?? ''}:${opts.variantText ?? ''}`
@@ -859,7 +885,8 @@ function computeExplanation(lexemeId: string, slot: SlotKey, opts: ExplainOption
   if (wanted) {
     const v = form.variants.find((x) => x.text === wanted)
     if (v) return explainVariant(lex, form, v, opts.person)
-    return explainRecorded(lex, slot, wanted, form)
+    if (!opts.person && recordedLiterals().get(`${lex.id}:${slot}`)?.has(wanted)) return explainRecorded(lex, slot, wanted, form)
+    return null
   }
   const v = form.variants[0]
   return v ? explainVariant(lex, form, v, opts.person) : null
