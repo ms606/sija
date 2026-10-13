@@ -251,24 +251,24 @@ These four questions are answered separately, so that a correct form with a poor
 | 138 | lohi | pl.allative + 3 | **lohilleen** | standard | lohillean, lohillensa | not recognised | known oracle defect |
 | 139 | tiili | pl.allative + 3 | **tiililleen** | standard | tiilillensä, tiililleän | not recognised | known oracle defect |
 | 140 | vuohi | pl.allative + 3 | **vuohilleen** | standard | vuohillean, vuohillensa | not recognised | known oracle defect |
-| 141 | käsi | pl.allative + 3 | **käsilleen** | standard | käsillensä, käsilleän | not recognised | known oracle defect |
-| 142 | vesi | pl.allative + 3 | **vesilleen** | standard | vesillensä, vesilleän | not recognised | known oracle defect |
-| 143 | susi | pl.allative + 3 | **susilleen** | standard | susillean, susillensa | not recognised | known oracle defect |
-| 144 | vuosi | pl.allative + 3 | **vuosilleen** | standard | vuosillean, vuosillensa | not recognised | known oracle defect |
-| 145 | kuukausi | pl.allative + 3 | **kuukausilleen** | standard | kuukausillean, kuukausillensa | not recognised | known oracle defect |
-| 146 | kausi | pl.allative + 3 | **kausilleen** | standard | kausillean, kausillensa | not recognised | known oracle defect |
-| 147 | köysi | pl.allative + 3 | **köysilleen** | standard | köysillensä, köysilleän | not recognised | known oracle defect |
-| 148 | liesi | pl.allative + 3 | **liesilleen** | standard | liesillensä, liesilleän | not recognised | known oracle defect |
-| 149 | reisi | pl.allative + 3 | **reisilleen** | standard | reisillensä, reisilleän | not recognised | known oracle defect |
-| 150 | kansi | pl.allative + 3 | **kansilleen** | standard | kansillean, kansillensa | not recognised | known oracle defect |
-| 151 | länsi | pl.allative + 3 | **länsilleen** | standard | länsillensä, länsilleän | not recognised | known oracle defect |
-| 152 | kynsi | pl.allative + 3 | **kynsilleen** | standard | kynsillensä, kynsilleän | not recognised | known oracle defect |
-| 153 | varsi | pl.allative + 3 | **varsilleen** | standard | varsillean, varsillensa | varsille+Adp+Po+Px3 | known oracle defect |
-| 154 | lapsi | pl.allative + 3 | **lapsilleen** | standard | lapsillean, lapsillensa | not recognised | known oracle defect |
-| 155 | veitsi | pl.allative + 3 | **veitsilleen** | standard | veitsillensä, veitsilleän | not recognised | known oracle defect |
-| 156 | lumi | pl.allative + 3 | **lumilleen** | standard | lumillean, lumillensa | not recognised | known oracle defect |
-| 157 | liemi | pl.allative + 3 | **liemilleen** | standard | liemillensä, liemilleän | not recognised | known oracle defect |
-| 158 | toimi | pl.allative + 3 | **toimilleen** | standard | toimillean, toimillensa | not recognised | known oracle defect |
+| 141 | lapsi | pl.allative + 3 | **lapsilleen** | standard | lapsillean, lapsillensa | not recognised | known oracle defect |
+| 142 | veitsi | pl.allative + 3 | **veitsilleen** | standard | veitsillensä, veitsilleän | not recognised | known oracle defect |
+| 143 | lumi | pl.allative + 3 | **lumilleen** | standard | lumillean, lumillensa | not recognised | known oracle defect |
+| 144 | liemi | pl.allative + 3 | **liemilleen** | standard | liemillensä, liemilleän | not recognised | known oracle defect |
+| 145 | toimi | pl.allative + 3 | **toimilleen** | standard | toimillean, toimillensa | not recognised | known oracle defect |
+| 146 | käsi | pl.allative + 3 | **käsilleen** | standard | käsillensä, käsilleän | not recognised | known oracle defect |
+| 147 | vesi | pl.allative + 3 | **vesilleen** | standard | vesillensä, vesilleän | not recognised | known oracle defect |
+| 148 | susi | pl.allative + 3 | **susilleen** | standard | susillean, susillensa | not recognised | known oracle defect |
+| 149 | vuosi | pl.allative + 3 | **vuosilleen** | standard | vuosillean, vuosillensa | not recognised | known oracle defect |
+| 150 | kuukausi | pl.allative + 3 | **kuukausilleen** | standard | kuukausillean, kuukausillensa | not recognised | known oracle defect |
+| 151 | kausi | pl.allative + 3 | **kausilleen** | standard | kausillean, kausillensa | not recognised | known oracle defect |
+| 152 | köysi | pl.allative + 3 | **köysilleen** | standard | köysillensä, köysilleän | not recognised | known oracle defect |
+| 153 | liesi | pl.allative + 3 | **liesilleen** | standard | liesillensä, liesilleän | not recognised | known oracle defect |
+| 154 | reisi | pl.allative + 3 | **reisilleen** | standard | reisillensä, reisilleän | not recognised | known oracle defect |
+| 155 | kansi | pl.allative + 3 | **kansilleen** | standard | kansillean, kansillensa | not recognised | known oracle defect |
+| 156 | länsi | pl.allative + 3 | **länsilleen** | standard | länsillensä, länsilleän | not recognised | known oracle defect |
+| 157 | kynsi | pl.allative + 3 | **kynsilleen** | standard | kynsillensä, kynsilleän | not recognised | known oracle defect |
+| 158 | varsi | pl.allative + 3 | **varsilleen** | standard | varsillean, varsillensa | varsille+Adp+Po+Px3 | known oracle defect |
 | 159 | perhe | pl.allative + 3 | **perheilleen** | standard | perhehillensä, perhehilleän, perheillensä, perheilleän | not recognised | known oracle defect |
 | 160 | huone | pl.allative + 3 | **huoneilleen** | standard | huonehillean, huonehillensa, huoneillean, huoneillensa | not recognised | known oracle defect |
 | 161 | kirje | pl.allative + 3 | **kirjeilleen** | standard | kirjehillensä, kirjehilleän, kirjeillensä, kirjeilleän | not recognised | known oracle defect |

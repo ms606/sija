@@ -18,7 +18,21 @@ import {
 const I_TO_E = { kind: 'replace', strip: 'i', add: 'e', ruleId: 'stem.i-to-e', label: 'pattern' } as const
 const DROP_I = { kind: 'replace', strip: 'i', add: '', ruleId: 'stem.consonant.drop-i', label: 'pattern' } as const
 
-/* ---------------- Pankki-type: the stem keeps its -i ---------------- */
+/*
+ * The -i types, grouped into the four *learning families* the app teaches
+ * (`iGroup`). A family is not a declension type: it groups Kotus types by one
+ * documented property, checked by tests against every word's derivation:
+ *   pankki  the singular vowel stem keeps -i                     (types 5, 6)
+ *   lehti   -i → -e-, partitive on the vowel stem                (type 7)
+ *   kieli   -i → -e-, no gradation, the s of a -si word stays s;
+ *           partitive on a consonant stem that each type makes
+ *           its own way (kiel-, toin-, las-, veis-)               (types 23–26, 29, 30)
+ *   uusi    -si words whose s becomes t in the singular vowel stem
+ *           and changes again in the weak grade; plural keeps -si- (types 27, 28, 31)
+ * Families are a teaching convenience; the Kotus type decides every form.
+ */
+
+/* ---------------- pankki family: the stem keeps its -i ---------------- */
 
 /** Kotus 5 — risti: mostly loanwords and newer words; -i stays in the stem (pankki → pankin, pankkia). */
 export const K5: DeclensionTypeDef = {
@@ -60,7 +74,7 @@ export const K6: DeclensionTypeDef = {
   },
 }
 
-/* ---------------- Lehti-type: i → e, partitive from the vowel stem ---------------- */
+/* ---------------- lehti family: i → e, partitive from the vowel stem ---------------- */
 
 /** Kotus 7 — ovi: old native words; stem -e- (lehti → lehde-, lehte-), partitive -eA (lehteä). */
 export const K7: DeclensionTypeDef = {
@@ -82,7 +96,7 @@ export const K7: DeclensionTypeDef = {
   },
 }
 
-/* ---------------- Kieli-type: i → e, partitive from the consonant stem ---------------- */
+/* ---------------- kieli family: i → e, partitive from the consonant stem ---------------- */
 
 /** Kotus 23 — tiili: consonant-stem partitive (tiiltä); plural genitive -ien ~ -ten. */
 export const K23: DeclensionTypeDef = {
@@ -168,7 +182,7 @@ export const K26: DeclensionTypeDef = {
   },
 }
 
-/* ---------------- Uusi-type and other -si words ---------------- */
+/* ---------------- -si words: uusi family (27, 28, 31) and kieli family (29, 30) ---------------- */
 
 /** Kotus 27 — käsi: -si words with stems -te-/-de- and -t- (uusi → uuden, uutta). */
 export const K27: DeclensionTypeDef = {
@@ -193,7 +207,7 @@ export const K27: DeclensionTypeDef = {
   },
 }
 
-/** Kotus 28 — kynsi: -nsi/-rsi/-lsi words; stems -nte-/-nne- (kansi → kannen, kantta). */
+/** Kotus 28 — kynsi: -nsi/-rsi/-lsi words; s → t (kante-), weak grade nn/rr (kansi → kannen, varsi → varren), kantta. */
 export const K28: DeclensionTypeDef = {
   id: 'k28',
   kotus: 28,
@@ -215,12 +229,16 @@ export const K28: DeclensionTypeDef = {
   },
 }
 
-/** Kotus 29 — lapsi: the only member; ps → s before the partitive (lasta, lasten). */
+/**
+ * Kotus 29 — lapsi: the only member; ps → s before the partitive (lasta, lasten).
+ * Kieli family: the vowel stem keeps s (lapse-, not *lapte-) and the partitive
+ * is built on the consonant stem (las- + ta).
+ */
 export const K29: DeclensionTypeDef = {
   id: 'k29',
   kotus: 29,
   modelWord: 'lapsi',
-  iGroup: 'uusi',
+  iGroup: 'kieli',
   membership: 'irregular',
   membershipRuleId: 'type.k29.membership',
   gradation: 'none',
@@ -237,12 +255,16 @@ export const K29: DeclensionTypeDef = {
   },
 }
 
-/** Kotus 30 — veitsi: ts → s before the partitive (veistä, veisten). */
+/**
+ * Kotus 30 — veitsi: ts → s before the partitive (veistä, veisten).
+ * Kieli family: the vowel stem keeps s (veitse-) and the partitive is built on
+ * the consonant stem (veis- + tä).
+ */
 export const K30: DeclensionTypeDef = {
   id: 'k30',
   kotus: 30,
   modelWord: 'veitsi',
-  iGroup: 'uusi',
+  iGroup: 'kieli',
   membership: 'irregular',
   membershipRuleId: 'type.k30.membership',
   gradation: 'none',
@@ -259,7 +281,11 @@ export const K30: DeclensionTypeDef = {
   },
 }
 
-/** Kotus 31 — kaksi: ks ~ ht ~ hd (kaksi → kahden, kahta). Also yksi. */
+/**
+ * Kotus 31 — kaksi (also yksi). Uusi family, but its own pattern: both
+ * consonants of ks change in the vowel stem, k → h and s → t (kahte-: kahteen),
+ * t → d in the weak grade (kahde-: kahden); consonant stem kah- (kahta).
+ */
 export const K31: DeclensionTypeDef = {
   id: 'k31',
   kotus: 31,

@@ -2,10 +2,12 @@ import type { Noun } from '../../types/content'
 import { adj, noun, replaceForm } from './build'
 
 /**
- * Kieli-type (Kotus 23, 24, 26): -i becomes -e- in the vowel stem, and the
+ * The kieli learning family: -i becomes -e- in the vowel stem, and the
  * partitive is built on the consonant stem: kieli → kielen, kieltä.
+ * Kotus 23 tiili, 24 uni, 25 toimi (lumi → lunta), 26 pieni, 29 lapsi
+ * (lapsen, lasta) and 30 veitsi (veitsen, veistä).
  */
-export const KIELI_TYPE: Noun[] = [
+export const KIELI_FAMILY: Noun[] = [
   noun('kieli', 'k26', '26', 'language; tongue', { emoji: '👅', sem: ['abstract', 'body'], themes: ['language', 'body'], level: 1, freq: 'core' }),
   adj('pieni', 'k26', '26', 'small, little', { level: 1, freq: 'core' }),
   noun('sieni', 'k26', '26', 'mushroom; fungus', { emoji: '🍄', sem: ['food', 'plant'], themes: ['food', 'nature'], level: 5 }),
@@ -37,4 +39,9 @@ export const KIELI_TYPE: Noun[] = [
   noun('lohi', 'k23', '23', 'salmon', { emoji: '🍣', sem: ['animal', 'food'], themes: ['food'], level: 5 }),
   noun('tiili', 'k23', '23', 'brick', { emoji: '🧱', sem: ['object', 'substance'], themes: ['home'], level: 5 }),
   noun('vuohi', 'k23', '23', 'goat', { emoji: '🐐', sem: ['animal'], themes: ['nature'], level: 5 }),
+  noun('lapsi', 'k29', '29', 'child', { emoji: '🧒', illustration: 'lapsi', sem: ['person'], themes: ['family', 'people', 'daycare'], level: 1, freq: 'core' }),
+  noun('veitsi', 'k30', '30', 'knife', { emoji: '🔪', sem: ['object'], themes: ['home', 'food'], level: 5 }),
+  noun('lumi', 'k25', '25', 'snow', { emoji: '☃️', sem: ['weather', 'substance'], themes: ['weather'], level: 2, freq: 'core', numberUse: 'pl-rare', preferred: { 'sg.partitive': ['lunta'] } }),
+  noun('liemi', 'k25', '25', 'broth, stock', { emoji: '🍲', sem: ['food'], themes: ['food'], level: 5, freq: 'extra' }),
+  noun('toimi', 'k25', '25', 'action, measure; job', { sem: ['abstract'], themes: ['work'], level: 5, freq: 'extra' }),
 ]

@@ -58,6 +58,7 @@ export interface DeclensionTypeDef {
   kotus: number
   /** Kotus model word (malliesimerkki), e.g. 'pieni' for type 26. */
   modelWord: string
+  /** The -i learning family this type is taught in (not a declension type of its own). */
   iGroup?: IGroup
   /** Can a learner tell from the word's shape that it belongs here? */
   membership: Predictability

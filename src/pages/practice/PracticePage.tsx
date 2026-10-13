@@ -143,11 +143,11 @@ export default function PracticePage() {
           </div>
         </Card>
         <Card>
-          <CardTitle>-i word families</CardTitle>
+          <CardTitle sub="Learning families: teaching groups of -i declension types.">-i word families</CardTitle>
           <div className="flex flex-wrap gap-2">
             {I_GROUP_ORDER.map((g) => (
               <Chip key={g} to={`/practice/session?skill=itype:${g}&count=10`}>
-                <Fi>{I_GROUP_INFO[g].model}</Fi>-type
+                <Fi>{I_GROUP_INFO[g].model}</Fi>&nbsp;family
               </Chip>
             ))}
           </div>

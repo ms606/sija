@@ -193,7 +193,8 @@ for (const [ruleId, text] of Object.entries(RULES)) {
       const hits = all.filter((h) => h.slot !== 'sg.nominative' && h.slot !== 'sg.accusative')
       if (typeRule) {
         // A word-type text names words (base forms too): each should belong to that type, unless it is a stated contrast.
-        if (all.length === 0) continue
+        // "the kieli family" / "kieli-ryhmä" names a learning family, not a word.
+        if (all.length === 0 || /^(\s+family|-ryhm)/.test(str.slice(at + m[0].length))) continue
         ruleChecks.citations++
         const types = [...new Set(all.map((h) => grammar.require(h.lexemeId).typeId))]
         if (!types.includes(`k${typeRule[1]}` as `k${number}`)) typeCitations.push(`${ruleId}: "${word}" is ${types.join('/')}`)

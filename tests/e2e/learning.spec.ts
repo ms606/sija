@@ -47,8 +47,13 @@ test('search finds a lemma and any of its forms', async ({ page }) => {
 
 test('the -i noun lab compares the four families', async ({ page }) => {
   await page.goto('/noun-types/i-words')
-  const table = page.getByRole('table').first()
+  const table = page.getByRole('table', { name: 'Forms of the four -i word families compared' })
   for (const form of ['pankkia', 'lehteä', 'kieltä', 'uutta']) await expect(table).toContainText(form)
+  // Each family's own types, with their model words' forms: kaksi is shown with its own stems.
+  const uusi = page.getByRole('table', { name: /^Types in the uusi family/ })
+  await expect(uusi.getByRole('row', { name: /kaksi-type/ })).toContainText('kahde-')
+  await expect(uusi.getByRole('row', { name: /kaksi-type/ })).toContainText('kahta')
+  await expect(page.getByTestId('learning-family-note')).toContainText('not an official class')
 })
 
 test('practice explains a wrong answer (uusin)', async ({ page }) => {
@@ -65,7 +70,7 @@ test('practice explains a wrong answer (uusin)', async ({ page }) => {
   }
   await page.keyboard.press('Enter')
   const feedback = page.getByRole('status').filter({ hasText: 'Not quite' })
-  await expect(feedback).toContainText('pankki-type')
+  await expect(feedback).toContainText('a word of the pankki family')
   await expect(feedback).toContainText('newest')
   await expect(feedback).toContainText('uuden')
 })

@@ -21,8 +21,8 @@ export const DIAGNOSES: Record<FeedbackId, ModeText> = {
   'wrong-case': m('You wrote the {slot} — a real form of this word, but a different case.', 'Kirjoitit muodon {slot}: eri sijamuoto.'),
   'rare-slot': m('That is a rare form of this word ({slot}), not the one asked for.', 'Harvinainen muoto ({slot}).'),
   'wrong-igroup': m(
-    'You inflected it like a {treatedAs}-type word. This word is {actual}-type, so its stem changes differently.',
-    'Taivutit sanan {treatedAs}-tyypin mukaan. Sana on {actual}-tyyppiä.',
+    'You inflected it like a word of the {treatedAs} family. This word is in the {actual} family of -i words, so its stem changes differently.',
+    'Taivutit sanan {treatedAs}-ryhmän mukaan. Sana kuuluu {actual}-ryhmään.',
   ),
   'no-gradation': m(
     'Remember consonant gradation: this form needs the weak grade ({strong} → {weak}).',

@@ -1,8 +1,8 @@
 import { CASES_INFO } from '../../data/cases'
-import { GRADATION_PATTERNS, parseSlot, type Lexeme, type PersonId, type SlotKey } from '../../grammar'
+import { GRADATION_PATTERNS, parseSlot, type IGroup, type Lexeme, type PersonId, type SlotKey } from '../../grammar'
 import type { CategoryId, ExerciseType, SkillId } from '../../types/exercise'
 import { grammar } from '../grammar'
-import { I_GROUP_LABEL, typeName } from '../content/text'
+import { familyName, typeName } from '../content/text'
 
 export const CATEGORY_ORDER: readonly CategoryId[] = [
   'cases',
@@ -52,7 +52,7 @@ export function skillLabel(skill: SkillId): string {
     case 'case':
       return `${CASES_INFO[value as keyof typeof CASES_INFO]?.en ?? value} case`
     case 'itype':
-      return I_GROUP_LABEL[value as keyof typeof I_GROUP_LABEL] ?? value
+      return familyName(value as IGroup)
     case 'grad': {
       const p = GRADATION_PATTERNS[value as keyof typeof GRADATION_PATTERNS]
       return p ? `gradation ${p.strong} → ${p.weak || '∅'}` : value

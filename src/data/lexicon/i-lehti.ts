@@ -5,7 +5,7 @@ import { noun } from './build'
  * Lehti-type (Kotus 7): old native words. -i becomes -e- in the stem and the
  * partitive is built on that vowel stem: lehti → lehden, lehteä.
  */
-export const LEHTI_TYPE: Noun[] = [
+export const LEHTI_FAMILY: Noun[] = [
   noun('lehti', 'k7', '7*F', 'leaf; newspaper, magazine', { grad: 'ht-hd', emoji: '📰', sem: ['object', 'plant', 'document'], themes: ['nature', 'leisure'], level: 1, freq: 'core' }),
   noun('järvi', 'k7', '7', 'lake', { emoji: '🏞️', illustration: 'jarvi', sem: ['nature', 'place'], loc: 'both', themes: ['nature'], level: 1, freq: 'core', notes: ['note.jarvella'] }),
   noun('kivi', 'k7', '7', 'stone, rock', { emoji: '🪨', sem: ['nature', 'substance'], themes: ['nature'], level: 1 }),

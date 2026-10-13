@@ -6,6 +6,7 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { LEXICON } from '../src/data/lexicon/index.ts'
+import { MODEL_WORDS } from '../src/data/lexicon/models.ts'
 import { inflect } from '../src/grammar/inflect.ts'
 import { ALL_SLOTS } from '../src/grammar/slots.ts'
 import { createGrammar } from '../src/grammar/index.ts'
@@ -14,7 +15,8 @@ import { SENTENCES } from '../src/data/sentences/index.ts'
 const here = dirname(fileURLToPath(import.meta.url))
 const out = join(here, 'morph-oracle', '.cache', 'paradigms.json')
 
-const entries = LEXICON.map((n) => {
+// The lexicon and the Kotus model words shown on the type cards.
+const entries = [...LEXICON, ...MODEL_WORDS].map((n) => {
   const slots: Record<string, { forms: string[]; registers: string[]; status: string }> = {}
   for (const slot of ALL_SLOTS) {
     if (slot.endsWith('.accusative')) continue

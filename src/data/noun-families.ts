@@ -2,11 +2,31 @@ import type { IGroup, SlotKey, TypeId } from '../grammar/types'
 import type { LocalizedText, ModeText } from '../types/content'
 import { m, t } from './explanations/text'
 
+/**
+ * What a learning family is, shown wherever a family is named next to a type.
+ * The families are a teaching convenience of this app, not a linguistic class.
+ */
+export const LEARNING_FAMILY_NOTE = t(
+  'A learning family is a teaching group used in this app, not an official class of Finnish grammar. Each word’s Kotus declension type decides its forms. A family only puts together types that share one stem pattern; its types still differ in other forms.',
+  'Oppimisryhmä on sovelluksen opetusryhmä, ei virallinen kielioppiluokka. Sanan taivutuksen ratkaisee sen Kotus-taivutustyyppi.',
+)
+
+/**
+ * One of the four *learning families* of -i nouns. A family is a teaching
+ * group, not a declension type: it covers several Kotus types (read from the
+ * registry's `iGroup`, never listed here) that share the property in
+ * `criterion`. Its name is a well-known member word, not a Kotus model word.
+ *
+ * Finnish forms in the English texts are marked ⟦…⟧ (a stem: ⟦kiel⟧-); tests
+ * check every marked form against the engine.
+ */
 export interface IGroupInfo {
   id: IGroup
   title: LocalizedText
+  /** The word the family is named after (a member of the family, shown as its example). */
   model: string
-  kotusTypes: number[]
+  /** The documented property every member type shares (tests check it against each word's derivation). */
+  criterion: LocalizedText
   keyChange: LocalizedText
   summary: ModeText
   recognize: ModeText
@@ -19,65 +39,121 @@ export const I_GROUP_ORDER: readonly IGroup[] = ['pankki', 'lehti', 'kieli', 'uu
 export const I_GROUP_INFO: Readonly<Record<IGroup, IGroupInfo>> = {
   pankki: {
     id: 'pankki',
-    title: t('Pankki-type', 'Pankki-tyyppi'),
+    title: t('The pankki family', 'Pankki-ryhmä'),
     model: 'pankki',
-    kotusTypes: [5, 6],
+    criterion: t('The singular vowel stem keeps the -i: ⟦pankki⟧-, ⟦risti⟧-, ⟦paperi⟧-.', 'Yksikön vokaalivartalossa säilyy i.'),
     keyChange: t('i stays i', 'i säilyy'),
     summary: m(
-      'The -i stays in the stem: pankki → pankin, pankkia. In the plural the stem i becomes e before the plural -i-: pankkeja, pankeissa.',
+      'The -i stays in the singular stem: ⟦pankki⟧ → ⟦pankin⟧, ⟦pankkia⟧, ⟦pankkiin⟧. In the plural the i becomes e before the plural marker: ⟦pankkeja⟧, ⟦pankeissa⟧.',
       'I säilyy vartalossa: pankin, pankkia. Monikossa pankkeja.',
     ),
     recognize: m(
-      'Mostly loanwords and newer words (bussi, posti, kahvi, tili, lasi, tuoli). Longer loanwords like paperi and hotelli belong here too.',
+      'Mostly loanwords and newer words: ⟦bussi⟧, ⟦posti⟧, ⟦kahvi⟧, ⟦tili⟧, ⟦lasi⟧, ⟦tuoli⟧ (risti-type, Kotus 5). Longer words like ⟦paperi⟧, ⟦hotelli⟧ and ⟦lääkäri⟧ are paperi-type (Kotus 6), which also has a second plural series: ⟦papereita⟧ ~ ⟦papereja⟧.',
       'Yleensä lainasanat ja uudet sanat.',
     ),
     featured: ['pankki', 'bussi', 'kahvi', 'tunti', 'kaupunki', 'tuoli', 'lasi', 'tili', 'äiti', 'koti'],
   },
   lehti: {
     id: 'lehti',
-    title: t('Lehti-type', 'Lehti-tyyppi'),
+    title: t('The lehti family', 'Lehti-ryhmä'),
     model: 'lehti',
-    kotusTypes: [7],
+    criterion: t(
+      'The -i becomes -e- in the singular vowel stem, and the partitive is built on that vowel stem (⟦lehteä⟧, ⟦ovea⟧). There is no consonant stem.',
+      'Vartalossa e, partitiivi vokaalivartalosta.',
+    ),
     keyChange: t('i → e', 'i → e'),
     summary: m(
-      'The -i becomes -e- in the stem (lehden), and the partitive is built on that e-stem: lehteä. In the plural the e drops before -i-: lehtiä, lehdissä.',
+      'The -i becomes -e- in the stem: ⟦lehti⟧ → ⟦lehden⟧, ⟦lehteä⟧, ⟦lehteen⟧. In the plural the plural -i- replaces the e: ⟦lehtiä⟧, ⟦lehdissä⟧.',
       'Vartalossa e: lehden, lehteä. Monikossa lehtiä.',
     ),
-    recognize: m('Old native words: ovi, kivi, järvi, nimi, talvi, joki. The partitive ends in -eA (ovea, kiveä).', 'Vanhat omaperäiset sanat.'),
+    recognize: m(
+      'Old native words: ⟦ovi⟧, ⟦kivi⟧, ⟦järvi⟧, ⟦nimi⟧, ⟦talvi⟧, ⟦joki⟧ — all ovi-type (Kotus 7), the only type in this family. The partitive ends in -eA: ⟦ovea⟧, ⟦kiveä⟧.',
+      'Vanhat omaperäiset sanat.',
+    ),
     featured: ['lehti', 'järvi', 'kivi', 'nimi', 'ovi', 'talvi', 'tähti', 'joki', 'mäki', 'henki'],
   },
   kieli: {
     id: 'kieli',
-    title: t('Kieli-type', 'Kieli-tyyppi'),
+    title: t('The kieli family', 'Kieli-ryhmä'),
     model: 'kieli',
-    kotusTypes: [23, 24, 25, 26],
+    criterion: t(
+      'The -i becomes -e- in the singular vowel stem, which is the same in every case (no consonant gradation), and an s stays s (⟦kiele⟧-, ⟦lapse⟧-, ⟦veitse⟧-). The singular partitive is built on a shorter consonant stem with -tA; each type makes that consonant stem in its own way.',
+      'Vokaalivartalossa e, partitiivi konsonanttivartalosta.',
+    ),
     keyChange: t('i → e, partitive -tA', 'i → e, partitiivi -tA'),
     summary: m(
-      'The -i becomes -e- in the vowel stem (kielen), but the partitive is built on the short consonant stem: kiel- + tä = kieltä. The plural genitive often has -ten: kielten.',
-      'Kielen, mutta kieltä (konsonanttivartalo). Monikon genetiivi kielten.',
+      'Shared: the vowel stem in -e- (⟦kielen⟧, ⟦toimen⟧, ⟦lapsen⟧, ⟦veitsen⟧) and a partitive on a consonant stem. Not shared: how the consonant stem is made, so the partitives differ — ⟦kiel⟧- + -tä = ⟦kieltä⟧ (the e drops), ⟦toin⟧- + -ta = ⟦tointa⟧ (m → n), ⟦las⟧- + -ta = ⟦lasta⟧ (the p drops), ⟦veis⟧- + -tä = ⟦veistä⟧ (the t drops). The plural genitive can use the same stem: ⟦kielten⟧, ⟦lasten⟧, ⟦veisten⟧.',
+      'Kielen, mutta kieltä (konsonanttivartalo). Konsonanttivartalo muodostetaan tyypin mukaan: kiel-, toin-, las-, veis-.',
     ),
     recognize: m(
-      'Old words ending in -li, -ni, -ri, -si, -hi after a long vowel or diphthong: tuuli, ääni, saari, kuusi (spruce), lohi. But tuoli and tili look similar and are pankki-type!',
+      'Old words in -li, -ni, -ri, -si, -hi, often after a long vowel or diphthong: ⟦tuuli⟧, ⟦ääni⟧, ⟦saari⟧, ⟦kuusi⟧ (spruce), ⟦lohi⟧. Also -mi words such as ⟦lumi⟧ → ⟦lunta⟧, and ⟦lapsi⟧ and ⟦veitsi⟧, each a Kotus type of its own. But ⟦tuoli⟧ and ⟦tili⟧ look similar and are in the pankki family!',
       'Usein -li, -ni, -ri pitkän vokaalin jälkeen.',
     ),
-    featured: ['kieli', 'pieni', 'suuri', 'meri', 'saari', 'tuuli', 'ääni', 'tuli', 'uni', 'kuusi-spruce'],
+    featured: ['kieli', 'pieni', 'suuri', 'meri', 'saari', 'tuuli', 'ääni', 'tuli', 'uni', 'kuusi-spruce', 'lumi', 'lapsi', 'veitsi'],
   },
   uusi: {
     id: 'uusi',
-    title: t('Uusi-type', 'Uusi-tyyppi'),
+    title: t('The uusi family', 'Uusi-ryhmä'),
     model: 'uusi',
-    kotusTypes: [27, 28, 29, 30, 31],
+    criterion: t(
+      '-si words whose s becomes t in the singular vowel stem (⟦käte⟧-, ⟦kynte⟧-, ⟦kahte⟧-) and changes again in the weak grade (⟦käde⟧-, ⟦kynne⟧-, ⟦kahde⟧-). The plural keeps -si-: ⟦käsiä⟧, ⟦kynsiä⟧, ⟦kaksia⟧.',
+      'S muuttuu yksikön vartalossa t:ksi; monikossa -si- säilyy.',
+    ),
     keyChange: t('i → e, s ~ t ~ d', 'i → e, s ~ t ~ d'),
     summary: m(
-      'The s of the base form alternates with t and d: uusi → uuden (weak d), uuteen (strong t), uutta (consonant stem uut- + ta). The plural keeps -si-: uusia.',
+      'The s of the base form alternates with t and d: ⟦uusi⟧ → ⟦uuteen⟧ (strong grade, t), ⟦uuden⟧ (weak grade, d), ⟦uutta⟧ (consonant stem ⟦uut⟧- + -ta). The plural keeps -si-: ⟦uusia⟧. The kynsi-type and the kaksi-type share the s → t change but differ in other forms.',
       'S ~ t ~ d: uusi, uuden, uutta, uusia.',
     ),
     recognize: m(
-      'Old words in -si: käsi, vesi, vuosi, susi, kuusi (six). But lasi and suksi do not follow it, and kuusi "spruce" is kieli-type. Related special words: kansi → kannen, lapsi → lasta, veitsi → veistä, kaksi → kahta.',
+      'Old words in -si: ⟦käsi⟧, ⟦vesi⟧, ⟦vuosi⟧, ⟦susi⟧, ⟦kuusi⟧ (six) — käsi-type, Kotus 27. ⟦kynsi⟧, ⟦kansi⟧ and ⟦varsi⟧ (kynsi-type, Kotus 28) and the numerals ⟦yksi⟧ and ⟦kaksi⟧ (kaksi-type, Kotus 31) are separate types with changes of their own. But ⟦lasi⟧ is in the pankki family, ⟦suksi⟧ in the lehti family, and ⟦kuusi⟧ “spruce”, ⟦lapsi⟧ and ⟦veitsi⟧ in the kieli family: their s does not become t.',
       'Vanhat -si-sanat: käsi, vesi, vuosi.',
     ),
-    featured: ['uusi', 'käsi', 'vesi', 'vuosi', 'susi', 'kuukausi', 'kuusi-six', 'kansi', 'lapsi', 'kaksi'],
+    featured: ['uusi', 'käsi', 'vesi', 'vuosi', 'susi', 'kuukausi', 'kuusi-six', 'kansi', 'kynsi', 'kaksi'],
   },
+}
+
+/**
+ * What each -i type does within its family: what it shares and what is its
+ * own, with real forms. Keyed by type; the family comes from the registry.
+ * Every ⟦form⟧ is checked against the engine (noun-types.test.ts).
+ */
+export const I_TYPE_NOTES: Readonly<Partial<Record<TypeId, LocalizedText>>> = {
+  k5: t(
+    'The -i stays in every singular form: ⟦risti⟧ → ⟦ristin⟧, ⟦ristiä⟧, ⟦ristiin⟧. In the plural the i becomes e before the plural marker: ⟦ristejä⟧, ⟦pankkeja⟧.',
+  ),
+  k6: t(
+    'Like the risti-type in the singular (⟦paperin⟧, ⟦paperia⟧), but the plural has two accepted series: ⟦papereita⟧ ~ ⟦papereja⟧, ⟦papereiden⟧ ~ ⟦paperien⟧.',
+  ),
+  k7: t(
+    'The only type in the lehti family. Some of its words also have consonant gradation in the weak grade — ⟦lehti⟧ → ⟦lehden⟧ (ht ~ hd), ⟦joki⟧ → ⟦joen⟧ (the k drops) — others have none: ⟦ovi⟧ → ⟦oven⟧.',
+  ),
+  k23: t(
+    'The consonant stem is the vowel stem without its -e: ⟦tiil⟧- + -tä → ⟦tiiltä⟧, ⟦tuli⟧ → ⟦tulta⟧, ⟦lohi⟧ → ⟦lohta⟧. Plural genitive ⟦tiilien⟧ or ⟦tiilten⟧.',
+  ),
+  k24: t(
+    'In every form the app teaches it follows the same steps as the tiili-type: ⟦un⟧- + -ta → ⟦unta⟧, ⟦meri⟧ → ⟦merta⟧, ⟦kuusi⟧ “spruce” → ⟦kuusta⟧; plural genitive ⟦unien⟧ or ⟦unten⟧. Kotus lists it as a separate type.',
+  ),
+  k25: t(
+    'Before the -t- of the consonant stem, m becomes n: ⟦toin⟧- + -ta → ⟦tointa⟧, ⟦lumi⟧ → ⟦lunta⟧, plural genitive ⟦tointen⟧ or ⟦toimien⟧. A partitive on the vowel stem is also correct: ⟦toimea⟧, ⟦lumea⟧.',
+  ),
+  k26: t(
+    'The consonant stem is the vowel stem without its -e: ⟦pien⟧- + -tä → ⟦pientä⟧, ⟦kieli⟧ → ⟦kieltä⟧, ⟦suuri⟧ → ⟦suurta⟧. The plural genitive can be built on it too: ⟦pienten⟧, ⟦kielten⟧ (also ⟦pienien⟧, ⟦kielien⟧).',
+  ),
+  k27: t(
+    'The s becomes t in the vowel stem, and t ~ d by consonant gradation: ⟦käteen⟧ (strong ⟦käte⟧-), ⟦käden⟧ (weak ⟦käde⟧-). Consonant stem ⟦kät⟧- + -tä → ⟦kättä⟧, with a double t. The plural keeps s: ⟦käsiä⟧, ⟦käsien⟧ (also ⟦kätten⟧).',
+  ),
+  k28: t(
+    'Its words in the app end in -nsi or -rsi. The s becomes t as in the käsi-type (⟦kynteen⟧, ⟦kynttä⟧), but the weak grade has nn or rr, not nd or rd: ⟦kynsi⟧ → ⟦kynnen⟧, ⟦kansi⟧ → ⟦kannen⟧, ⟦varsi⟧ → ⟦varren⟧. The plural keeps s: ⟦kynsiä⟧, ⟦kansia⟧.',
+  ),
+  k29: t(
+    'Shares the kieli family’s e-stem: the vowel stem keeps ps, ⟦lapse⟧- → ⟦lapsen⟧, ⟦lapseen⟧. Its own consonant stem drops the p: ⟦las⟧- + -ta → ⟦lasta⟧, plural genitive ⟦lasten⟧ (also ⟦lapsien⟧). The rest of the plural keeps ps: ⟦lapsia⟧, ⟦lapsissa⟧.',
+  ),
+  k30: t(
+    'Shares the kieli family’s e-stem: the vowel stem keeps ts, ⟦veitse⟧- → ⟦veitsen⟧, ⟦veitseen⟧. Its own consonant stem drops the t: ⟦veis⟧- + -tä → ⟦veistä⟧, plural genitive ⟦veisten⟧ (also ⟦veitsien⟧). The rest of the plural keeps ts: ⟦veitsiä⟧, ⟦veitsissä⟧.',
+  ),
+  k31: t(
+    'A distinct pattern inside the uusi family: the type of the numerals ⟦yksi⟧ and ⟦kaksi⟧. Two sounds change in the vowel stem, not one — k becomes h and s becomes t: ⟦kahte⟧- (⟦kahteen⟧, ⟦kahtena⟧), and in the weak grade t becomes d: ⟦kahde⟧- (⟦kahden⟧, ⟦kahdessa⟧). The consonant stem is ⟦kah⟧-, so the partitive ⟦kahta⟧ has a single t (compare ⟦kättä⟧). The plural keeps ks: ⟦kaksia⟧, ⟦kaksien⟧, ⟦kaksissa⟧.',
+  ),
 }
 
 /** The key forms that show which family an -i word belongs to. */
@@ -96,10 +172,10 @@ export const I_COMPARE_SLOTS: readonly SlotKey[] = [
 
 /** Look-alike pairs that prove the type cannot be read from spelling alone. */
 export const MINIMAL_PAIRS: readonly { a: string; b: string; note: ModeText }[] = [
-  { a: 'tili', b: 'tiili', note: m('tili → tilin, tiliä (pankki-type); tiili → tiilen, tiiltä (kieli-type).', 'tilin / tiilen') },
-  { a: 'tuoli', b: 'tuuli', note: m('tuoli → tuolin, tuolia (pankki-type); tuuli → tuulen, tuulta (kieli-type).', 'tuolin / tuulen') },
-  { a: 'lasi', b: 'käsi', note: m('lasi → lasin, lasia (pankki-type); käsi → käden, kättä (uusi-type).', 'lasin / käden') },
-  { a: 'suksi', b: 'uusi', note: m('suksi → suksen, suksea (lehti-type); uusi → uuden, uutta (uusi-type).', 'suksen / uuden') },
+  { a: 'tili', b: 'tiili', note: m('tili → tilin, tiliä (pankki family); tiili → tiilen, tiiltä (kieli family).', 'tilin / tiilen') },
+  { a: 'tuoli', b: 'tuuli', note: m('tuoli → tuolin, tuolia (pankki family); tuuli → tuulen, tuulta (kieli family).', 'tuolin / tuulen') },
+  { a: 'lasi', b: 'käsi', note: m('lasi → lasin, lasia (pankki family); käsi → käden, kättä (uusi family).', 'lasin / käden') },
+  { a: 'suksi', b: 'uusi', note: m('suksi → suksen, suksea (lehti family); uusi → uuden, uutta (uusi family).', 'suksen / uuden') },
   {
     a: 'kuusi-spruce',
     b: 'kuusi-six',
@@ -134,7 +210,10 @@ export const FAMILIES: readonly FamilyInfo[] = [
   {
     id: 'i',
     title: t('Words in -i', 'I-loppuiset'),
-    summary: m('Four families that look alike but inflect differently — see the -i Noun Lab.', 'Neljä ryhmää: pankki, lehti, kieli, uusi.'),
+    summary: m(
+      'Twelve declension types. For learning, the app groups them into four learning families — pankki, lehti, kieli and uusi — by how the -i behaves in the stem. The families are teaching groups, not official classes: each word’s Kotus type decides its forms. See the -i Noun Lab.',
+      'Kaksitoista tyyppiä neljässä oppimisryhmässä: pankki, lehti, kieli, uusi.',
+    ),
     types: ['k5', 'k6', 'k7', 'k23', 'k24', 'k25', 'k26', 'k27', 'k28', 'k29', 'k30', 'k31'],
   },
   {

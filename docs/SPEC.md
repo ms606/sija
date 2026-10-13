@@ -330,7 +330,7 @@ A `DeclensionTypeDef` describes one Kotus type declaratively:
 | Field | Meaning |
 |---|---|
 | `id`, `kotus`, `modelWord` | `k26`, 26, `pieni` |
-| `iGroup` | For -i nouns: `pankki`, `lehti`, `kieli` or `uusi` |
+| `iGroup` | For the -i types: the learning family (`pankki`, `lehti`, `kieli`, `uusi`) the type is taught in. A family groups several types and is never shown as a type name: type names come from `modelWord` (`typeName`), families are labelled "… family" (`familyName`) |
 | `membership`, `membershipRuleId` | Can a learner tell from the word's shape that it belongs here? |
 | `gradation` | `normal` (kauppa → kaupan), `inverse` (sade → sateen), `intrinsic` (built into the type: uusi → uuden), `none` |
 | `vowel` | Vowel-stem recipe: `same`, `replace {strip, add}`, `lengthen {strip}` |
@@ -348,7 +348,7 @@ The registry (`registry.ts`) holds **35 types**:
 | Family file | Types (Kotus number, model word) |
 |---|---|
 | `o-u.ts` | 1 valo, 2 palvelu, 3 valtio |
-| `i.ts` | 5 risti, 6 paperi (pankki family); 7 ovi (lehti); 23 tiili, 24 uni, 25 toimi, 26 pieni (kieli); 27 käsi, 28 kynsi, 29 lapsi, 30 veitsi, 31 kaksi (uusi) |
+| `i.ts` | 5 risti, 6 paperi (pankki family); 7 ovi (lehti family); 23 tiili, 24 uni, 25 toimi, 26 pieni, 29 lapsi, 30 veitsi (kieli family); 27 käsi, 28 kynsi, 31 kaksi (uusi family). Each family's criterion is documented in the file and checked against every word by `src/data/__tests__/noun-types.test.ts` |
 | `a-a.ts` | 9 kala, 10 koira, 11 omena, 12 kulkija, 13 katiska, 14 solakka, 15 korkea |
 | `long-vowel.ts` | 18 maa, 19 suo |
 | `consonant.ts` | 32 sisar, 33 kytkin, 35 lämmin, 38 nainen, 39 vastaus, 40 kalleus, 41 vieras, 42 mies, 43 ohut, 44 kevät |
@@ -532,8 +532,16 @@ option takes a pattern, with a `<` prefix for inverse gradation
 `a-a.ts`, `i-pankki.ts`, `i-lehti.ts`, `i-kieli.ts`, `i-uusi.ts`, `e.ts`,
 `consonant.ts`, `monosyllable.ts`, `everyday.ts`, `adjectives.ts`).
 
-`lexicon/index.ts` joins them into `LEXICON`, attaches photos from `PHOTOS`,
-exposes `I_GROUPS` and throws on duplicate ids at load time.
+`lexicon/index.ts` joins them into `LEXICON`, attaches photos from `PHOTOS`
+and throws on duplicate ids at load time.
+
+`lexicon/models.ts` (`MODEL_WORDS`) holds the Kotus model words the learner
+lexicon does not teach (valo, valtio, risti, kulkija, katiska, solakka, korkea,
+suo, kytkin, kalleus, ohut, hame), ids `model:<lemma>`. They exist only so that
+every type card and type page shows the type's own model word with its own
+forms (`modelLexeme`, `typeCard`); they are not in `LEXICON`, lessons,
+exercises or search. `verify:kotus` and `verify:morph` check them like
+lexicon words.
 
 ### 8.3 Sentences
 
@@ -571,7 +579,7 @@ throw at load time.
 | `explanations/diagnoses.ts` | `DIAGNOSES`: feedback text for each diagnosis id |
 | `cases.ts` | `CASES_INFO`: Finnish name, group, questions, endings, meaning, usages (with sentence ids), common mistakes, spatial meaning, demo word and slot |
 | `gradation-patterns.ts` | Teaching info per gradation pattern; notes on words without gradation |
-| `noun-families.ts` | The -i families, comparison slots, minimal pairs, family overview |
+| `noun-families.ts` | The -i learning families (`I_GROUP_INFO`: criterion, summary, recognition hints), `LEARNING_FAMILY_NOTE` (families are teaching groups, not linguistic classes), `I_TYPE_NOTES` (what each -i type shares with its family and what is its own, with forms marked ⟦…⟧ and checked against the engine), comparison slots, minimal pairs, family overview |
 | `themes.ts` | Theme labels; listening minimal pairs |
 | `glossary.ts` | Grammar terms (English and Finnish) |
 | `known-words.ts` | Real words that learners produce by mistake (*uusin*) → explanation key |
@@ -1022,7 +1030,7 @@ harvested reaches learners without human review.
 | Inverse gradation | Weak grade in the base form, strong in the stem: *sade ~ sateen* |
 | Vowel harmony (vokaalisointu) | Endings use back (a, o, u) or front (ä, ö, y) vowels to match the word |
 | Archiphoneme | A placeholder vowel in an ending template: `A` = a/ä, `O` = o/ö, `U` = u/y; `V` copies the stem's last vowel |
-| -i families | pankki (5/6), lehti (7), kieli (23–26), uusi (27–31): four ways nouns ending in -i inflect |
+| -i families | Pedagogical learning families, not declension types or linguistic classes; the Kotus type decides every form: pankki (types 5, 6: the singular vowel stem keeps -i), lehti (7: -i → -e-, vowel-stem partitive, no consonant stem), kieli (23–26, 29, 30: -i → -e- with no gradation, s stays s, partitive on a consonant stem that each type makes its own way: kiel-, toin-, las-, veis-), uusi (27, 28, 31: the s of -si becomes t in the singular vowel stem and changes again in the weak grade; the plural keeps -si-; the kaksi-type is a distinct pattern, k → h as well as s → t). `noun-types.test.ts` computes each criterion from every word's generated stems and forms |
 | Principal parts | The slots a type defines itself: sg partitive and illative, pl genitive, partitive and illative |
 | Malform | A plausible wrong form with a diagnosis |
 | Rule id | Namespaced id of a rule (`grade.weak.closed-syllable`) that links engine output to explanation text |

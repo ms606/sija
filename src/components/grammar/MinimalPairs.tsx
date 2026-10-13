@@ -1,6 +1,6 @@
 import { MINIMAL_PAIRS } from '../../data/noun-families'
 import { grammar } from '../../services/grammar'
-import { pickText, typeName } from '../../services/content/text'
+import { familyName, pickText, typeName } from '../../services/content/text'
 import { useSettings } from '../../stores/settings'
 import { cx } from '../../utils/cx'
 import { AudioButton } from '../audio/AudioButton'
@@ -29,7 +29,10 @@ export function MinimalPairs({ pairs = MINIMAL_PAIRS, className }: { pairs?: typ
                     <span className="text-muted"> · </span>
                     <Fi className="font-semibold">{grammar.primary(w, 'sg.partitive')}</Fi>
                   </p>
-                  <p className="text-xs text-muted">{typeName(w.typeId)}</p>
+                  <p className="text-xs text-muted">
+                    {typeName(w.typeId, { kotus: true })}
+                    {grammar.type(w).iGroup && <> · {familyName(grammar.type(w).iGroup!)}</>}
+                  </p>
                 </div>
               ))}
             </div>

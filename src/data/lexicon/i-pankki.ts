@@ -5,7 +5,7 @@ import { noun } from './build'
  * Pankki-type (Kotus 5, 6): the -i stays in the stem. Mostly loanwords and
  * newer words. pankki → pankin, pankkia; plural pankkeja.
  */
-export const PANKKI_TYPE: Noun[] = [
+export const PANKKI_FAMILY: Noun[] = [
   noun('pankki', 'k5', '5*A', 'bank', { grad: 'kk-k', emoji: '🏦', illustration: 'pankki', sem: ['building', 'institution'], loc: 'inner', themes: ['money', 'city', 'services'], level: 1, freq: 'core' }),
   noun('bussi', 'k5', '5', 'bus', { emoji: '🚌', illustration: 'bussi', sem: ['vehicle'], loc: 'inner', themes: ['transport'], level: 1, freq: 'core' }),
   noun('posti', 'k5', '5', 'post office; mail', { emoji: '📮', sem: ['institution', 'place'], loc: 'inner', themes: ['services', 'city'], level: 1, freq: 'core' }),

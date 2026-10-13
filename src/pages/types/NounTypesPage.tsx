@@ -5,10 +5,8 @@ import { Fi } from '../../components/ui/FiText'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { StatusLabel } from '../../components/ui/StatusLabel'
 import { FAMILIES } from '../../data/noun-families'
-import { getType } from '../../grammar'
-import { grammar } from '../../services/grammar'
-import { pickLabel, pickText, typeName } from '../../services/content/text'
-import { exampleWord, wordsOfType } from '../../services/content/types'
+import { pickLabel, pickText } from '../../services/content/text'
+import { typeCard } from '../../services/content/types'
 import { useSettings } from '../../stores/settings'
 
 export default function NounTypesPage() {
@@ -76,31 +74,38 @@ export default function NounTypesPage() {
             </div>
             <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {f.types.map((typeId) => {
-                const def = getType(typeId)
-                const ex = exampleWord(typeId)
-                const count = wordsOfType(typeId).length
+                // Name, Kotus number, example, forms and count all come from this one type.
+                const card = typeCard(typeId)
                 return (
                   <li key={typeId}>
                     <Link
                       to={`/noun-types/${typeId}`}
                       className="group flex h-full flex-col gap-1 rounded-2xl border border-border bg-surface p-4 shadow-card hover:border-primary/60"
+                      aria-label={`${card.name}, Kotus ${card.kotus}${card.family ? `, taught in the ${card.family.label}` : ''}`}
                     >
                       <span className="flex items-start justify-between gap-2">
-                        <span className="font-bold">{typeName(typeId)}</span>
-                        <span className="shrink-0 rounded-md bg-surface-2 px-1.5 py-0.5 text-xs font-semibold text-muted">Kotus {def.kotus}</span>
+                        <span className="font-bold" data-testid="type-name">
+                          <Fi>{card.modelWord}</Fi>-type
+                        </span>
+                        <span className="shrink-0 rounded-md bg-surface-2 px-1.5 py-0.5 text-xs font-semibold text-muted">Kotus {card.kotus}</span>
                       </span>
-                      {ex && (
-                        <Fi className="text-[1.02rem]">
-                          <span className="font-semibold">{ex.lemma}</span>
-                          <span className="text-muted">
-                            {' '}
-                            – {grammar.primary(ex, 'sg.genitive')} – {grammar.primary(ex, 'sg.partitive')} – {grammar.primary(ex, 'pl.partitive')}
-                          </span>
-                        </Fi>
+                      {card.example && (
+                        <span data-testid="type-example">
+                          <Fi className="text-[1.02rem]">
+                            <span className="font-semibold">{card.example.lemma}</span>
+                            <span className="text-muted"> – {card.forms.join(' – ')}</span>
+                          </Fi>
+                          {!card.exampleInLexicon && <span className="block text-xs text-muted">Model word of the type, not one of the learner words</span>}
+                        </span>
+                      )}
+                      {card.family && (
+                        <span className="text-xs text-muted">
+                          Learning family: <Fi className="font-semibold text-text">{card.family.id}</Fi>
+                        </span>
                       )}
                       <span className="mt-auto flex items-center justify-between gap-2 pt-1 text-xs text-muted">
                         <span>
-                          {count} word{count === 1 ? '' : 's'} in the app
+                          {card.count} word{card.count === 1 ? '' : 's'} in the app
                         </span>
                         <ArrowRight aria-hidden className="size-4 group-hover:text-primary" />
                       </span>

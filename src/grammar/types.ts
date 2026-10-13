@@ -37,7 +37,11 @@ export type Grade = 'strong' | 'weak'
 export const PERSONS = ['1sg', '2sg', '3', '1pl', '2pl'] as const
 export type PersonId = (typeof PERSONS)[number]
 
-/** The four pedagogical families of native/loan -i nouns. */
+/**
+ * The four learning families of -i nouns (pankki, lehti, kieli, uusi). A family
+ * groups several Kotus declension types by one property of their stems; it is
+ * not itself a declension type, and its name is not the name of a type.
+ */
 export type IGroup = 'pankki' | 'lehti' | 'kieli' | 'uusi'
 
 /**

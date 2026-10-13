@@ -84,7 +84,7 @@ describe('checking answers', () => {
     const r = checkText(transform('kauppa', 'sg.genitive'), 'kauppan')
     expect(r).toMatchObject({ verdict: 'incorrect', diagnosisId: 'no-gradation', expected: 'kaupan' })
   })
-  it('explains "uusin" as a pankki-type mistake and a real word', () => {
+  it('explains "uusin" as a pankki-family mistake and a real word', () => {
     const r = checkText(transform('uusi', 'sg.genitive'), 'uusin')
     expect(r.verdict).toBe('incorrect')
     expect(r.diagnosisId).toBe('wrong-igroup')

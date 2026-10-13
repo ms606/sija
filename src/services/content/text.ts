@@ -104,17 +104,19 @@ export const ROLE_LABEL: Readonly<Record<PieceRole, { short: string; long: Local
   exception: { short: 'Exception', long: { en: 'Exception — must be memorized', fi: 'Poikkeus' } },
 }
 
-export const I_GROUP_LABEL: Readonly<Record<IGroup, string>> = {
-  pankki: 'pankki-type',
-  lehti: 'lehti-type',
-  kieli: 'kieli-type',
-  uusi: 'uusi-type',
+/** Name of an -i learning family: "pankki family". A family groups several declension types; it is never a type name. */
+export function familyName(group: IGroup): string {
+  return `${group} family`
 }
 
-/** Display name of a declension type: "kieli-type (Kotus 26)" or "valo-type (Kotus 1)". */
+/**
+ * Display name of a declension type, from its own Kotus model word in the
+ * registry: "paperi-type", or with `kotus`, "paperi-type · Kotus 6". Never the
+ * name of the -i learning family the type is taught in (see `familyName`).
+ */
 export function typeName(typeId: TypeId, opts: { kotus?: boolean } = {}): string {
   const def = getType(typeId)
-  const base = def.iGroup ? I_GROUP_LABEL[def.iGroup] : `${def.modelWord}-type`
+  const base = `${def.modelWord}-type`
   return opts.kotus ? `${base} · Kotus ${def.kotus}` : base
 }
 
@@ -136,7 +138,8 @@ function formatParam(key: string, value: string, mode: LearnerMode): string {
     case 'treatedAs':
     case 'actual':
     case 'group':
-      return value in I_GROUP_LABEL ? (I_GROUP_LABEL[value as IGroup] ?? value).replace('-type', '') : value
+      // The bare family name; templates say "the {group} family".
+      return value
     case 'from':
     case 'to':
     case 'strong':

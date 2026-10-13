@@ -13,7 +13,7 @@ import { Segmented } from '../../components/ui/Segmented'
 import { StatusLabel } from '../../components/ui/StatusLabel'
 import { ALL_SLOTS, parseSlot, type SlotKey } from '../../grammar'
 import { grammar } from '../../services/grammar'
-import { I_GROUP_LABEL, patternLabel, pickText, slotLabel, typeName } from '../../services/content/text'
+import { familyName, patternLabel, pickText, slotLabel, typeName } from '../../services/content/text'
 import { sentencesFor } from '../../services/content/sentences'
 import { explainForm } from '../../services/explain'
 import { RichText } from '../../components/grammar/RichText'
@@ -79,7 +79,7 @@ export default function NounDetailPage() {
             {mode === 'beginner' && <Badge>Kotus {noun.kotus || `${def.kotus} (compound)`}</Badge>}
             {def.iGroup && (
               <Link to="/noun-types/i-words">
-                <Badge tone="warning">-i word: {I_GROUP_LABEL[def.iGroup]}</Badge>
+                <Badge tone="warning">Learning family: {familyName(def.iGroup)}</Badge>
               </Link>
             )}
             {noun.compound && (

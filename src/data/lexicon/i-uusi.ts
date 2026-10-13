@@ -2,11 +2,12 @@ import type { Noun } from '../../types/content'
 import { addVariant, adj, noun, num } from './build'
 
 /**
- * Uusi-type (Kotus 27) and the other special -si words (Kotus 28–31, 25).
- * uusi → uuden, uutta; plural uusia. The -s- of the nominative alternates
- * with -t-/-d- in the stems.
+ * The uusi learning family: -si words whose s becomes t (and d) in the stems.
+ * Kotus 27 käsi (uusi → uuden, uutta), 28 kynsi (kansi → kannen, kantta) and
+ * 31 kaksi (kaksi → kahden, kahta). lapsi and veitsi also end in -si but keep
+ * their s (lapsen, veitsen): they are in the kieli family (i-kieli.ts).
  */
-export const UUSI_TYPE: Noun[] = [
+export const UUSI_FAMILY: Noun[] = [
   adj('uusi', 'k27', '27', 'new', { level: 1, freq: 'core', notes: ['note.uusin'] }),
   noun('käsi', 'k27', '27', 'hand', { emoji: '✋', illustration: 'kasi', sem: ['body'], themes: ['body'], level: 1, freq: 'core', notes: ['note.kasin'] }),
   noun('vesi', 'k27', '27', 'water', { emoji: '💧', illustration: 'vesi', sem: ['substance', 'drink', 'nature'], themes: ['food', 'nature'], level: 1, freq: 'core' }),
@@ -28,11 +29,6 @@ export const UUSI_TYPE: Noun[] = [
   noun('länsi', 'k28', '28*J', 'west', { grad: 'nt-nn', emoji: '🧭', sem: ['direction'], themes: ['nature'], level: 5, numberUse: 'pl-rare' }),
   noun('kynsi', 'k28', '28*J', 'nail (finger/toe); claw', { grad: 'nt-nn', emoji: '💅', sem: ['body'], themes: ['body'], level: 5 }),
   noun('varsi', 'k28', '28*K', 'stem, stalk; handle', { grad: 'rt-rr', sem: ['object', 'plant'], themes: ['nature'], level: 5, freq: 'extra' }),
-  noun('lapsi', 'k29', '29', 'child', { emoji: '🧒', illustration: 'lapsi', sem: ['person'], themes: ['family', 'people', 'daycare'], level: 1, freq: 'core' }),
-  noun('veitsi', 'k30', '30', 'knife', { emoji: '🔪', sem: ['object'], themes: ['home', 'food'], level: 5 }),
   num('kaksi', 'k31', '31', 'two', { emoji: '2️⃣', level: 1, freq: 'core' }),
   num('yksi', 'k31', '31', 'one', { emoji: '1️⃣', level: 1, freq: 'core' }),
-  noun('lumi', 'k25', '25', 'snow', { emoji: '☃️', sem: ['weather', 'substance'], themes: ['weather'], level: 2, freq: 'core', numberUse: 'pl-rare', preferred: { 'sg.partitive': ['lunta'] } }),
-  noun('liemi', 'k25', '25', 'broth, stock', { emoji: '🍲', sem: ['food'], themes: ['food'], level: 5, freq: 'extra' }),
-  noun('toimi', 'k25', '25', 'action, measure; job', { sem: ['abstract'], themes: ['work'], level: 5, freq: 'extra' }),
 ]

@@ -14,6 +14,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { LEXICON, getNoun } from '../../src/data/lexicon/index.ts'
+import { MODEL_WORDS } from '../../src/data/lexicon/models.ts'
 import { getType } from '../../src/grammar/declension/registry.ts'
 import { GRADATION_PATTERNS } from '../../src/grammar/gradation.ts'
 import type { Noun } from '../../src/types/content.ts'
@@ -69,7 +70,8 @@ async function main() {
   const list = await loadList()
   const problems: string[] = []
   let checked = 0
-  for (const n of LEXICON) {
+  // The learner lexicon, plus the Kotus model words that the type cards show.
+  for (const n of [...LEXICON, ...(MODEL_WORDS as Noun[])]) {
     if (n.compound) {
       const head = getNoun(n.compound.headId)
       if (!head) {
@@ -95,7 +97,7 @@ async function main() {
     checkInternal(n, problems)
     checked++
   }
-  console.log(`Checked ${checked} lexemes against Kotus 2024.`)
+  console.log(`Checked ${checked} lexemes (${MODEL_WORDS.length} of them model words outside the lexicon) against Kotus 2024.`)
   if (problems.length) {
     console.log(`${problems.length} problem(s):`)
     for (const p of problems) console.log('  ✗ ' + p)

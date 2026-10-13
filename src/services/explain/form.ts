@@ -27,7 +27,7 @@ import type {
   SlotKey,
 } from '../../grammar/types'
 import type { Noun } from '../../types/content'
-import { PERSON_LABEL, patternLabel, slotLabel, typeName } from '../content/text'
+import { PERSON_LABEL, familyName, patternLabel, slotLabel } from '../content/text'
 import { grammar } from '../grammar'
 import { englishNoun, firstSense } from './english'
 import { fi, fill, plain } from './markup'
@@ -551,7 +551,10 @@ function explainVariant(lex: Noun, form: NounForm, variant: FormVariant, person:
         }
         const kotus = String(def.kotus)
         const model = def.modelWord
-        const group = def.iGroup && def.iGroup !== model ? `, one of the ${typeName(lex.typeId)} -i words` : ''
+        // The type is named by its own Kotus model word; the -i learning family is named separately.
+        const group = def.iGroup
+          ? `. For learning, the app teaches this type in the ${familyName(def.iGroup)}, a teaching group of -i types that share one stem pattern`
+          : ''
         let text =
           model === lex.lemma
             ? `${fi(lex.lemma)} is the model word of its type (Kotus type ${kotus})${group}.`
