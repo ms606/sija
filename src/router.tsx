@@ -15,6 +15,7 @@ export const routes: RouteObject[] = [
       { index: true, lazy: page(() => import('./pages/Dashboard')) },
       { path: 'learn', lazy: page(() => import('./pages/learn/LearnPage')) },
       { path: 'learn/:lessonId', lazy: page(() => import('./pages/learn/LessonPage')) },
+      { path: 'map', lazy: page(() => import('./pages/map/MapPage')) },
       { path: 'cases', lazy: page(() => import('./pages/cases/CasesPage')) },
       { path: 'cases/partitive/lab', lazy: page(() => import('./pages/cases/PartitiveLabPage')) },
       { path: 'cases/genitive/lab', lazy: page(() => import('./pages/cases/GenitiveLabPage')) },

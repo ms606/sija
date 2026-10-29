@@ -9,6 +9,7 @@ import {
   House,
   Layers,
   Library,
+  MapIcon,
   Search,
   Shapes,
   Waves,
@@ -28,6 +29,7 @@ export const NAV_GROUPS: readonly { title: string; items: NavItem[] }[] = [
     items: [
       { to: '/', label: 'Dashboard', fi: 'Etusivu', icon: House },
       { to: '/learn', label: 'Learn', fi: 'Opi', icon: BookOpen },
+      { to: '/map', label: 'Learning map', fi: 'Oppimispolku', icon: MapIcon },
     ],
   },
   {
