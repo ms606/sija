@@ -12,8 +12,8 @@ const TEXT: Record<PieceRole, string> = {
   exception: 'text-[var(--exception-fg)] font-bold underline decoration-2',
 }
 
-/** Compact inline colouring of a form (tables, lists): colour + weight + underline styles. */
-export function ColoredForm({ variant, className }: { variant: FormVariant; className?: string }) {
+/** Compact inline colouring of a form or a stem (tables, lists): colour + weight + underline styles. */
+export function ColoredForm({ variant, className }: { variant: Pick<FormVariant, 'pieces'>; className?: string }) {
   return (
     <Fi className={cx('fi-form', className)}>
       {variant.pieces.map((p, i) =>

@@ -15,6 +15,7 @@ import { ALL_SLOTS, parseSlot, type SlotKey } from '../../grammar'
 import { grammar } from '../../services/grammar'
 import { familyName, patternLabel, pickText, slotLabel, typeName } from '../../services/content/text'
 import { sentencesFor } from '../../services/content/sentences'
+import { CONSONANT_STEM_USE, wordStems } from '../../services/content/stems'
 import { explainForm } from '../../services/explain'
 import { RichText } from '../../components/grammar/RichText'
 import { useSettings } from '../../stores/settings'
@@ -40,7 +41,7 @@ export default function NounDetailPage() {
   }
   const requested = params.get('slot') as SlotKey | null
   const slot: SlotKey = requested && ALL_SLOTS.includes(requested) ? requested : 'sg.genitive'
-  const stems = grammar.stems(noun)
+  const stems = wordStems(noun)
   const grad = grammar.gradation(noun)
   const def = grammar.type(noun)
   const sentences = sentencesFor(noun.id).slice(0, 8)
@@ -48,15 +49,16 @@ export default function NounDetailPage() {
   const slotOptions = (KEY_SLOTS.includes(slot) ? KEY_SLOTS : [...KEY_SLOTS, slot]).map((s) => ({ value: s, label: shortSlot(s) }))
 
   const stemRows: { label: string; text: string; note?: string }[] = [{ label: 'Base form', text: noun.lemma }]
-  if (stems.vowelStrong.text !== stems.vowelWeak.text) {
-    stemRows.push({ label: 'Vowel stem — strong grade', text: `${stems.vowelStrong.text}-` })
-    stemRows.push({ label: 'Vowel stem — weak grade', text: `${stems.vowelWeak.text}-` })
-  } else {
-    stemRows.push({ label: 'Vowel stem', text: `${stems.vowelStrong.text}-` })
+  const [strong, weak] = stems.vowel
+  if (strong && weak) {
+    stemRows.push({ label: 'Vowel stem — strong grade', text: `${strong.text}-` })
+    stemRows.push({ label: 'Vowel stem — weak grade', text: `${weak.text}-` })
+  } else if (strong) {
+    stemRows.push({ label: 'Vowel stem', text: `${strong.text}-` })
   }
-  if (stems.consonant && stems.consonant.text !== noun.lemma) stemRows.push({ label: 'Consonant stem', text: `${stems.consonant.text}-`, note: 'for -ta/-tä and -ten' })
+  if (stems.consonant) stemRows.push({ label: 'Consonant stem', text: `${stems.consonant.text}-`, note: CONSONANT_STEM_USE })
   stems.plural.forEach((p, i) =>
-    stemRows.push({ label: stems.plural.length > 1 ? `Plural stem ${i + 1}` : 'Plural stem', text: p.strong === p.weak ? `${p.strong}-` : `${p.strong}- / ${p.weak}-` }),
+    stemRows.push({ label: stems.plural.length > 1 ? `Plural stem ${i + 1}` : 'Plural stem', text: p.map((s) => `${s}-`).join(' / ') }),
   )
 
   return (
