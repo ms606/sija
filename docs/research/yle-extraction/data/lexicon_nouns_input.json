@@ -1,0 +1,3569 @@
+{
+ "source": "src/data/lexicon (LEXICON, pos === \"noun\")",
+ "commit": "f18c1d2613ecba4f07f2236ba4b8ab148f9ccf5f",
+ "exportedUtc": "2026-10-29T12:00:13.696Z",
+ "count": 264,
+ "nouns": [
+  {
+   "id": "talo",
+   "lemma": "talo",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home",
+    "city"
+   ],
+   "gloss": "house"
+  },
+  {
+   "id": "auto",
+   "lemma": "auto",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "car"
+  },
+  {
+   "id": "kello",
+   "lemma": "kello",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "time"
+   ],
+   "gloss": "clock, watch; (time) o'clock"
+  },
+  {
+   "id": "asunto",
+   "lemma": "asunto",
+   "typeId": "k1",
+   "kotus": "1*J",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "apartment, flat"
+  },
+  {
+   "id": "viikko",
+   "lemma": "viikko",
+   "typeId": "k1",
+   "kotus": "1*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "week"
+  },
+  {
+   "id": "maito",
+   "lemma": "maito",
+   "typeId": "k1",
+   "kotus": "1*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "food"
+   ],
+   "gloss": "milk"
+  },
+  {
+   "id": "tyttö",
+   "lemma": "tyttö",
+   "typeId": "k1",
+   "kotus": "1*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "family",
+    "people"
+   ],
+   "gloss": "girl"
+  },
+  {
+   "id": "pöllö",
+   "lemma": "pöllö",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "owl"
+  },
+  {
+   "id": "koulu",
+   "lemma": "koulu",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "school"
+   ],
+   "gloss": "school"
+  },
+  {
+   "id": "aamu",
+   "lemma": "aamu",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "time"
+   ],
+   "gloss": "morning"
+  },
+  {
+   "id": "mehu",
+   "lemma": "mehu",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "food"
+   ],
+   "gloss": "juice"
+  },
+  {
+   "id": "katu",
+   "lemma": "katu",
+   "typeId": "k1",
+   "kotus": "1*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "city"
+   ],
+   "gloss": "street"
+  },
+  {
+   "id": "lippu",
+   "lemma": "lippu",
+   "typeId": "k1",
+   "kotus": "1*B",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "ticket; flag"
+  },
+  {
+   "id": "laukku",
+   "lemma": "laukku",
+   "typeId": "k1",
+   "kotus": "1*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "bag"
+  },
+  {
+   "id": "kurkku",
+   "lemma": "kurkku",
+   "typeId": "k1",
+   "kotus": "1*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "food",
+    "body"
+   ],
+   "gloss": "cucumber; throat"
+  },
+  {
+   "id": "suku",
+   "lemma": "suku",
+   "typeId": "k1",
+   "kotus": "1*M",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "family"
+   ],
+   "gloss": "relatives, (extended) family; kin"
+  },
+  {
+   "id": "hylly",
+   "lemma": "hylly",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "home"
+   ],
+   "gloss": "shelf"
+  },
+  {
+   "id": "sänky",
+   "lemma": "sänky",
+   "typeId": "k1",
+   "kotus": "1*G",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "home"
+   ],
+   "gloss": "bed"
+  },
+  {
+   "id": "kyky",
+   "lemma": "kyky",
+   "typeId": "k1",
+   "kotus": "1*M",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "work"
+   ],
+   "gloss": "ability"
+  },
+  {
+   "id": "kirjasto",
+   "lemma": "kirjasto",
+   "typeId": "k2",
+   "kotus": "2",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "city",
+    "school"
+   ],
+   "gloss": "library"
+  },
+  {
+   "id": "toimisto",
+   "lemma": "toimisto",
+   "typeId": "k2",
+   "kotus": "2",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "work"
+   ],
+   "gloss": "office"
+  },
+  {
+   "id": "palvelu",
+   "lemma": "palvelu",
+   "typeId": "k2",
+   "kotus": "2",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "services"
+   ],
+   "gloss": "service"
+  },
+  {
+   "id": "radio",
+   "lemma": "radio",
+   "typeId": "k3",
+   "kotus": "3",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "radio"
+  },
+  {
+   "id": "museo",
+   "lemma": "museo",
+   "typeId": "k3",
+   "kotus": "3",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "city",
+    "leisure"
+   ],
+   "gloss": "museum"
+  },
+  {
+   "id": "keittiö",
+   "lemma": "keittiö",
+   "typeId": "k3",
+   "kotus": "3",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "home"
+   ],
+   "gloss": "kitchen"
+  },
+  {
+   "id": "yhtiö",
+   "lemma": "yhtiö",
+   "typeId": "k3",
+   "kotus": "3",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "work"
+   ],
+   "gloss": "company (business)"
+  },
+  {
+   "id": "kauppa",
+   "lemma": "kauppa",
+   "typeId": "k9",
+   "kotus": "9*B",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "shop",
+    "city"
+   ],
+   "gloss": "shop, store; trade"
+  },
+  {
+   "id": "kirja",
+   "lemma": "kirja",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "school",
+    "leisure"
+   ],
+   "gloss": "book"
+  },
+  {
+   "id": "kissa",
+   "lemma": "kissa",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home",
+    "nature"
+   ],
+   "gloss": "cat"
+  },
+  {
+   "id": "kala",
+   "lemma": "kala",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "food",
+    "nature"
+   ],
+   "gloss": "fish"
+  },
+  {
+   "id": "sana",
+   "lemma": "sana",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "language"
+   ],
+   "gloss": "word"
+  },
+  {
+   "id": "raha",
+   "lemma": "raha",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "money"
+   ],
+   "gloss": "money"
+  },
+  {
+   "id": "sauna",
+   "lemma": "sauna",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "home",
+    "leisure"
+   ],
+   "gloss": "sauna"
+  },
+  {
+   "id": "kassa",
+   "lemma": "kassa",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "checkout, till"
+  },
+  {
+   "id": "ilta",
+   "lemma": "ilta",
+   "typeId": "k9",
+   "kotus": "9*I",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "time"
+   ],
+   "gloss": "evening"
+  },
+  {
+   "id": "hinta",
+   "lemma": "hinta",
+   "typeId": "k9",
+   "kotus": "9*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop",
+    "money"
+   ],
+   "gloss": "price"
+  },
+  {
+   "id": "aika",
+   "lemma": "aika",
+   "typeId": "k9",
+   "kotus": "9*D",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "time"
+  },
+  {
+   "id": "koira",
+   "lemma": "koira",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home",
+    "nature"
+   ],
+   "gloss": "dog"
+  },
+  {
+   "id": "juna",
+   "lemma": "juna",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "train"
+  },
+  {
+   "id": "kuva",
+   "lemma": "kuva",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "picture, image"
+  },
+  {
+   "id": "vuokra",
+   "lemma": "vuokra",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home",
+    "money"
+   ],
+   "gloss": "rent"
+  },
+  {
+   "id": "asema",
+   "lemma": "asema",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "transport",
+    "city"
+   ],
+   "gloss": "station"
+  },
+  {
+   "id": "ruoka",
+   "lemma": "ruoka",
+   "typeId": "k10",
+   "kotus": "10*D",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "food"
+   ],
+   "gloss": "food; meal"
+  },
+  {
+   "id": "poika",
+   "lemma": "poika",
+   "typeId": "k10",
+   "kotus": "10*D",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "family",
+    "people"
+   ],
+   "gloss": "boy; son"
+  },
+  {
+   "id": "päivä",
+   "lemma": "päivä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "time"
+   ],
+   "gloss": "day"
+  },
+  {
+   "id": "ystävä",
+   "lemma": "ystävä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "people"
+   ],
+   "gloss": "friend"
+  },
+  {
+   "id": "kylä",
+   "lemma": "kylä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "city"
+   ],
+   "gloss": "village"
+  },
+  {
+   "id": "isä",
+   "lemma": "isä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "family",
+    "people"
+   ],
+   "gloss": "father"
+  },
+  {
+   "id": "kesä",
+   "lemma": "kesä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "time",
+    "weather"
+   ],
+   "gloss": "summer"
+  },
+  {
+   "id": "seinä",
+   "lemma": "seinä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "home"
+   ],
+   "gloss": "wall"
+  },
+  {
+   "id": "pöytä",
+   "lemma": "pöytä",
+   "typeId": "k10",
+   "kotus": "10*F",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "table"
+  },
+  {
+   "id": "leipä",
+   "lemma": "leipä",
+   "typeId": "k10",
+   "kotus": "10*E",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "food"
+   ],
+   "gloss": "bread"
+  },
+  {
+   "id": "kenkä",
+   "lemma": "kenkä",
+   "typeId": "k10",
+   "kotus": "10*G",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "shoe"
+  },
+  {
+   "id": "omena",
+   "lemma": "omena",
+   "typeId": "k11",
+   "kotus": "11",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "food"
+   ],
+   "gloss": "apple"
+  },
+  {
+   "id": "kahvila",
+   "lemma": "kahvila",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "city",
+    "food"
+   ],
+   "gloss": "café"
+  },
+  {
+   "id": "ravintola",
+   "lemma": "ravintola",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "city",
+    "food"
+   ],
+   "gloss": "restaurant"
+  },
+  {
+   "id": "ikkuna",
+   "lemma": "ikkuna",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "home"
+   ],
+   "gloss": "window"
+  },
+  {
+   "id": "myymälä",
+   "lemma": "myymälä",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "store, shop"
+  },
+  {
+   "id": "sairaala",
+   "lemma": "sairaala",
+   "typeId": "k13",
+   "kotus": "13",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "health"
+   ],
+   "gloss": "hospital"
+  },
+  {
+   "id": "lusikka",
+   "lemma": "lusikka",
+   "typeId": "k14",
+   "kotus": "14*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 6,
+   "themes": [
+    "home",
+    "food"
+   ],
+   "gloss": "spoon"
+  },
+  {
+   "id": "mansikka",
+   "lemma": "mansikka",
+   "typeId": "k14",
+   "kotus": "14*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 6,
+   "themes": [
+    "food"
+   ],
+   "gloss": "strawberry"
+  },
+  {
+   "id": "pankki",
+   "lemma": "pankki",
+   "typeId": "k5",
+   "kotus": "5*A",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "money",
+    "city",
+    "services"
+   ],
+   "gloss": "bank"
+  },
+  {
+   "id": "bussi",
+   "lemma": "bussi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "bus"
+  },
+  {
+   "id": "posti",
+   "lemma": "posti",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "services",
+    "city"
+   ],
+   "gloss": "post office; mail"
+  },
+  {
+   "id": "kahvi",
+   "lemma": "kahvi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "food"
+   ],
+   "gloss": "coffee"
+  },
+  {
+   "id": "tunti",
+   "lemma": "tunti",
+   "typeId": "k5",
+   "kotus": "5*J",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "time",
+    "school"
+   ],
+   "gloss": "hour; lesson"
+  },
+  {
+   "id": "kaupunki",
+   "lemma": "kaupunki",
+   "typeId": "k5",
+   "kotus": "5*G",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "city"
+   ],
+   "gloss": "city, town"
+  },
+  {
+   "id": "kortti",
+   "lemma": "kortti",
+   "typeId": "k5",
+   "kotus": "5*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "money",
+    "services"
+   ],
+   "gloss": "card"
+  },
+  {
+   "id": "tuoli",
+   "lemma": "tuoli",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "chair"
+  },
+  {
+   "id": "lasi",
+   "lemma": "lasi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home",
+    "food"
+   ],
+   "gloss": "glass"
+  },
+  {
+   "id": "tili",
+   "lemma": "tili",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "money",
+    "services"
+   ],
+   "gloss": "(bank) account"
+  },
+  {
+   "id": "taksi",
+   "lemma": "taksi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "taxi"
+  },
+  {
+   "id": "kurssi",
+   "lemma": "kurssi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "school"
+   ],
+   "gloss": "course"
+  },
+  {
+   "id": "passi",
+   "lemma": "passi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "services"
+   ],
+   "gloss": "passport"
+  },
+  {
+   "id": "kuitti",
+   "lemma": "kuitti",
+   "typeId": "k5",
+   "kotus": "5*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "receipt"
+  },
+  {
+   "id": "kaappi",
+   "lemma": "kaappi",
+   "typeId": "k5",
+   "kotus": "5*B",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "home"
+   ],
+   "gloss": "cupboard, cabinet"
+  },
+  {
+   "id": "kuppi",
+   "lemma": "kuppi",
+   "typeId": "k5",
+   "kotus": "5*B",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "home",
+    "food"
+   ],
+   "gloss": "cup"
+  },
+  {
+   "id": "hissi",
+   "lemma": "hissi",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home"
+   ],
+   "gloss": "lift, elevator"
+  },
+  {
+   "id": "metri",
+   "lemma": "metri",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "numbers"
+   ],
+   "gloss": "metre"
+  },
+  {
+   "id": "tentti",
+   "lemma": "tentti",
+   "typeId": "k5",
+   "kotus": "5*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "school"
+   ],
+   "gloss": "exam (at university)"
+  },
+  {
+   "id": "äiti",
+   "lemma": "äiti",
+   "typeId": "k5",
+   "kotus": "5*F",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "family",
+    "people"
+   ],
+   "gloss": "mother"
+  },
+  {
+   "id": "koti",
+   "lemma": "koti",
+   "typeId": "k5",
+   "kotus": "5*F",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "home"
+  },
+  {
+   "id": "apteekki",
+   "lemma": "apteekki",
+   "typeId": "k5",
+   "kotus": "5*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "health",
+    "shop"
+   ],
+   "gloss": "pharmacy"
+  },
+  {
+   "id": "mökki",
+   "lemma": "mökki",
+   "typeId": "k5",
+   "kotus": "5*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "leisure",
+    "home"
+   ],
+   "gloss": "cottage, cabin"
+  },
+  {
+   "id": "hotelli",
+   "lemma": "hotelli",
+   "typeId": "k6",
+   "kotus": "6",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "city",
+    "leisure"
+   ],
+   "gloss": "hotel"
+  },
+  {
+   "id": "paperi",
+   "lemma": "paperi",
+   "typeId": "k6",
+   "kotus": "6",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "school",
+    "work"
+   ],
+   "gloss": "paper"
+  },
+  {
+   "id": "naapuri",
+   "lemma": "naapuri",
+   "typeId": "k6",
+   "kotus": "6",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home",
+    "people"
+   ],
+   "gloss": "neighbour"
+  },
+  {
+   "id": "lääkäri",
+   "lemma": "lääkäri",
+   "typeId": "k6",
+   "kotus": "6",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "health",
+    "people"
+   ],
+   "gloss": "doctor"
+  },
+  {
+   "id": "banaani",
+   "lemma": "banaani",
+   "typeId": "k6",
+   "kotus": "6",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "food"
+   ],
+   "gloss": "banana"
+  },
+  {
+   "id": "sähköposti",
+   "lemma": "sähköposti",
+   "typeId": "k5",
+   "kotus": "",
+   "compound": {
+    "modifier": "sähkö",
+    "headId": "posti"
+   },
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "work"
+   ],
+   "gloss": "email"
+  },
+  {
+   "id": "pankkikortti",
+   "lemma": "pankkikortti",
+   "typeId": "k5",
+   "kotus": "",
+   "compound": {
+    "modifier": "pankki",
+    "headId": "kortti"
+   },
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "money",
+    "shop"
+   ],
+   "gloss": "bank card"
+  },
+  {
+   "id": "päiväkoti",
+   "lemma": "päiväkoti",
+   "typeId": "k5",
+   "kotus": "",
+   "compound": {
+    "modifier": "päivä",
+    "headId": "koti"
+   },
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "daycare",
+    "family"
+   ],
+   "gloss": "daycare centre, kindergarten"
+  },
+  {
+   "id": "lehti",
+   "lemma": "lehti",
+   "typeId": "k7",
+   "kotus": "7*F",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "nature",
+    "leisure"
+   ],
+   "gloss": "leaf; newspaper, magazine"
+  },
+  {
+   "id": "järvi",
+   "lemma": "järvi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "lake"
+  },
+  {
+   "id": "kivi",
+   "lemma": "kivi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "stone, rock"
+  },
+  {
+   "id": "nimi",
+   "lemma": "nimi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "people",
+    "language"
+   ],
+   "gloss": "name"
+  },
+  {
+   "id": "ovi",
+   "lemma": "ovi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "door"
+  },
+  {
+   "id": "talvi",
+   "lemma": "talvi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "time",
+    "weather"
+   ],
+   "gloss": "winter"
+  },
+  {
+   "id": "tähti",
+   "lemma": "tähti",
+   "typeId": "k7",
+   "kotus": "7*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "star"
+  },
+  {
+   "id": "joki",
+   "lemma": "joki",
+   "typeId": "k7",
+   "kotus": "7*D",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "river"
+  },
+  {
+   "id": "mäki",
+   "lemma": "mäki",
+   "typeId": "k7",
+   "kotus": "7*D",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "hill"
+  },
+  {
+   "id": "henki",
+   "lemma": "henki",
+   "typeId": "k7",
+   "kotus": "7*G",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "people"
+   ],
+   "gloss": "spirit, life; person (in counts)"
+  },
+  {
+   "id": "sormi",
+   "lemma": "sormi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "finger"
+  },
+  {
+   "id": "lampi",
+   "lemma": "lampi",
+   "typeId": "k7",
+   "kotus": "7*H",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "pond"
+  },
+  {
+   "id": "arki",
+   "lemma": "arki",
+   "typeId": "k7",
+   "kotus": "7*L",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "time"
+   ],
+   "gloss": "everyday life; weekday"
+  },
+  {
+   "id": "poski",
+   "lemma": "poski",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "cheek"
+  },
+  {
+   "id": "lahti",
+   "lemma": "lahti",
+   "typeId": "k7",
+   "kotus": "7*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "bay"
+  },
+  {
+   "id": "kylki",
+   "lemma": "kylki",
+   "typeId": "k7",
+   "kotus": "7*L",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "side (of the body)"
+  },
+  {
+   "id": "väki",
+   "lemma": "väki",
+   "typeId": "k7",
+   "kotus": "7*D",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "people"
+   ],
+   "gloss": "people, folk; crowd"
+  },
+  {
+   "id": "onni",
+   "lemma": "onni",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "people"
+   ],
+   "gloss": "happiness; luck"
+  },
+  {
+   "id": "pilvi",
+   "lemma": "pilvi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "weather"
+   ],
+   "gloss": "cloud"
+  },
+  {
+   "id": "hirvi",
+   "lemma": "hirvi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "elk, moose"
+  },
+  {
+   "id": "polvi",
+   "lemma": "polvi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "knee"
+  },
+  {
+   "id": "hetki",
+   "lemma": "hetki",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "time"
+   ],
+   "gloss": "moment"
+  },
+  {
+   "id": "retki",
+   "lemma": "retki",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "excursion, outing; trip"
+  },
+  {
+   "id": "suksi",
+   "lemma": "suksi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "ski"
+  },
+  {
+   "id": "jälki",
+   "lemma": "jälki",
+   "typeId": "k7",
+   "kotus": "7*L",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "trace, track, mark"
+  },
+  {
+   "id": "hiki",
+   "lemma": "hiki",
+   "typeId": "k7",
+   "kotus": "7*D",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "body",
+    "health"
+   ],
+   "gloss": "sweat"
+  },
+  {
+   "id": "kieli",
+   "lemma": "kieli",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "language",
+    "body"
+   ],
+   "gloss": "language; tongue"
+  },
+  {
+   "id": "sieni",
+   "lemma": "sieni",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "food",
+    "nature"
+   ],
+   "gloss": "mushroom; fungus"
+  },
+  {
+   "id": "saari",
+   "lemma": "saari",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "island"
+  },
+  {
+   "id": "tuuli",
+   "lemma": "tuuli",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 5,
+   "themes": [
+    "weather"
+   ],
+   "gloss": "wind"
+  },
+  {
+   "id": "ääni",
+   "lemma": "ääni",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "language"
+   ],
+   "gloss": "voice; sound; vote"
+  },
+  {
+   "id": "mieli",
+   "lemma": "mieli",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "people"
+   ],
+   "gloss": "mind"
+  },
+  {
+   "id": "puoli",
+   "lemma": "puoli",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "numbers"
+   ],
+   "gloss": "half; side"
+  },
+  {
+   "id": "vuori",
+   "lemma": "vuori",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "mountain"
+  },
+  {
+   "id": "juuri",
+   "lemma": "juuri",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "root"
+  },
+  {
+   "id": "kaari",
+   "lemma": "kaari",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "arc, arch"
+  },
+  {
+   "id": "kuori",
+   "lemma": "kuori",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "food"
+   ],
+   "gloss": "shell; peel, crust; envelope"
+  },
+  {
+   "id": "sääri",
+   "lemma": "sääri",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "shin, lower leg"
+  },
+  {
+   "id": "veri",
+   "lemma": "veri",
+   "typeId": "k26",
+   "kotus": "26",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "body",
+    "health"
+   ],
+   "gloss": "blood"
+  },
+  {
+   "id": "meri",
+   "lemma": "meri",
+   "typeId": "k24",
+   "kotus": "24",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "sea"
+  },
+  {
+   "id": "hiiri",
+   "lemma": "hiiri",
+   "typeId": "k24",
+   "kotus": "24",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature",
+    "home"
+   ],
+   "gloss": "mouse"
+  },
+  {
+   "id": "uni",
+   "lemma": "uni",
+   "typeId": "k24",
+   "kotus": "24",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "people"
+   ],
+   "gloss": "sleep; dream"
+  },
+  {
+   "id": "kuusi-spruce",
+   "lemma": "kuusi",
+   "typeId": "k24",
+   "kotus": "24",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "spruce"
+  },
+  {
+   "id": "hiili",
+   "lemma": "hiili",
+   "typeId": "k24",
+   "kotus": "24",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "coal; carbon"
+  },
+  {
+   "id": "tuli",
+   "lemma": "tuli",
+   "typeId": "k23",
+   "kotus": "23",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "fire"
+  },
+  {
+   "id": "lohi",
+   "lemma": "lohi",
+   "typeId": "k23",
+   "kotus": "23",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "food"
+   ],
+   "gloss": "salmon"
+  },
+  {
+   "id": "tiili",
+   "lemma": "tiili",
+   "typeId": "k23",
+   "kotus": "23",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home"
+   ],
+   "gloss": "brick"
+  },
+  {
+   "id": "vuohi",
+   "lemma": "vuohi",
+   "typeId": "k23",
+   "kotus": "23",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "goat"
+  },
+  {
+   "id": "lapsi",
+   "lemma": "lapsi",
+   "typeId": "k29",
+   "kotus": "29",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "family",
+    "people",
+    "daycare"
+   ],
+   "gloss": "child"
+  },
+  {
+   "id": "veitsi",
+   "lemma": "veitsi",
+   "typeId": "k30",
+   "kotus": "30",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home",
+    "food"
+   ],
+   "gloss": "knife"
+  },
+  {
+   "id": "lumi",
+   "lemma": "lumi",
+   "typeId": "k25",
+   "kotus": "25",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "weather"
+   ],
+   "gloss": "snow"
+  },
+  {
+   "id": "liemi",
+   "lemma": "liemi",
+   "typeId": "k25",
+   "kotus": "25",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "food"
+   ],
+   "gloss": "broth, stock"
+  },
+  {
+   "id": "toimi",
+   "lemma": "toimi",
+   "typeId": "k25",
+   "kotus": "25",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "work"
+   ],
+   "gloss": "action, measure; job"
+  },
+  {
+   "id": "käsi",
+   "lemma": "käsi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "body"
+   ],
+   "gloss": "hand"
+  },
+  {
+   "id": "vesi",
+   "lemma": "vesi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "food",
+    "nature"
+   ],
+   "gloss": "water"
+  },
+  {
+   "id": "susi",
+   "lemma": "susi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "wolf"
+  },
+  {
+   "id": "vuosi",
+   "lemma": "vuosi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "year"
+  },
+  {
+   "id": "kuukausi",
+   "lemma": "kuukausi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "month"
+  },
+  {
+   "id": "kausi",
+   "lemma": "kausi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "time"
+   ],
+   "gloss": "season, period"
+  },
+  {
+   "id": "köysi",
+   "lemma": "köysi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "home"
+   ],
+   "gloss": "rope"
+  },
+  {
+   "id": "liesi",
+   "lemma": "liesi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home"
+   ],
+   "gloss": "stove, cooker"
+  },
+  {
+   "id": "reisi",
+   "lemma": "reisi",
+   "typeId": "k27",
+   "kotus": "27",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "thigh"
+  },
+  {
+   "id": "kansi",
+   "lemma": "kansi",
+   "typeId": "k28",
+   "kotus": "28*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "home"
+   ],
+   "gloss": "lid, cover; deck"
+  },
+  {
+   "id": "länsi",
+   "lemma": "länsi",
+   "typeId": "k28",
+   "kotus": "28*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "west"
+  },
+  {
+   "id": "kynsi",
+   "lemma": "kynsi",
+   "typeId": "k28",
+   "kotus": "28*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "body"
+   ],
+   "gloss": "nail (finger/toe); claw"
+  },
+  {
+   "id": "varsi",
+   "lemma": "varsi",
+   "typeId": "k28",
+   "kotus": "28*K",
+   "compound": null,
+   "editorialFrequency": "extra",
+   "level": 5,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "stem, stalk; handle"
+  },
+  {
+   "id": "perhe",
+   "lemma": "perhe",
+   "typeId": "k48",
+   "kotus": "48",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "family"
+   ],
+   "gloss": "family"
+  },
+  {
+   "id": "huone",
+   "lemma": "huone",
+   "typeId": "k48",
+   "kotus": "48",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "home"
+   ],
+   "gloss": "room"
+  },
+  {
+   "id": "kirje",
+   "lemma": "kirje",
+   "typeId": "k48",
+   "kotus": "48",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "services"
+   ],
+   "gloss": "letter (mail)"
+  },
+  {
+   "id": "vene",
+   "lemma": "vene",
+   "typeId": "k48",
+   "kotus": "48",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "transport",
+    "leisure"
+   ],
+   "gloss": "boat"
+  },
+  {
+   "id": "kone",
+   "lemma": "kone",
+   "typeId": "k48",
+   "kotus": "48",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "work"
+   ],
+   "gloss": "machine; computer (colloquial)"
+  },
+  {
+   "id": "koe",
+   "lemma": "koe",
+   "typeId": "k48",
+   "kotus": "48*D",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "school"
+   ],
+   "gloss": "test, exam; experiment"
+  },
+  {
+   "id": "sade",
+   "lemma": "sade",
+   "typeId": "k48",
+   "kotus": "48*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "weather"
+   ],
+   "gloss": "rain"
+  },
+  {
+   "id": "liike",
+   "lemma": "liike",
+   "typeId": "k48",
+   "kotus": "48*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop",
+    "work"
+   ],
+   "gloss": "business, shop; movement"
+  },
+  {
+   "id": "parveke",
+   "lemma": "parveke",
+   "typeId": "k48",
+   "kotus": "48*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "home"
+   ],
+   "gloss": "balcony"
+  },
+  {
+   "id": "osoite",
+   "lemma": "osoite",
+   "typeId": "k48",
+   "kotus": "48*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "services",
+    "home"
+   ],
+   "gloss": "address"
+  },
+  {
+   "id": "lääke",
+   "lemma": "lääke",
+   "typeId": "k48",
+   "kotus": "48*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "health"
+   ],
+   "gloss": "medicine, medication"
+  },
+  {
+   "id": "nainen",
+   "lemma": "nainen",
+   "typeId": "k38",
+   "kotus": "38",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "people",
+    "family"
+   ],
+   "gloss": "woman"
+  },
+  {
+   "id": "ihminen",
+   "lemma": "ihminen",
+   "typeId": "k38",
+   "kotus": "38",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "people"
+   ],
+   "gloss": "human being, person"
+  },
+  {
+   "id": "vastaus",
+   "lemma": "vastaus",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "school",
+    "language"
+   ],
+   "gloss": "answer"
+  },
+  {
+   "id": "kysymys",
+   "lemma": "kysymys",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "school",
+    "language"
+   ],
+   "gloss": "question"
+  },
+  {
+   "id": "kokous",
+   "lemma": "kokous",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "work"
+   ],
+   "gloss": "meeting"
+  },
+  {
+   "id": "kerros",
+   "lemma": "kerros",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "home"
+   ],
+   "gloss": "storey, floor (of a building); layer"
+  },
+  {
+   "id": "terveys",
+   "lemma": "terveys",
+   "typeId": "k40",
+   "kotus": "40",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "health"
+   ],
+   "gloss": "health"
+  },
+  {
+   "id": "rakkaus",
+   "lemma": "rakkaus",
+   "typeId": "k40",
+   "kotus": "40",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "people"
+   ],
+   "gloss": "love"
+  },
+  {
+   "id": "lounas",
+   "lemma": "lounas",
+   "typeId": "k41",
+   "kotus": "41",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "food",
+    "work"
+   ],
+   "gloss": "lunch"
+  },
+  {
+   "id": "vieras",
+   "lemma": "vieras",
+   "typeId": "k41",
+   "kotus": "41",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "people",
+    "home"
+   ],
+   "gloss": "guest; (adj.) foreign, strange"
+  },
+  {
+   "id": "rengas",
+   "lemma": "rengas",
+   "typeId": "k41",
+   "kotus": "41*G",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "tyre; ring"
+  },
+  {
+   "id": "hammas",
+   "lemma": "hammas",
+   "typeId": "k41",
+   "kotus": "41*H",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "body",
+    "health"
+   ],
+   "gloss": "tooth"
+  },
+  {
+   "id": "tehdas",
+   "lemma": "tehdas",
+   "typeId": "k41",
+   "kotus": "41*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "work"
+   ],
+   "gloss": "factory"
+  },
+  {
+   "id": "mies",
+   "lemma": "mies",
+   "typeId": "k42",
+   "kotus": "42",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "people",
+    "family"
+   ],
+   "gloss": "man"
+  },
+  {
+   "id": "olut",
+   "lemma": "olut",
+   "typeId": "k43",
+   "kotus": "43",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "food"
+   ],
+   "gloss": "beer"
+  },
+  {
+   "id": "kevät",
+   "lemma": "kevät",
+   "typeId": "k44",
+   "kotus": "44",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "time",
+    "weather"
+   ],
+   "gloss": "spring (season)"
+  },
+  {
+   "id": "puhelin",
+   "lemma": "puhelin",
+   "typeId": "k33",
+   "kotus": "33",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "work",
+    "services"
+   ],
+   "gloss": "telephone, phone"
+  },
+  {
+   "id": "avain",
+   "lemma": "avain",
+   "typeId": "k33",
+   "kotus": "33",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "home"
+   ],
+   "gloss": "key"
+  },
+  {
+   "id": "eläin",
+   "lemma": "eläin",
+   "typeId": "k33",
+   "kotus": "33",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "animal"
+  },
+  {
+   "id": "sisar",
+   "lemma": "sisar",
+   "typeId": "k32",
+   "kotus": "32",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "family"
+   ],
+   "gloss": "sister"
+  },
+  {
+   "id": "tytär",
+   "lemma": "tytär",
+   "typeId": "k32",
+   "kotus": "32*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "family"
+   ],
+   "gloss": "daughter"
+  },
+  {
+   "id": "maa",
+   "lemma": "maa",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "nature",
+    "city"
+   ],
+   "gloss": "country, land; ground"
+  },
+  {
+   "id": "puu",
+   "lemma": "puu",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "tree; wood"
+  },
+  {
+   "id": "pää",
+   "lemma": "pää",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "body"
+   ],
+   "gloss": "head"
+  },
+  {
+   "id": "tee",
+   "lemma": "tee",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "food"
+   ],
+   "gloss": "tea"
+  },
+  {
+   "id": "syy",
+   "lemma": "syy",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "language"
+   ],
+   "gloss": "reason, cause; fault"
+  },
+  {
+   "id": "kuu",
+   "lemma": "kuu",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "nature",
+    "time"
+   ],
+   "gloss": "moon; month"
+  },
+  {
+   "id": "työ",
+   "lemma": "työ",
+   "typeId": "k19",
+   "kotus": "19",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "work"
+   ],
+   "gloss": "work, job"
+  },
+  {
+   "id": "yö",
+   "lemma": "yö",
+   "typeId": "k19",
+   "kotus": "19",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "night"
+  },
+  {
+   "id": "tie",
+   "lemma": "tie",
+   "typeId": "k19",
+   "kotus": "19",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "transport"
+   ],
+   "gloss": "road, way"
+  },
+  {
+   "id": "opettaja",
+   "lemma": "opettaja",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "school",
+    "people"
+   ],
+   "gloss": "teacher"
+  },
+  {
+   "id": "opiskelija",
+   "lemma": "opiskelija",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "school",
+    "people"
+   ],
+   "gloss": "student"
+  },
+  {
+   "id": "johtaja",
+   "lemma": "johtaja",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "work",
+    "people"
+   ],
+   "gloss": "manager, director"
+  },
+  {
+   "id": "hoitaja",
+   "lemma": "hoitaja",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "health",
+    "daycare"
+   ],
+   "gloss": "carer, nurse; (daycare) teacher"
+  },
+  {
+   "id": "sairaanhoitaja",
+   "lemma": "sairaanhoitaja",
+   "typeId": "k10",
+   "kotus": "",
+   "compound": {
+    "modifier": "sairaan",
+    "headId": "hoitaja"
+   },
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "health",
+    "people"
+   ],
+   "gloss": "nurse"
+  },
+  {
+   "id": "vauva",
+   "lemma": "vauva",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "family",
+    "daycare"
+   ],
+   "gloss": "baby"
+  },
+  {
+   "id": "asiakas",
+   "lemma": "asiakas",
+   "typeId": "k41",
+   "kotus": "41*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop",
+    "services",
+    "work"
+   ],
+   "gloss": "customer, client"
+  },
+  {
+   "id": "asukas",
+   "lemma": "asukas",
+   "typeId": "k41",
+   "kotus": "41*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "home",
+    "services"
+   ],
+   "gloss": "resident"
+  },
+  {
+   "id": "suomi",
+   "lemma": "suomi",
+   "typeId": "k7",
+   "kotus": "7",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 1,
+   "themes": [
+    "language"
+   ],
+   "gloss": "Finnish (language); Suomi = Finland"
+  },
+  {
+   "id": "tori",
+   "lemma": "tori",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "city",
+    "shop"
+   ],
+   "gloss": "market square, marketplace"
+  },
+  {
+   "id": "piha",
+   "lemma": "piha",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "yard, courtyard"
+  },
+  {
+   "id": "lattia",
+   "lemma": "lattia",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "home"
+   ],
+   "gloss": "floor"
+  },
+  {
+   "id": "paikka",
+   "lemma": "paikka",
+   "typeId": "k9",
+   "kotus": "9*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "city"
+   ],
+   "gloss": "place, spot; seat"
+  },
+  {
+   "id": "työpaikka",
+   "lemma": "työpaikka",
+   "typeId": "k9",
+   "kotus": "",
+   "compound": {
+    "modifier": "työ",
+    "headId": "paikka"
+   },
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "work"
+   ],
+   "gloss": "workplace; job"
+  },
+  {
+   "id": "keskus",
+   "lemma": "keskus",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "city"
+   ],
+   "gloss": "centre"
+  },
+  {
+   "id": "terveyskeskus",
+   "lemma": "terveyskeskus",
+   "typeId": "k39",
+   "kotus": "",
+   "compound": {
+    "modifier": "terveys",
+    "headId": "keskus"
+   },
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "health",
+    "services"
+   ],
+   "gloss": "health centre"
+  },
+  {
+   "id": "kauppakeskus",
+   "lemma": "kauppakeskus",
+   "typeId": "k39",
+   "kotus": "",
+   "compound": {
+    "modifier": "kauppa",
+    "headId": "keskus"
+   },
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "shop",
+    "city"
+   ],
+   "gloss": "shopping centre, mall"
+  },
+  {
+   "id": "ruokakauppa",
+   "lemma": "ruokakauppa",
+   "typeId": "k9",
+   "kotus": "",
+   "compound": {
+    "modifier": "ruoka",
+    "headId": "kauppa"
+   },
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "shop",
+    "food"
+   ],
+   "gloss": "grocery store"
+  },
+  {
+   "id": "virasto",
+   "lemma": "virasto",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "services"
+   ],
+   "gloss": "government office, agency"
+  },
+  {
+   "id": "kunta",
+   "lemma": "kunta",
+   "typeId": "k10",
+   "kotus": "10*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "services"
+   ],
+   "gloss": "municipality"
+  },
+  {
+   "id": "lomake",
+   "lemma": "lomake",
+   "typeId": "k48",
+   "kotus": "48*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "services"
+   ],
+   "gloss": "form (to fill in)"
+  },
+  {
+   "id": "hakemus",
+   "lemma": "hakemus",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "services",
+    "work"
+   ],
+   "gloss": "application"
+  },
+  {
+   "id": "ilmoitus",
+   "lemma": "ilmoitus",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "services"
+   ],
+   "gloss": "notice, announcement; notification"
+  },
+  {
+   "id": "tilaus",
+   "lemma": "tilaus",
+   "typeId": "k39",
+   "kotus": "39",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "order (purchase)"
+  },
+  {
+   "id": "jono",
+   "lemma": "jono",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "services",
+    "shop"
+   ],
+   "gloss": "queue, line"
+  },
+  {
+   "id": "lasku",
+   "lemma": "lasku",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "money",
+    "services"
+   ],
+   "gloss": "bill, invoice"
+  },
+  {
+   "id": "vuoro",
+   "lemma": "vuoro",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "work",
+    "services"
+   ],
+   "gloss": "turn; (work) shift"
+  },
+  {
+   "id": "palkka",
+   "lemma": "palkka",
+   "typeId": "k9",
+   "kotus": "9*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "work",
+    "money"
+   ],
+   "gloss": "salary, pay"
+  },
+  {
+   "id": "vero",
+   "lemma": "vero",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "money",
+    "services"
+   ],
+   "gloss": "tax"
+  },
+  {
+   "id": "hoito",
+   "lemma": "hoito",
+   "typeId": "k1",
+   "kotus": "1*F",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "health",
+    "daycare"
+   ],
+   "gloss": "care, treatment"
+  },
+  {
+   "id": "päivähoito",
+   "lemma": "päivähoito",
+   "typeId": "k1",
+   "kotus": "",
+   "compound": {
+    "modifier": "päivä",
+    "headId": "hoito"
+   },
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "daycare",
+    "family"
+   ],
+   "gloss": "day care (for children)"
+  },
+  {
+   "id": "resepti",
+   "lemma": "resepti",
+   "typeId": "k5",
+   "kotus": "5",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 5,
+   "themes": [
+    "health",
+    "food"
+   ],
+   "gloss": "prescription; recipe"
+  },
+  {
+   "id": "opas",
+   "lemma": "opas",
+   "typeId": "k41",
+   "kotus": "41*B",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "guide; guidebook"
+  },
+  {
+   "id": "silmä",
+   "lemma": "silmä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "body"
+   ],
+   "gloss": "eye"
+  },
+  {
+   "id": "tukka",
+   "lemma": "tukka",
+   "typeId": "k10",
+   "kotus": "10*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "body"
+   ],
+   "gloss": "hair (on the head)"
+  },
+  {
+   "id": "vatsa",
+   "lemma": "vatsa",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "body",
+    "health"
+   ],
+   "gloss": "stomach, belly"
+  },
+  {
+   "id": "kuume",
+   "lemma": "kuume",
+   "typeId": "k48",
+   "kotus": "48",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "health"
+   ],
+   "gloss": "fever, temperature"
+  },
+  {
+   "id": "flunssa",
+   "lemma": "flunssa",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "health"
+   ],
+   "gloss": "flu, cold"
+  },
+  {
+   "id": "maanantai",
+   "lemma": "maanantai",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "Monday"
+  },
+  {
+   "id": "joulu",
+   "lemma": "joulu",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "Christmas"
+  },
+  {
+   "id": "loma",
+   "lemma": "loma",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "leisure",
+    "work"
+   ],
+   "gloss": "holiday, vacation"
+  },
+  {
+   "id": "matka",
+   "lemma": "matka",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "transport",
+    "leisure"
+   ],
+   "gloss": "trip, journey; distance"
+  },
+  {
+   "id": "juhla",
+   "lemma": "juhla",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "leisure",
+    "people"
+   ],
+   "gloss": "party, celebration"
+  },
+  {
+   "id": "lahja",
+   "lemma": "lahja",
+   "typeId": "k9",
+   "kotus": "9",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "people"
+   ],
+   "gloss": "gift, present"
+  },
+  {
+   "id": "elokuva",
+   "lemma": "elokuva",
+   "typeId": "k10",
+   "kotus": "",
+   "compound": {
+    "modifier": "elo",
+    "headId": "kuva"
+   },
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "film, movie"
+  },
+  {
+   "id": "sää",
+   "lemma": "sää",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "weather"
+   ],
+   "gloss": "weather"
+  },
+  {
+   "id": "kilo",
+   "lemma": "kilo",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "shop",
+    "numbers"
+   ],
+   "gloss": "kilo(gram)"
+  },
+  {
+   "id": "aurinko",
+   "lemma": "aurinko",
+   "typeId": "k1",
+   "kotus": "1*G",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "weather",
+    "nature"
+   ],
+   "gloss": "sun"
+  },
+  {
+   "id": "elokuu",
+   "lemma": "elokuu",
+   "typeId": "k18",
+   "kotus": "",
+   "compound": {
+    "modifier": "elo",
+    "headId": "kuu"
+   },
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "time"
+   ],
+   "gloss": "August"
+  },
+  {
+   "id": "euro",
+   "lemma": "euro",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "money",
+    "shop"
+   ],
+   "gloss": "euro"
+  },
+  {
+   "id": "jää",
+   "lemma": "jää",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "weather",
+    "nature"
+   ],
+   "gloss": "ice"
+  },
+  {
+   "id": "keitto",
+   "lemma": "keitto",
+   "typeId": "k1",
+   "kotus": "1*C",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "food"
+   ],
+   "gloss": "soup"
+  },
+  {
+   "id": "keskusta",
+   "lemma": "keskusta",
+   "typeId": "k13",
+   "kotus": "13",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "city"
+   ],
+   "gloss": "town centre, downtown"
+  },
+  {
+   "id": "lauantai",
+   "lemma": "lauantai",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "Saturday"
+  },
+  {
+   "id": "lintu",
+   "lemma": "lintu",
+   "typeId": "k1",
+   "kotus": "1*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "bird"
+  },
+  {
+   "id": "metsä",
+   "lemma": "metsä",
+   "typeId": "k10",
+   "kotus": "10",
+   "compound": null,
+   "editorialFrequency": "core",
+   "level": 2,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "forest, woods"
+  },
+  {
+   "id": "perjantai",
+   "lemma": "perjantai",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time"
+   ],
+   "gloss": "Friday"
+  },
+  {
+   "id": "peruna",
+   "lemma": "peruna",
+   "typeId": "k12",
+   "kotus": "12",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "food"
+   ],
+   "gloss": "potato"
+  },
+  {
+   "id": "ranta",
+   "lemma": "ranta",
+   "typeId": "k9",
+   "kotus": "9*J",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "nature",
+    "leisure"
+   ],
+   "gloss": "shore, beach"
+  },
+  {
+   "id": "ruoho",
+   "lemma": "ruoho",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "nature"
+   ],
+   "gloss": "grass"
+  },
+  {
+   "id": "sunnuntai",
+   "lemma": "sunnuntai",
+   "typeId": "k18",
+   "kotus": "18",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 1,
+   "themes": [
+    "time"
+   ],
+   "gloss": "Sunday"
+  },
+  {
+   "id": "syksy",
+   "lemma": "syksy",
+   "typeId": "k1",
+   "kotus": "1",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 2,
+   "themes": [
+    "time",
+    "weather"
+   ],
+   "gloss": "autumn, fall"
+  },
+  {
+   "id": "taivas",
+   "lemma": "taivas",
+   "typeId": "k41",
+   "kotus": "41",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "nature",
+    "weather"
+   ],
+   "gloss": "sky; heaven"
+  },
+  {
+   "id": "takki",
+   "lemma": "takki",
+   "typeId": "k5",
+   "kotus": "5*A",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 3,
+   "themes": [
+    "shop"
+   ],
+   "gloss": "coat, jacket"
+  },
+  {
+   "id": "uutinen",
+   "lemma": "uutinen",
+   "typeId": "k38",
+   "kotus": "38",
+   "compound": null,
+   "editorialFrequency": "common",
+   "level": 4,
+   "themes": [
+    "leisure"
+   ],
+   "gloss": "piece of news; (pl.) the news"
+  }
+ ]
+}

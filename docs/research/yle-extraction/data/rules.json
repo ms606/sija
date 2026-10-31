@@ -1,0 +1,65 @@
+{
+ "rules": [
+  {
+   "id": "J1",
+   "lemma": "joki",
+   "kind": "remove",
+   "description": "joista tagged joki/N directly after a comma token, except when followed by ja|sekä|tai|, (lists)",
+   "cqp_total": "[word=\",\"] [word=\"joista\" %c & lemma=\"joki\" & pos=\"N\"{body}]",
+   "cqp_exempt": "[word=\",\"] [word=\"joista\" %c & lemma=\"joki\" & pos=\"N\"{body}] [word=\"ja|sekä|tai|,\"]"
+  },
+  {
+   "id": "J2",
+   "lemma": "joki",
+   "kind": "remove",
+   "description": "plural -kin forms tagged joki/N that coincide with the pronoun jokin",
+   "cqp": "[word=\"joillakin|joillekin|joissakin|joistakin|joiltakin|joiksikin\" %c & lemma=\"joki\" & pos=\"N\"{body}]"
+  },
+  {
+   "id": "J0",
+   "lemma": "joki",
+   "kind": "unresolved",
+   "description": "joista tagged joki/N NOT after a comma (about 44% pronoun in a 50-hit sample); kept in the count, reported as unresolved",
+   "cqp": "[word!=\",\"] [word=\"joista\" %c & lemma=\"joki\" & pos=\"N\"{body}]"
+  },
+  {
+   "id": "K1",
+   "lemma": "kuu",
+   "kind": "remove",
+   "description": "kuin tagged kuu/N (plural instructive)",
+   "cqp": "[word=\"kuin\" %c & lemma=\"kuu\" & pos=\"N\"{body}]"
+  },
+  {
+   "id": "S1",
+   "lemma": "kuusi",
+   "kind": "unresolved-remove",
+   "description": "nominative singular kuusi tagged N: spruce vs numeral not separable; excluded from the adjusted count and reported as unresolved",
+   "cqp": "[word=\"kuusi\" %c & lemma=\"kuusi\" & pos=\"N\"{body}]"
+  },
+  {
+   "id": "H1",
+   "lemma": "koti",
+   "kind": "add",
+   "description": "lexicalised locatives: koto/N forms matching ^koto(na|a)(ni|si|an|nsa|mme|nne)?(kin|kaan|kään)?$ plus lemmas kotona|kotoa|kotiin tagged Adv",
+   "cqp_koto": "[lemma=\"koto\" & pos=\"N\"{body}]",
+   "cqp_adv": "[lemma=\"kotona|kotoa|kotiin\" & pos=\"Adv\"{body}]"
+  },
+  {
+   "id": "F1",
+   "lemma": "suomi",
+   "kind": "replace",
+   "description": "language sense = lemma suomi|Suomi, pos N, word form with lowercase initial, not sentence-initial; sentence-initial hits are unresolved",
+   "cqp_all": "[lemma=\"suomi|Suomi\" & pos=\"N\"{body}]",
+   "cqp_initial": "<sentence> [lemma=\"suomi|Suomi\" & pos=\"N\"{body}]"
+  },
+  {
+   "id": "P1",
+   "lemma": "sää",
+   "kind": "add",
+   "description": "bare sää tagged Pron (20/20 sampled were the weather noun)",
+   "cqp": "[word=\"sää\" %c & lemma=\"sää\" & pos=\"Pron\"{body}]"
+  }
+ ],
+ "koto_allow_regex": "^koto(na|a)(ni|si|an|nsa|mme|nne)?(kin|kaan|kään)?$",
+ "status": "proposed; samples judged by an AI reader; NOT native-reviewed"
+}
