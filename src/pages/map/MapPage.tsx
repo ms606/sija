@@ -41,18 +41,26 @@ export default function MapPage() {
       <PageHeader
         title="Learning map"
         fi="Oppimispolku"
-        why="Your route through Sija's eight levels, grouped into four worlds. Every lesson stays open: a dashed lesson has another lesson recommended first, but you can always go straight in."
+        why="Your route through Sija's eight levels, grouped into four worlds. Every lesson stays open; some note a lesson that is recommended first. Advanced lessons are optional extras."
         actions={
           map.next ? (
             <ButtonLink to={`/learn/${map.next.id}`} variant="primary" icon={<CirclePlay aria-hidden className="size-4" />}>
-              {map.done === 0 ? 'Start with' : 'Continue:'} {map.next.id} {pickLabel(map.next.title, mode)}
+              {lessons[map.next.id]?.status === 'started' ? 'Continue' : 'Start'} {map.next.id} {pickLabel(map.next.title, mode)}
+              {map.nextIsOptional && ' (optional)'}
             </ButtonLink>
           ) : undefined
         }
       />
 
       <Card className="space-y-4">
-        <ProgressBar value={map.done / map.total} label={`${map.done} of ${map.total} lessons completed`} tone={map.next ? 'primary' : 'success'} />
+        <ProgressBar
+          value={map.requiredDone / map.requiredTotal}
+          label={`${map.requiredDone} of ${map.requiredTotal} required lessons completed`}
+          tone={map.requiredDone === map.requiredTotal ? 'success' : 'primary'}
+        />
+        <p className="text-sm text-muted">
+          Optional extras: {map.optionalDone} of {map.optionalTotal} completed
+        </p>
         <Legend />
       </Card>
 
@@ -60,7 +68,7 @@ export default function MapPage() {
         <WorldSection key={w.world.id} world={w} index={i} mode={mode} />
       ))}
 
-      <FinishNode allDone={!map.next} total={map.total} />
+      <FinishNode requiredLeft={map.requiredTotal - map.requiredDone} requiredTotal={map.requiredTotal} optionalLeft={map.optionalTotal - map.optionalDone} />
     </div>
   )
 }
@@ -78,7 +86,11 @@ function Legend() {
         <CircleDashed aria-hidden className="size-4" /> Upcoming
       </li>
       <li className="inline-flex items-center gap-1.5">
-        <span aria-hidden className="inline-block h-4 w-6 rounded border-2 border-dashed border-border-strong" /> Another lesson recommended first (still open)
+        <GraduationCap aria-hidden className="size-4" /> Optional extra
+      </li>
+      <li className="basis-full">
+        "Recommended after" names a lesson to do first; every lesson stays open. "Related-skill mastery" comes from all your practice of
+        the skills a level uses, including practice in other levels.
       </li>
     </ul>
   )
@@ -104,7 +116,7 @@ function WorldSection({ world, index, mode }: { world: MapWorld; index: number; 
           )}
         </div>
         <p className="text-sm font-semibold tabular-nums">
-          {world.done}/{world.total} lessons
+          {world.requiredDone}/{world.requiredTotal} required
         </p>
       </header>
 
@@ -173,16 +185,14 @@ function LevelNode({ level, mode, borderTone }: { level: MapLevel; mode: Learner
       <div className="flex items-start gap-3">
         <Medallion level={level} />
         <div className="min-w-0 flex-1 space-y-1">
-          <h3 id={headingId} className="text-lg font-semibold leading-snug">
+          <h3 id={headingId} className="scroll-mt-24 text-lg font-semibold leading-snug">
             Level {level.level.id}: {pickLabel(level.level.title, mode)}
           </h3>
           <p className="flex flex-wrap items-center gap-2">
             <Badge tone={st.tone}>
               <st.Icon aria-hidden className="size-3.5" /> {st.text}
             </Badge>
-            <span className="text-sm text-muted">
-              Mastery: {TIER_LABEL[level.mastery.tier]}
-            </span>
+            {level.mastery && <span className="text-sm text-muted">Related-skill mastery: {TIER_LABEL[level.mastery.tier]}</span>}
           </p>
           <p className="text-sm text-muted" lang={summary.lang}>
             {summary.main}
@@ -193,10 +203,15 @@ function LevelNode({ level, mode, borderTone }: { level: MapLevel; mode: Learner
       <ProgressBar
         className="mt-3"
         size="sm"
-        value={level.done / level.total}
-        label={`${level.done} of ${level.total} lessons`}
+        value={level.requiredDone / level.requiredTotal}
+        label={`${level.requiredDone} of ${level.requiredTotal} required lessons`}
         tone={level.state === 'completed' ? 'success' : 'primary'}
       />
+      {level.optionalTotal > 0 && (
+        <p className="mt-1 text-sm text-muted">
+          Optional extra: {level.optionalDone} of {level.optionalTotal} completed
+        </p>
+      )}
 
       {level.buildsOn.length > 0 && (
         <p className="mt-2 text-sm text-muted">
@@ -212,7 +227,7 @@ function LevelNode({ level, mode, borderTone }: { level: MapLevel; mode: Learner
         </p>
       )}
 
-      <Disclosure className="mt-3" defaultOpen={level.state === 'current'} summary={`Lessons (${level.total})`}>
+      <Disclosure className="mt-3" defaultOpen={level.state === 'current'} summary={`Lessons (${level.lessons.length})`}>
         <ol className="space-y-2">
           {level.lessons.map((l) => (
             <LessonStop key={l.lesson.id} item={l} mode={mode} />
@@ -224,7 +239,7 @@ function LevelNode({ level, mode, borderTone }: { level: MapLevel; mode: Learner
 }
 
 function LessonStop({ item, mode }: { item: MapLesson; mode: LearnerMode }) {
-  const { lesson, status, isNext, missing, score } = item
+  const { lesson, status, isNext, missing, score, optional } = item
   const Icon = status === 'done' ? CircleCheck : status === 'started' ? CirclePlay : CircleDashed
   const waiting = status !== 'done' && missing.length > 0
   return (
@@ -234,7 +249,7 @@ function LessonStop({ item, mode }: { item: MapLesson; mode: LearnerMode }) {
         aria-current={isNext ? 'step' : undefined}
         className={cx(
           'group flex min-h-11 items-center gap-3 rounded-xl border-2 bg-surface px-3 py-2 transition-colors hover:border-primary/60',
-          isNext ? 'border-primary ring-2 ring-primary/20' : waiting ? 'border-dashed border-border-strong' : status === 'done' ? 'border-success/50' : 'border-border',
+          isNext ? 'border-primary ring-2 ring-primary/20' : status === 'done' ? 'border-success/50' : 'border-border',
         )}
       >
         <Icon aria-hidden className={cx('size-5 shrink-0', status === 'done' ? 'text-success' : status === 'started' ? 'text-primary' : 'text-muted')} />
@@ -246,9 +261,9 @@ function LessonStop({ item, mode }: { item: MapLesson; mode: LearnerMode }) {
           <span className="flex flex-wrap items-center gap-x-2 text-xs text-muted">
             {lesson.minutes} min
             {status === 'done' && score !== undefined && <span>best score {score}%</span>}
-            {lesson.advanced && (
+            {optional && (
               <span className="inline-flex items-center gap-0.5">
-                <GraduationCap aria-hidden className="size-3.5" /> advanced
+                <GraduationCap aria-hidden className="size-3.5" /> optional extra (advanced)
               </span>
             )}
             {isNext && <span className="font-semibold text-primary">recommended next</span>}
@@ -261,13 +276,17 @@ function LessonStop({ item, mode }: { item: MapLesson; mode: LearnerMode }) {
   )
 }
 
-function FinishNode({ allDone, total }: { allDone: boolean; total: number }) {
+function FinishNode({ requiredLeft, requiredTotal, optionalLeft }: { requiredLeft: number; requiredTotal: number; optionalLeft: number }) {
+  const text =
+    requiredLeft > 0
+      ? `The end of the path: all ${requiredTotal} required lessons complete.`
+      : optionalLeft > 0
+        ? `Every required lesson is complete. ${optionalLeft === 1 ? 'One optional extra is' : `${optionalLeft} optional extras are`} still open.`
+        : 'Every lesson, including the optional extras, is complete. Keep your forms fresh with daily practice.'
   return (
     <Card className="flex items-center gap-3">
-      <Trophy aria-hidden className={cx('size-8 shrink-0', allDone ? 'text-warning' : 'text-muted')} />
-      <p className="font-semibold">
-        {allDone ? 'Every lesson is complete. Keep your forms fresh with daily practice.' : `The end of the path: all ${total} lessons complete.`}
-      </p>
+      <Trophy aria-hidden className={cx('size-8 shrink-0', requiredLeft === 0 ? 'text-warning' : 'text-muted')} />
+      <p className="font-semibold">{text}</p>
     </Card>
   )
 }
