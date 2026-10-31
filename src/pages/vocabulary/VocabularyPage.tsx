@@ -128,14 +128,15 @@ function StemText({ stem }: { stem: StemForm }) {
   )
 }
 
+/** One line per row where it fits: the label and its note, then the stem or form. */
 function CardRow({ label, sub, children }: { label: string; sub?: string | undefined; children: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 py-2">
+    <div className="flex flex-wrap items-baseline justify-between gap-x-3 py-1.5">
       <dt className="text-sm text-muted">
         {label}
-        {sub && <span className="block text-xs">{sub}</span>}
+        {sub && <span className="text-xs">, {sub}</span>}
       </dt>
-      <dd className="ml-auto text-right text-xl font-semibold">{children}</dd>
+      <dd className="ml-auto text-right text-[1.05rem] font-semibold">{children}</dd>
     </div>
   )
 }
@@ -167,11 +168,10 @@ function CardBack({ id, noun: n, hidden }: { id: string; noun: Noun; hidden: boo
         )}
         {KEY.map((slot) => (
           <CardRow key={slot} label={slotLabel(slot, mode)}>
-            <FormLine lexeme={n} slot={slot} audio={false} size="lg" />
+            <FormLine lexeme={n} slot={slot} audio={false} />
           </CardRow>
         ))}
       </dl>
-      <p className="border-t border-border py-2 text-center text-xs text-muted">{typeName(n.typeId)}</p>
     </div>
   )
 }
@@ -320,29 +320,47 @@ function Flashcards({
           <Fi>{n.lemma}</Fi>, {index + 1} of {words.length}
         </p>
         <div className="overflow-hidden rounded-3xl border-2 border-border bg-surface shadow-card">
-          {/* The whole front turns the card; the photo credit button sits above it. */}
-          <div className="relative flex min-h-72 flex-col items-center justify-center gap-3 p-6 text-center hover:bg-surface-2/60">
-            <NounImage noun={n} context="card" size="lg" />
-            <button
-              type="button"
-              onClick={onFlip}
-              aria-expanded={faceUp}
-              aria-controls={backId}
-              aria-label={
-                faceUp
-                  ? `${n.lemma}, ${n.gloss.en}. Tap to hide the stems and key forms`
-                  : `${n.lemma}, ${n.gloss.en}. Tap to show the stems and key forms. Swipe or use the arrow keys for the next card`
-              }
-              className="text-4xl font-bold after:absolute after:inset-0 after:content-['']"
-            >
-              <Fi>{n.lemma}</Fi>
-            </button>
-            <span className="text-muted">{n.gloss.en}</span>
+          {/*
+            The whole front turns the card; the photo credit button sits above it. Face
+            down, the picture is the memory cue; face up, the front shrinks to one row
+            (small picture beside the word) so the stems and forms fit on a phone screen.
+          */}
+          <div
+            className={cx(
+              'relative flex hover:bg-surface-2/60',
+              faceUp ? 'items-center gap-3 px-4 py-3 text-left' : 'flex-col items-center gap-2 p-4 text-center',
+            )}
+          >
+            <NounImage noun={n} context="card" size={faceUp ? 'md' : 'lg'} />
+            <div className={cx('min-w-0', !faceUp && 'contents')}>
+              <button
+                type="button"
+                onClick={onFlip}
+                aria-expanded={faceUp}
+                aria-controls={backId}
+                aria-label={
+                  faceUp
+                    ? `${n.lemma}, ${n.gloss.en}. Tap to hide the stems and key forms`
+                    : `${n.lemma}, ${n.gloss.en}. Tap to show the stems and key forms. Swipe or use the arrow keys for the next card`
+                }
+                className={cx("font-bold after:absolute after:inset-0 after:content-['']", faceUp ? 'text-3xl' : 'text-4xl')}
+              >
+                <Fi>{n.lemma}</Fi>
+              </button>
+              {faceUp ? (
+                <span className="block text-sm text-muted">
+                  {n.gloss.en} · {typeName(n.typeId)}
+                </span>
+              ) : (
+                <span className="text-muted">{n.gloss.en}</span>
+              )}
+            </div>
             {!faceUp && <span className="text-sm font-semibold text-primary">What are its stems and key forms? Tap to check.</span>}
           </div>
           <CardBack id={backId} noun={n} hidden={!faceUp} />
         </div>
-        <div className="flex items-center justify-between gap-2">
+        {/* Pinned above the phone's tab bar (at the bottom on desktop), so Next never needs a scroll. */}
+        <div className="sticky bottom-[calc(4rem+1px+env(safe-area-inset-bottom))] z-20 flex items-center justify-between gap-2 bg-bg/95 py-2 backdrop-blur supports-[backdrop-filter]:bg-bg/80 lg:bottom-0">
           <Button variant="ghost" onClick={() => go(-1)} icon={<ArrowLeft aria-hidden className="size-4" />}>
             Previous
           </Button>

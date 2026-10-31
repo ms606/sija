@@ -157,6 +157,46 @@ test('flashcards: a letter, the word list, and the stems and forms on the back',
   expect(errors).toEqual([])
 })
 
+test('small phone (375×667): a turned card, its last form and Next fit between the top bar and the tab bar', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'a phone layout check')
+  await page.setViewportSize({ width: 375, height: 667 })
+  // vesi has the most rows; ruokakauppa's stems wrap; banaani has a photo and an "also" variant.
+  for (const word of ['vesi', 'ruokakauppa', 'banaani', 'olut']) {
+    await page.goto(`/vocabulary?view=cards&q=${word}`)
+    await waitForApp(page)
+    // The card at the top of the screen, just under the top bar, as the learner reads it.
+    await counter(page).evaluate((c) => window.scrollTo(0, c.getBoundingClientRect().top + window.scrollY - document.querySelector('header')!.offsetHeight - 8))
+    await card(page).click()
+    await expect(card(page)).toHaveAttribute('aria-expanded', 'true')
+    const box = async (l: ReturnType<Page['locator']>) => (await l.boundingBox())!
+    const top = await box(page.getByRole('banner'))
+    const tabs = await box(page.getByRole('navigation', { name: 'Main' }))
+    const lastRow = await box(page.locator('#main dl > div').last())
+    const next = await box(page.getByRole('button', { name: /^Next/ }))
+    expect(lastRow.y, `${word}: the card starts below the top bar`).toBeGreaterThan(top.y + top.height)
+    expect(lastRow.y + lastRow.height, `${word}: partitive plural above Next`).toBeLessThanOrEqual(next.y)
+    expect(next.y + next.height, `${word}: Next above the tab bar`).toBeLessThanOrEqual(tabs.y)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1), `${word} scrolls sideways`).toBe(false)
+  }
+})
+
+test('small phone: Next stays pinned above the tab bar when the card runs past the bottom', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'a phone layout check')
+  await page.setViewportSize({ width: 375, height: 667 })
+  await page.goto('/vocabulary?view=cards&q=vesi')
+  await waitForApp(page)
+  await card(page).click()
+  await page.evaluate(() => window.scrollTo(0, 0))
+  const lastRow = page.locator('#main dl > div').last()
+  await expect(lastRow).not.toBeInViewport()
+  const next = page.getByRole('button', { name: /^Next/ })
+  await expect(next).toBeInViewport()
+  const [nextBox, tabs] = [(await next.boundingBox())!, (await page.getByRole('navigation', { name: 'Main' }).boundingBox())!]
+  expect(nextBox.y + nextBox.height).toBeLessThanOrEqual(tabs.y)
+  await next.click()
+  await expect(counter(page)).toHaveText(/^1 \//)
+})
+
 test('flashcards: a swipe moves to the next card without turning it', async ({ page, isMobile }) => {
   test.skip(!!isMobile, 'drags with the mouse; touch swipes send the same pointer events')
   await page.goto('/vocabulary?view=cards')
