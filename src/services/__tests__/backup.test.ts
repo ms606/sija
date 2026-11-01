@@ -14,7 +14,7 @@ describe('backup import', () => {
       skills: { 'case.genitive': { attempts: 3, correct: 2, recent: [{ at: 1, ok: true }] } },
       achievements: { 'first-step': 1 },
       recentNouns: [{ id: 'talo', at: 1 }],
-      daily: { '2026-10-04': { items: 20, correct: 18, xp: 90, goalMet: true } },
+      daily: { '2026-10-04': { items: 20, correct: 18, xp: 90, goalMet: true, activeMs: 1_260_000 }, '2026-10-05': { items: 0, correct: 0, xp: 0, activeMs: 30_000 } },
       reviews: {
         'talo:sg.genitive': {
           key: 'talo:sg.genitive',
@@ -49,6 +49,11 @@ describe('backup import', () => {
     expect(p.skills).toEqual({})
     expect(p.lessons).toEqual({})
     expect(p.daily).toEqual({})
+  })
+
+  it('drops a negative or non-numeric active time but keeps the day', () => {
+    const p = parseBackup(backup({ xp: 1, skills: {}, lessons: {}, daily: { a: { items: 1, correct: 1, xp: 10, activeMs: -5 }, b: { items: 0, correct: 0, xp: 0, activeMs: '9' } } }))
+    expect(p.daily).toEqual({ a: { items: 1, correct: 1, xp: 10 }, b: { items: 0, correct: 0, xp: 0 } })
   })
 
   it('drops unknown keys, prototype keys and reviews with unknown slots', () => {

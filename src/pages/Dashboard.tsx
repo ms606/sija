@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, CalendarCheck, Flame, Repeat, Sparkles, Target } from 'lucide-react'
+import { ArrowRight, BookOpen, CalendarCheck, Clock, Flame, Repeat, Sparkles, Target } from 'lucide-react'
 import { Link } from 'react-router'
 import { AudioButton } from '../components/audio/AudioButton'
 import { NounImage } from '../components/media/NounImage'
@@ -13,6 +13,7 @@ import { pickLabel, pickText } from '../services/content/text'
 import { recommendedLesson } from '../services/learning/curriculum'
 import { categoryMastery, overallMastery, tier, TIER_LABEL, weakAreas } from '../services/learning/mastery'
 import { dueItems } from '../services/learning/srs'
+import { formatDuration } from '../services/learning/time'
 import { dayKey, liveStreak } from '../services/learning/xp'
 import { useProgress } from '../stores/progress'
 import { useSettings } from '../stores/settings'
@@ -103,6 +104,9 @@ export default function Dashboard() {
           <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
             <span className="inline-flex items-center gap-1">
               <Flame aria-hidden className={streak ? 'size-4 text-warning' : 'size-4 text-muted'} /> {streak}-day streak
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Clock aria-hidden className="size-4 text-muted" /> {formatDuration(todayStat.activeMs ?? 0)} today
             </span>
             <span className="inline-flex items-center gap-1">
               <Repeat aria-hidden className="size-4 text-muted" /> {due} due for review

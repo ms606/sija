@@ -55,7 +55,13 @@ const lesson = (v: unknown): ProgressData['lessons'][string] | null =>
 
 const day = (v: unknown): DailyStat | null =>
   isObj(v) && isNum(v.items) && isNum(v.correct) && isNum(v.xp)
-    ? { items: v.items, correct: v.correct, xp: v.xp, ...(typeof v.goalMet === 'boolean' ? { goalMet: v.goalMet } : {}) }
+    ? {
+        items: v.items,
+        correct: v.correct,
+        xp: v.xp,
+        ...(typeof v.goalMet === 'boolean' ? { goalMet: v.goalMet } : {}),
+        ...(isNum(v.activeMs) && v.activeMs >= 0 ? { activeMs: v.activeMs } : {}),
+      }
     : null
 
 function review(v: unknown): ReviewItem | null {

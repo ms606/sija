@@ -1,14 +1,16 @@
 import { Award, Download, Lock, RotateCcw, Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
-import { ActivityChart } from '../../components/progress/ActivityChart'
+import { ActivityChart, type ActivityMetric } from '../../components/progress/ActivityChart'
 import { Button, ButtonLink } from '../../components/ui/Button'
 import { Card, CardTitle } from '../../components/ui/Card'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ProgressBar } from '../../components/ui/ProgressBar'
+import { Segmented } from '../../components/ui/Segmented'
 import { LESSONS } from '../../data/curriculum'
 import { useNow } from '../../hooks/useNow'
 import { ACHIEVEMENTS } from '../../services/learning/achievements'
 import { categoryMastery, overallMastery, tier, TIER_LABEL, weakAreas } from '../../services/learning/mastery'
+import { formatDuration, timeTotals } from '../../services/learning/time'
 import { dayKey, liveStreak } from '../../services/learning/xp'
 import { exportProgress, parseBackup } from '../../services/storage/backup'
 import { useProgress, type ProgressData } from '../../stores/progress'
@@ -100,10 +102,36 @@ function DataControls() {
   )
 }
 
+const METRICS: { value: ActivityMetric; label: string }[] = [
+  { value: 'exercises', label: 'Exercises' },
+  { value: 'minutes', label: 'Minutes' },
+]
+
+function TimeTotals({ daily, now }: { daily: ProgressData['daily']; now: number }) {
+  const t = timeTotals(daily, now)
+  const items = [
+    { label: 'Today', value: formatDuration(t.today) },
+    { label: 'Last 7 days', value: formatDuration(t.week) },
+    { label: '7-day average', value: `${formatDuration(t.week / 7)} a day` },
+    { label: 'All time', value: formatDuration(t.total) },
+  ]
+  return (
+    <dl className="mt-3 grid grid-cols-2 gap-3 border-t border-border pt-3 sm:grid-cols-4">
+      {items.map((i) => (
+        <div key={i.label}>
+          <dt className="text-xs font-bold tracking-wide text-muted uppercase">{i.label}</dt>
+          <dd className="font-semibold tabular-nums">{i.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 export default function ProgressPage() {
   const p = useProgress()
   const dailyGoal = useSettings((s) => s.dailyGoal)
   const now = useNow()
+  const [metric, setMetric] = useState<ActivityMetric>('exercises')
   const cats = categoryMastery(p.skills)
   const weak = weakAreas(p.skills, 5)
   const lessonsDone = LESSONS.filter((l) => p.lessons[l.id]?.status === 'done').length
@@ -145,8 +173,12 @@ export default function ProgressPage() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
-          <CardTitle sub="Last 14 days. Solid: correct answers.">Activity</CardTitle>
-          <ActivityChart daily={p.daily} goal={dailyGoal} now={now} />
+          <CardTitle sub={metric === 'exercises' ? 'Last 14 days. Solid: correct answers.' : 'Last 14 days. Minutes with the app open and in use, on this device.'}>
+            Activity
+          </CardTitle>
+          <Segmented label="Show" size="sm" value={metric} options={METRICS} onChange={setMetric} className="mb-2" />
+          <ActivityChart daily={p.daily} goal={dailyGoal} now={now} metric={metric} />
+          <TimeTotals daily={p.daily} now={now} />
         </Card>
         <Card>
           <CardTitle sub="At least five attempts, lowest mastery first.">Weak areas</CardTitle>

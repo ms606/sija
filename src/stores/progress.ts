@@ -1,8 +1,9 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware'
 import { ACHIEVEMENTS } from '../services/learning/achievements'
 import { RECENT_WINDOW, type SkillStat } from '../services/learning/mastery'
 import { quality, schedule, type ReviewItem } from '../services/learning/srs'
+import type { DaySpans } from '../services/learning/time'
 import { dayKey, nextStreak, XP, xpFor } from '../services/learning/xp'
 import { idbStorage } from '../services/storage/idb'
 import type { Exercise, Verdict } from '../types/exercise'
@@ -12,6 +13,8 @@ export interface DailyStat {
   correct: number
   xp: number
   goalMet?: boolean
+  /** Time the app was in use on this device that day (visible, focused, not idle). */
+  activeMs?: number
 }
 
 export interface ProgressData {
@@ -57,6 +60,7 @@ interface ProgressStore extends ProgressData {
   completeLesson: (id: string, score: number) => AttemptOutcome
   finishSession: (input: { correct: number; total: number }) => string[]
   viewNoun: (id: string) => void
+  addActiveTime: (spans: DaySpans) => void
   importData: (data: ProgressData) => void
   reset: () => void
 }
@@ -71,6 +75,22 @@ function unlock(state: ProgressData, now: number): { achievements: Record<string
     }
   }
   return { achievements, unlocked }
+}
+
+// Each save is sent to the app's other open tabs, which take it over at once, so a
+// tab left open in the background never writes its older copy over newer progress.
+// (Reloading from IndexedDB instead would be asynchronous, and a change made in
+// that tab meanwhile would be replaced by the older copy.)
+const tabs = typeof window !== 'undefined' && typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('sija-progress') : null
+let fromOtherTab = false
+
+const sharedStorage: StateStorage = {
+  ...idbStorage,
+  setItem: async (name, value) => {
+    if (fromOtherTab) return // the tab that sent it has saved it
+    await idbStorage.setItem(name, value)
+    tabs?.postMessage(value)
+  },
 }
 
 /** Learner progress, persisted in IndexedDB. Everything stays on this device. */
@@ -160,6 +180,15 @@ export const useProgress = create<ProgressStore>()(
         set({ recentNouns: [{ id, at: Date.now() }, ...s.recentNouns.filter((r) => r.id !== id)].slice(0, 12) })
       },
 
+      addActiveTime: (spans) => {
+        const daily = { ...get().daily }
+        for (const [key, ms] of Object.entries(spans)) {
+          const day = daily[key] ?? { items: 0, correct: 0, xp: 0 }
+          daily[key] = { ...day, activeMs: (day.activeMs ?? 0) + Math.round(ms) }
+        }
+        set({ daily })
+      },
+
       importData: (data) => set({ ...EMPTY_PROGRESS, ...data, schemaVersion: 1 }),
 
       reset: () => set({ ...EMPTY_PROGRESS }),
@@ -167,7 +196,7 @@ export const useProgress = create<ProgressStore>()(
     {
       name: 'sija-progress',
       version: 1,
-      storage: createJSONStorage(() => idbStorage),
+      storage: createJSONStorage(() => sharedStorage),
       partialize: (s): ProgressData => ({
         schemaVersion: 1,
         xp: s.xp,
@@ -188,3 +217,14 @@ export const useProgress = create<ProgressStore>()(
     },
   ),
 )
+
+tabs?.addEventListener('message', (e: MessageEvent<string>) => {
+  // A tab still loading reads the saved copy instead; it is about to anyway.
+  if (!useProgress.getState().hydrated) return void useProgress.persist.rehydrate()
+  fromOtherTab = true
+  try {
+    useProgress.setState((JSON.parse(e.data) as { state: ProgressData }).state)
+  } finally {
+    fromOtherTab = false
+  }
+})

@@ -1,31 +1,61 @@
 import type { DailyStat } from '../../stores/progress'
 import { dayKey } from '../../services/learning/xp'
 
-/** Exercises per day for the last 14 days: correct (solid) and attempted (light). Text alternative in a table. */
-export function ActivityChart({ daily, goal, now }: { daily: Record<string, DailyStat>; goal: number; now: number }) {
+export type ActivityMetric = 'exercises' | 'minutes'
+
+const minutes = (s: DailyStat) => Math.floor((s.activeMs ?? 0) / 60_000)
+
+/**
+ * The last 14 days: exercises per day, correct (solid) and attempted (light), or
+ * minutes in the app, each bar labelled. Text alternative in a table.
+ */
+export function ActivityChart({ daily, goal, now, metric = 'exercises' }: { daily: Record<string, DailyStat>; goal: number; now: number; metric?: ActivityMetric }) {
   const days = Array.from({ length: 14 }, (_, i) => {
     const d = new Date(now)
     d.setDate(d.getDate() - (13 - i))
     const key = dayKey(d)
     return { key, label: d.toLocaleDateString('en-GB', { weekday: 'narrow' }), stat: daily[key] ?? { items: 0, correct: 0, xp: 0 } }
   })
-  const max = Math.max(goal, ...days.map((d) => d.stat.items), 1)
+  const max = metric === 'exercises' ? Math.max(goal, ...days.map((d) => d.stat.items), 1) : Math.max(10, ...days.map((d) => minutes(d.stat)))
   const W = 14 * 24
   const H = 120
   const y = (v: number) => H - 18 - (v / max) * (H - 30)
   return (
     <figure>
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-36 w-full" role="img" aria-label="Exercises per day for the last two weeks">
-        <line x1={0} x2={W} y1={y(goal)} y2={y(goal)} stroke="var(--border-strong)" strokeDasharray="4 4" />
-        <text x={W - 2} y={y(goal) - 4} textAnchor="end" fontSize={9} fill="var(--text-muted)">
-          goal {goal}
-        </text>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="h-36 w-full"
+        role="img"
+        aria-label={metric === 'exercises' ? 'Exercises per day for the last two weeks' : 'Minutes in the app per day for the last two weeks'}
+      >
+        {metric === 'exercises' && (
+          <>
+            <line x1={0} x2={W} y1={y(goal)} y2={y(goal)} stroke="var(--border-strong)" strokeDasharray="4 4" />
+            <text x={W - 2} y={y(goal) - 4} textAnchor="end" fontSize={9} fill="var(--text-muted)">
+              goal {goal}
+            </text>
+          </>
+        )}
         {days.map((d, i) => {
           const x = i * 24 + 5
+          const m = minutes(d.stat)
           return (
             <g key={d.key}>
-              <rect x={x} width={14} y={y(d.stat.items)} height={H - 18 - y(d.stat.items)} rx={3} fill="var(--primary-soft)" />
-              <rect x={x} width={14} y={y(d.stat.correct)} height={H - 18 - y(d.stat.correct)} rx={3} fill="var(--primary)" />
+              {metric === 'exercises' ? (
+                <>
+                  <rect x={x} width={14} y={y(d.stat.items)} height={H - 18 - y(d.stat.items)} rx={3} fill="var(--primary-soft)" />
+                  <rect x={x} width={14} y={y(d.stat.correct)} height={H - 18 - y(d.stat.correct)} rx={3} fill="var(--primary)" />
+                </>
+              ) : (
+                <>
+                  <rect x={x} width={14} y={y(m)} height={H - 18 - y(m)} rx={3} fill="var(--primary)" />
+                  {m > 0 && (
+                    <text x={x + 7} y={y(m) - 3} textAnchor="middle" fontSize={9} fill="var(--text-muted)">
+                      {m}
+                    </text>
+                  )}
+                </>
+              )}
               <text x={x + 7} y={H - 5} textAnchor="middle" fontSize={9} fill="var(--text-muted)">
                 {d.label}
               </text>
@@ -40,6 +70,7 @@ export function ActivityChart({ daily, goal, now }: { daily: Record<string, Dail
               <th>Day</th>
               <th>Exercises</th>
               <th>Correct</th>
+              <th>Minutes</th>
             </tr>
           </thead>
           <tbody>
@@ -48,6 +79,7 @@ export function ActivityChart({ daily, goal, now }: { daily: Record<string, Dail
                 <td>{d.key}</td>
                 <td>{d.stat.items}</td>
                 <td>{d.stat.correct}</td>
+                <td>{minutes(d.stat)}</td>
               </tr>
             ))}
           </tbody>

@@ -84,3 +84,35 @@ test('progress survives a reload (IndexedDB)', async ({ page }) => {
   await page.reload()
   await expect(page.getByRole('link', { name: /Progress: .* 10 XP/ })).toBeVisible()
 })
+
+test('time in the app is counted, stops when idle and survives a reload', async ({ page }) => {
+  await page.clock.install({ time: new Date(2026, 10, 2, 10, 0, 0) })
+  await page.goto('/')
+  await waitForApp(page)
+  // Input every 30 s for 2.5 minutes, then 10 minutes idle: 2.5 + 2 = 4.5 minutes count.
+  for (let i = 0; i < 6; i++) {
+    await page.keyboard.press('Shift')
+    await page.clock.runFor(30_000)
+  }
+  await page.clock.runFor(10 * 60_000)
+  await expect(page.getByText('4 min today')).toBeVisible()
+  await page.reload()
+  await waitForApp(page)
+  await expect(page.getByText('4 min today')).toBeVisible()
+  await page.goto('/progress')
+  await page.getByRole('group', { name: 'Show' }).getByText('Minutes').click()
+  await expect(page.getByRole('img', { name: 'Minutes in the app per day for the last two weeks' })).toContainText('4')
+  await expect(page.getByRole('definition').first()).toHaveText('4 min')
+})
+
+test('a tab left open picks up progress saved in another tab', async ({ context }) => {
+  const other = await context.newPage()
+  await other.goto('/')
+  await waitForApp(other)
+  const page = await context.newPage()
+  await page.goto('/practice/session?skill=mixed&type=transform&words=talo&slots=sg.inessive&count=3')
+  await page.getByLabel('Your answer').fill('talossa')
+  await page.keyboard.press('Enter')
+  await expect(page.getByText('Correct!')).toBeVisible()
+  await expect(other.getByRole('link', { name: /Progress: .* 10 XP/ })).toBeVisible()
+})

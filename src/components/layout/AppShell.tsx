@@ -1,6 +1,7 @@
 import { Ellipsis, Settings as SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from 'react-router'
+import { useActiveTime } from '../../hooks/useActiveTime'
 import { useApplyPreferences } from '../../hooks/useApplyPreferences'
 import { useSettings, type LearnerMode } from '../../stores/settings'
 import { cx } from '../../utils/cx'
@@ -73,6 +74,7 @@ function SideNav({ onNavigate }: { onNavigate?: () => void }) {
 
 export function AppShell() {
   useApplyPreferences()
+  useActiveTime()
   const [moreOpen, setMoreOpen] = useState(false)
   const location = useLocation()
   const mode = useSettings((s) => s.mode)

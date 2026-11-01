@@ -52,7 +52,7 @@ BASE WORD → WORD TYPE → STEM → STEM CHANGE → NUMBER & CASE → FINAL FOR
 | Learn | 54 lessons in 8 levels. Each has a goal, worked examples built from engine output, and a generated end-of-lesson check (pass mark 80 %). |
 | Explore | Case explorer and place-case map, partitive and genitive labs, gradation lab, noun types and the -i Noun Lab, Stem Lab (word builder), vowel-harmony tool, possessive lab, plural lab. |
 | Practice | Ten exercise types, sessions built from spaced-repetition reviews and skill scopes, and diagnosis of wrong answers. |
-| Progress | Mastery per skill, weak areas, XP, streaks, achievements, daily activity, JSON export and import. |
+| Progress | Mastery per skill, weak areas, XP, streaks, achievements, daily activity (exercises and time in the app), JSON export and import. |
 | Reference | Search by lemma, by any inflected form (*veden* → *vesi*, genitive singular), umlaut-insensitive, or by English meaning. |
 | Listening | Text-to-speech at normal and slow speed, minimal pairs, dictation. |
 | YKI practice | Nine everyday domains with reading, writing (model answers), speaking prompts and fill-in tasks. This is unofficial practice. |
@@ -732,11 +732,23 @@ sorted by score, then by lemma in Finnish collation, up to 24.
 | Store | Persisted in | Key | Contents |
 |---|---|---|---|
 | `useSettings` (`stores/settings.ts`) | localStorage, synchronous | `sija-settings` v1 | `mode`, `theme` (system/light/dark), `motion` (system/reduce/full), `showRoleLabels`, `pictureStyle` (auto/photo/illustration/emoji), `voiceURI`, `dailyGoal` (default 20), `showTranslations` |
-| `useProgress` (`stores/progress.ts`) | IndexedDB, asynchronous | `sija-progress` v1 | `ProgressData`: `xp`, `streak`, `lessons`, `skills` (per-skill stats with the last 30 attempts), `achievements`, `recentNouns`, `daily`, `reviews` (SRS items), `sessions`, `perfectSessions`, `totalAttempts` |
+| `useProgress` (`stores/progress.ts`) | IndexedDB, asynchronous | `sija-progress` v1 | `ProgressData`: `xp`, `streak`, `lessons`, `skills` (per-skill stats with the last 30 attempts), `achievements`, `recentNouns`, `daily` (per day: exercises, correct, XP, goal met, `activeMs`), `reviews` (SRS items), `sessions`, `perfectSessions`, `totalAttempts` |
 | `useExplain` (`stores/explain.ts`) | not persisted | | The target of the global explain sheet |
 
 **Progress actions:** `recordAttempt`, `startLesson`, `completeLesson`,
-`finishSession`, `viewNoun`, `importData`, `reset`.
+`finishSession`, `viewNoun`, `addActiveTime`, `importData`, `reset`.
+
+**Time in the app:** `useActiveTime` counts time while the tab is visible and
+focused and there was a tap, key, scroll or pointer move in the last two
+minutes; one 15-second tick never counts more than 30 seconds (a laptop waking
+from sleep). Time is split at local midnight and saved every minute and when
+the app is hidden. It is per device, like all progress. The Dashboard shows
+today's minutes; the Progress page's activity chart switches between exercises
+and minutes, with today, last 7 days, 7-day average and all-time totals.
+
+**Several tabs:** every save is sent over `BroadcastChannel('sija-progress')`
+and the other tabs take the saved state over at once (a tab still loading
+reloads from IndexedDB instead).
 
 ### Data flow of one answer
 

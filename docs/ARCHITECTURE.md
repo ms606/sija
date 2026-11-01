@@ -79,7 +79,13 @@ ESLint (`eslint.config.js`) enforces the two important boundaries:
 - **Progress** (XP, streak, lessons, per-skill statistics, spaced-repetition
   items, achievements, daily activity): Zustand `persist` on IndexedDB via
   `idb-keyval`, falling back to memory when IndexedDB is unavailable.
-  Export/import as JSON is on the Progress page.
+  Export/import as JSON is on the Progress page. Each save is also sent to the
+  app's other open tabs (`BroadcastChannel`), which take it over, so a tab left
+  open never writes an older copy over newer progress.
+- **Time in the app**: `useActiveTime` (mounted in `AppShell`) counts time while
+  the tab is visible and focused and there was input in the last two minutes
+  (`services/learning/time.ts`), split by local day into `daily[day].activeMs`.
+  It saves every minute and when the app is hidden.
 - Nothing is sent to a server; the app has no backend.
 
 ## Offline and installability
