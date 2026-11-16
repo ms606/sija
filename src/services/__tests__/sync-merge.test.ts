@@ -1,66 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { EMPTY_PROGRESS, useProgress, type ProgressData } from '../../stores/progress'
-import type { Exercise } from '../../types/exercise'
-import { parseSyncDoc, type DeviceSync, type SyncDoc } from '../sync/doc'
-import { adopt, assemble, diffTally, mergeDocs, mergeLocal, settle, startDoc, type MergeOptions } from '../sync/merge'
-
-// ---------------------------------------------------------------------------
-// Helpers. Devices change their progress through the real progress store, so the
-// merge is tested against the app's own XP, goal, streak and achievement logic.
-
-const GOAL = 20
-const D0 = '2026-11-15'
-const D1 = '2026-11-16'
-const D2 = '2026-11-17'
-const pad = (n: number) => String(n).padStart(2, '0')
-/** A local time on a day, so it lands on that day's key. */
-const t = (day: string, hour: number, minute = 0) => new Date(`${day}T${pad(hour)}:${pad(minute)}:00`).getTime()
-const NOW = t(D2, 23)
-
-type Store = ReturnType<typeof useProgress.getState>
-
-function pick(s: ProgressData): ProgressData {
-  const { schemaVersion, xp, streak, lessons, skills, achievements, recentNouns, daily, reviews, sessions, perfectSessions, totalAttempts } = s
-  return { schemaVersion, xp, streak, lessons, skills, achievements, recentNouns, daily, reviews, sessions, perfectSessions, totalAttempts }
-}
-
-/** Runs store actions on a copy of some progress and returns the result. */
-function run(p: ProgressData, act: (s: Store) => void): ProgressData {
-  useProgress.setState(structuredClone(p))
-  act(useProgress.getState())
-  return pick(useProgress.getState())
-}
-
-function exercise(word: string, skill: string): Exercise {
-  return { skills: [skill], reviewKey: `form:${word}:sg.genitive`, target: { lexemeId: word, slot: 'sg.genitive', form: word } } as unknown as Exercise
-}
-
-interface Answers {
-  day: string
-  hour: number
-  ok?: boolean
-  goal?: number
-  word?: string
-  skill?: string
-}
-
-/** `n` answers, one second apart, starting at `hour` on `day`. */
-function answer(p: ProgressData, n: number, a: Answers): ProgressData {
-  return run(p, (s) => {
-    for (let i = 0; i < n; i++) {
-      s.recordAttempt({
-        exercise: exercise(a.word ?? 'talo', a.skill ?? 'case:genitive'),
-        verdict: a.ok === false ? 'incorrect' : 'correct',
-        ms: 3000,
-        dailyGoal: a.goal ?? GOAL,
-        now: t(a.day, a.hour) + i * 1000,
-      })
-    }
-  })
-}
-
-/** The document as the server would hand it back: through JSON and the download check. */
-const transport = (doc: SyncDoc): SyncDoc => parseSyncDoc(JSON.parse(JSON.stringify(doc)))
+import { EMPTY_PROGRESS, type ProgressData } from '../../stores/progress'
+import { parseBackup } from '../storage/backup'
+import type { DeviceSync, SyncDoc } from '../sync/doc'
+import { adopt, assemble, diffTally, mergeDocs, mergeLocal, settle, startDoc, trimHistories, type MergeOptions } from '../sync/merge'
+import { answer, D0, D1, D2, GOAL, NOW, run, t, transport, typed, withXp } from './sync-helpers'
 
 interface Device {
   id: string
@@ -99,20 +42,6 @@ function pair(start: ProgressData = EMPTY_PROGRESS) {
   const phone = cloud.connectFirst('phone', start)
   const laptop = cloud.connect('laptop')
   return { cloud, phone, laptop }
-}
-
-const withXp = (xp: number): ProgressData => ({ ...EMPTY_PROGRESS, xp })
-
-/**
- * The store saves a review card's target with the exercise's surface form as an
- * extra, untyped field that nothing reads. Like a backup import, the download
- * check keeps only the typed fields (lexemeId, slot, person).
- */
-function typed(p: ProgressData): ProgressData {
-  const reviews = Object.fromEntries(
-    Object.entries(p.reviews).map(([k, r]) => [k, { ...r, target: { lexemeId: r.target.lexemeId, slot: r.target.slot, ...(r.target.person ? { person: r.target.person } : {}) } }]),
-  )
-  return { ...p, reviews }
 }
 
 // ---------------------------------------------------------------------------
@@ -481,5 +410,80 @@ describe('sync: replacing progress', () => {
     again.local = answer(again.local, 1, { day: D1, hour: 21 })
     cloud.sync(again)
     expect(again.local.totalAttempts).toBe(5)
+  })
+})
+
+describe('sync: what goes into a synced copy', () => {
+  const card = 'form:talo:sg.genitive'
+
+  it('accepts an answer timed on a clock that was set back', () => {
+    const { cloud, phone, laptop } = pair()
+    phone.local = answer(phone.local, 1, { day: D1, hour: 8, ms: -40_000 })
+    expect(phone.local.reviews[card]!.history[0]!.ms).toBe(-40_000) // what the store saves
+    cloud.sync(phone) // the download check would throw on a negative time
+    cloud.sync(laptop)
+    expect(laptop.local.reviews[card]!.history[0]!.ms).toBe(0)
+    expect(laptop.local.xp).toBe(10)
+  })
+
+  it('accepts progress restored from an odd backup, clamping or dropping what cannot be synced', () => {
+    // Everything here gets through the backup import, which repairs shapes but not values.
+    const restored = parseBackup(
+      JSON.stringify({
+        format: 'sija-progress',
+        version: 1,
+        data: {
+          xp: -5,
+          sessions: -1,
+          totalAttempts: 3,
+          streak: { current: -1, best: 2, lastDay: 'yesterday' },
+          skills: { partitive: { attempts: 3, correct: -1, recent: [] } },
+          lessons: { '': { status: 'done', at: 1 }, '1.1': { status: 'done', score: 80, at: 2 } },
+          daily: { a: { items: 1, correct: 1, xp: 10 }, [D1]: { items: -2, correct: 1, xp: 10 } },
+          recentNouns: [
+            { id: '', at: 1 },
+            { id: 'talo', at: 2 },
+          ],
+          reviews: { x: { key: 'x', kind: 'form', target: { lexemeId: 'talo', slot: 'sg.genitive' }, ease: 2, intervalDays: -1, due: 1, reps: -2, lapses: 0, history: [{ at: 1, correct: true, ms: -3 }] } },
+        },
+      }),
+    )
+    const doc = transport(startDoc(restored, 'e'))
+    const p = assemble(doc)
+    expect(p.xp).toBe(0)
+    expect(p.sessions).toBe(0)
+    expect(p.streak).toEqual({ current: 0, best: 2, lastDay: null })
+    expect(p.skills.partitive).toEqual({ attempts: 3, correct: 0, recent: [] })
+    expect(Object.keys(p.lessons)).toEqual(['1.1'])
+    expect(p.daily).toEqual({ [D1]: { items: 0, correct: 1, xp: 10 } })
+    expect(p.recentNouns).toEqual([{ id: 'talo', at: 2 }])
+    expect(p.reviews.x).toMatchObject({ reps: 0, intervalDays: 0, history: [{ at: 1, correct: true, ms: 0 }] })
+
+    const { sync } = adopt(doc, 'phone', 1)
+    expect(() => transport(mergeLocal(doc, sync, restored, { dailyGoal: GOAL, now: NOW }).doc)).not.toThrow()
+  })
+
+  it('trims answer histories for an upload near the size limit, while stats and devices keep theirs', () => {
+    const { cloud, phone, laptop } = pair()
+    phone.local = answer(phone.local, 12, { day: D1, hour: 8 })
+    const full = mergeLocal(cloud.doc, phone.sync, phone.local, { dailyGoal: GOAL, now: NOW })
+    expect(full.doc.reviews[card]!.history).toHaveLength(12)
+
+    const trimmed = trimHistories(full.doc, 2)
+    expect(trimmed.reviews[card]!.history).toEqual(full.doc.reviews[card]!.history.slice(-2))
+    expect({ ...trimmed, reviews: {} }).toEqual({ ...full.doc, reviews: {} }) // nothing else changes
+    expect(trimHistories(full.doc, 0).reviews[card]!.history).toEqual([])
+
+    // The server keeps the trimmed copy; the phone keeps the full result.
+    cloud.doc = transport(trimmed)
+    cloud.version += 1
+    phone.sync = { ...full.sync, version: cloud.version }
+    phone.local = full.progress
+
+    cloud.sync(laptop)
+    expect(laptop.local.xp).toBe(120)
+    expect(laptop.local.reviews[card]).toEqual({ ...full.progress.reviews[card], history: full.progress.reviews[card]!.history.slice(-2) })
+    cloud.sync(phone)
+    expect(phone.local.reviews[card]!.history).toHaveLength(12)
   })
 })

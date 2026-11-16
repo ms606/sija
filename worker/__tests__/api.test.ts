@@ -1,62 +1,21 @@
 import { randomBytes } from 'node:crypto'
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
 import { gunzipSync, gzipSync } from 'node:zlib'
-import { build } from 'esbuild'
-import { convertV4MiniflareOptions, Miniflare } from 'miniflare'
+import type { Miniflare } from 'miniflare'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { parseSyncDoc } from '../../src/services/sync/doc'
 import { startDoc } from '../../src/services/sync/merge'
 import { EMPTY_PROGRESS } from '../../src/stores/progress'
-import { passphraseHash, sha256, toHex } from '../passphrase'
+import { sha256, toHex } from '../passphrase'
+import { clearTables, ORIGIN, PHRASE, send, startWorker, type Call, type Db } from './harness'
 
-// The real Worker, bundled the way Wrangler bundles it, running in Miniflare
-// (the local Workers runtime that `wrangler dev` uses) with a local D1 database
-// created from the real migration.
-
-const ORIGIN = 'https://sija.example'
-const PHRASE = 'velvet harbor quiet plume ginger oak'
 const DAY = 24 * 60 * 60 * 1000
 const MINUTE = 60 * 1000
 
-async function workerScript(): Promise<string> {
-  const result = await build({
-    entryPoints: [fileURLToPath(new URL('../index.ts', import.meta.url))],
-    bundle: true,
-    format: 'esm',
-    platform: 'neutral',
-    target: 'es2023',
-    write: false,
-  })
-  return result.outputFiles[0]!.text
-}
-
-/** The migration's statements, one by one. */
-function migration(): string[] {
-  const sql = readFileSync(new URL('../migrations/0001_sync.sql', import.meta.url), 'utf8')
-  return sql
-    .split('\n')
-    .map((line) => line.replace(/--.*$/, ''))
-    .join('\n')
-    .split(';')
-    .map((s) => s.trim())
-    .filter(Boolean)
-}
-
-async function start(bindings: Record<string, string>) {
-  // Miniflare 5 (what Wrangler 4.156 ships) converts the long-standing v4 option shape itself.
-  const options = convertV4MiniflareOptions({ modules: true, script: await workerScript(), compatibilityDate: '2026-10-06', d1Databases: ['DB'], bindings })
-  const mf = new Miniflare(options)
-  const db = await mf.getD1Database('DB')
-  await db.batch(migration().map((s) => db.prepare(s)))
-  return { mf, db }
-}
-
 let mf: Miniflare
-let db: Awaited<ReturnType<Miniflare['getD1Database']>>
+let db: Db
 
 beforeAll(async () => {
-  ;({ mf, db } = await start({ SYNC_PASSPHRASE_HASH: await passphraseHash(PHRASE) }))
+  ;({ mf, db } = await startWorker())
 }, 120_000)
 
 afterAll(async () => {
@@ -64,32 +23,10 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  await db.batch(['sync', 'sessions', 'connect_failures'].map((t) => db.prepare(`DELETE FROM ${t}`)))
+  await clearTables(db)
 })
 
-interface Call {
-  method?: string
-  body?: string | object
-  cookie?: string
-  /** The Origin header; null leaves it out. Defaults to Sija's own origin for changes. */
-  origin?: string | null
-  ip?: string
-  headers?: Record<string, string>
-}
-
-function api(path: string, call: Call = {}, worker: Miniflare = mf) {
-  const method = call.method ?? 'GET'
-  const headers: Record<string, string> = { ...call.headers }
-  if (method !== 'GET' && call.origin !== null) headers.Origin = call.origin ?? ORIGIN
-  if (call.cookie) headers.Cookie = call.cookie
-  if (call.ip) headers['CF-Connecting-IP'] = call.ip
-  let body = call.body
-  if (body !== undefined && typeof body === 'object') {
-    body = JSON.stringify(body)
-    headers['Content-Type'] = 'application/json'
-  }
-  return worker.dispatchFetch(`${ORIGIN}${path}`, { method, headers, ...(body !== undefined ? { body } : {}) })
-}
+const api = (path: string, call: Call = {}, worker: Miniflare = mf) => send(worker, path, call)
 
 const connectWith = (passphrase: string, ip = '203.0.113.1', deviceName = 'iPhone · Safari') => api('/api/connect', { method: 'POST', body: { passphrase, deviceName }, ip })
 
@@ -181,7 +118,7 @@ describe('connecting', () => {
   })
 
   it('answers 503 when the server has no passphrase set', async () => {
-    const bare = await start({})
+    const bare = await startWorker({})
     try {
       const res = await api('/api/connect', { method: 'POST', body: { passphrase: PHRASE } }, bare.mf)
       expect(res.status).toBe(503)

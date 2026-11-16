@@ -3,7 +3,7 @@ import { ACHIEVEMENTS } from '../learning/achievements'
 import { RECENT_WINDOW, type SkillStat } from '../learning/mastery'
 import type { ReviewItem } from '../learning/srs'
 import { previousDay, XP } from '../learning/xp'
-import { emptyTally, SYNC_FORMAT, SYNC_FORMAT_VERSION, type DayKey, type DayTally, type DeviceSync, type PrefEntry, type Streak, type SyncDoc, type Tally } from './doc'
+import { emptyTally, isDayKey, SYNC_FORMAT, SYNC_FORMAT_VERSION, type DayKey, type DayTally, type DeviceSync, type PrefEntry, type Streak, type SyncDoc, type Tally } from './doc'
 
 /*
  * Merge rules for syncing progress between devices. Everything here is pure.
@@ -42,10 +42,15 @@ export function goalDaysOf(p: ProgressData): DayKey[] {
     .sort()
 }
 
+/** A count that the download check accepts: finite and not negative. */
+const count = (n: number) => (Number.isFinite(n) && n > 0 ? n : 0)
+
 /**
  * A review card with only its typed fields. The store also saves the exercise's
  * word form on the target, which nothing reads; keeping it would make the result
- * of a merge depend on which copy came first.
+ * of a merge depend on which copy came first. Counts are kept non-negative: an
+ * answer's time is measured on the wall clock, so it comes out negative if the
+ * clock is set back mid-exercise.
  */
 function cleanReview(r: ReviewItem): ReviewItem {
   const { lexemeId, slot, person } = r.target
@@ -54,12 +59,51 @@ function cleanReview(r: ReviewItem): ReviewItem {
     kind: r.kind,
     target: { lexemeId, slot, ...(person ? { person } : {}) },
     ease: r.ease,
-    intervalDays: r.intervalDays,
+    intervalDays: count(r.intervalDays),
     due: r.due,
-    reps: r.reps,
-    lapses: r.lapses,
+    reps: count(r.reps),
+    lapses: count(r.lapses),
     ...(r.lastReviewed !== undefined ? { lastReviewed: r.lastReviewed } : {}),
-    history: r.history.map(({ at, correct, ms }) => ({ at, correct, ms })),
+    history: r.history.map(({ at, correct, ms }) => ({ at, correct, ms: count(ms) })),
+  }
+}
+
+/**
+ * The progress as it may go into a synced copy, so the strict download check
+ * always accepts what any device uploads: a single value it rejects would make
+ * every device refuse the copy. The store itself only produces clean values,
+ * apart from a negative answer time (see cleanReview); a backup import repairs
+ * shapes but not values, so it can bring negative counts, empty ids and day keys
+ * that are not dates. Those are clamped or dropped here. Store data passes
+ * through unchanged.
+ */
+export function toSyncable(p: ProgressData): ProgressData {
+  const daily: ProgressData['daily'] = {}
+  for (const [d, s] of Object.entries(p.daily)) {
+    if (!isDayKey(d)) continue
+    daily[d] = {
+      items: count(s.items),
+      correct: count(s.correct),
+      xp: count(s.xp),
+      ...(s.goalMet !== undefined ? { goalMet: s.goalMet } : {}),
+      ...(s.activeMs !== undefined ? { activeMs: count(s.activeMs) } : {}),
+    }
+  }
+  const reviews: ProgressData['reviews'] = {}
+  for (const [k, r] of Object.entries(p.reviews)) if (k && r.key && r.target.lexemeId) reviews[k] = cleanReview(r)
+  return {
+    schemaVersion: 1,
+    xp: count(p.xp),
+    streak: { current: count(p.streak.current), best: count(p.streak.best), lastDay: p.streak.lastDay && isDayKey(p.streak.lastDay) ? p.streak.lastDay : null },
+    lessons: Object.fromEntries(Object.entries(p.lessons).filter(([id]) => id)),
+    skills: mapValues(p.skills, (s) => ({ attempts: count(s.attempts), correct: count(s.correct), recent: s.recent })),
+    achievements: p.achievements,
+    recentNouns: p.recentNouns.filter((r) => r.id),
+    daily,
+    reviews,
+    sessions: count(p.sessions),
+    perfectSessions: count(p.perfectSessions),
+    totalAttempts: count(p.totalAttempts),
   }
 }
 
@@ -327,7 +371,8 @@ export function assemble(doc: SyncDoc): ProgressData {
  * A new epoch that starts from this progress: the first upload, a reset, an
  * import, or "use this device's progress". `assemble` gives the progress back.
  */
-export function startDoc(progress: ProgressData, epoch: string, prefs: Record<string, PrefEntry> = {}): SyncDoc {
+export function startDoc(from: ProgressData, epoch: string, prefs: Record<string, PrefEntry> = {}): SyncDoc {
+  const progress = toSyncable(from)
   const goalDays = goalDaysOf(progress)
   return {
     format: SYNC_FORMAT,
@@ -337,7 +382,7 @@ export function startDoc(progress: ProgressData, epoch: string, prefs: Record<st
     tallies: {},
     goalDays,
     lessons: { ...progress.lessons },
-    reviews: mapValues(progress.reviews, cleanReview),
+    reviews: progress.reviews,
     skillHistory: mapValues(progress.skills, (s) => [...s.recent]),
     achievements: { ...progress.achievements },
     recentNouns: [...progress.recentNouns],
@@ -418,25 +463,38 @@ export interface MergeResult {
  */
 export function mergeLocal(server: SyncDoc, sync: DeviceSync, local: ProgressData, { dailyGoal, now, prefs = {} }: MergeOptions): MergeResult {
   if (server.epoch !== sync.epoch) throw new Error(`The synced progress was replaced (epoch ${server.epoch}, this device has ${sync.epoch}).`)
-  const absorbed = absorb(sync, local)
+  const clean = toSyncable(local)
+  const absorbed = absorb({ ...sync, base: toSyncable(sync.base) }, clean)
   const mine: SyncDoc = {
     format: SYNC_FORMAT,
     formatVersion: SYNC_FORMAT_VERSION,
     epoch: server.epoch,
     start: server.start,
     tallies: { [sync.deviceId]: absorbed.myTally },
-    goalDays: goalDaysOf(local),
-    lessons: local.lessons,
-    reviews: mapValues(local.reviews, cleanReview),
-    skillHistory: mapValues(local.skills, (s) => s.recent),
-    achievements: local.achievements,
-    recentNouns: local.recentNouns,
+    goalDays: goalDaysOf(clean),
+    lessons: clean.lessons,
+    reviews: clean.reviews,
+    skillHistory: mapValues(clean.skills, (s) => s.recent),
+    achievements: clean.achievements,
+    recentNouns: clean.recentNouns,
     prefs,
   }
   const merged = mergeDocs(server, mine)
   const doc = unlockAchievements(markCombinedGoals(merged, server, sync.deviceId, syncedGoal(merged, dailyGoal)), now)
   const progress = assemble(doc)
   return { doc, progress, sync: { ...absorbed, myTally: doc.tallies[sync.deviceId] ?? absorbed.myTally, base: progress } }
+}
+
+/**
+ * The document with each review card's answer history cut to its newest `keep`
+ * answers. Nothing in the app reads these histories, and they are most of the
+ * synced data (about three quarters after a year of use). The engine uploads a
+ * trimmed copy only when the full one nears the server's size limit, so sync
+ * never stops: devices keep their own full histories, since merging takes the
+ * union of a card's answers.
+ */
+export function trimHistories(doc: SyncDoc, keep: number): SyncDoc {
+  return { ...doc, reviews: mapValues(doc.reviews, (r) => ({ ...r, history: keep > 0 ? r.history.slice(-keep) : [] })) }
 }
 
 /**

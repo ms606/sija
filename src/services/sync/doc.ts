@@ -145,11 +145,15 @@ function str(v: unknown, path: string): string {
 }
 
 /** A real local calendar day in the app's "2026-11-16" form. */
-function day(v: unknown, path: string): DayKey {
-  if (typeof v !== 'string' || !DAY_RE.test(v)) return fail(path)
+export function isDayKey(v: string): boolean {
+  if (!DAY_RE.test(v)) return false
   const [y, m, d] = v.split('-').map(Number) as [number, number, number]
   const date = new Date(y, m - 1, d)
-  return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d ? v : fail(path)
+  return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d
+}
+
+function day(v: unknown, path: string): DayKey {
+  return typeof v === 'string' && isDayKey(v) ? v : fail(path)
 }
 
 function bool(v: unknown, path: string): boolean {
