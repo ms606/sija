@@ -1,10 +1,11 @@
 import { gunzipSync, gzipSync } from 'node:zlib'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { EMPTY_PROGRESS } from '../../stores/progress'
+import { ALL_SLOTS } from '../../grammar'
+import { EMPTY_PROGRESS, type ProgressData } from '../../stores/progress'
 import { connect, decode, disconnect, encode, OfflineError, pull, push, SignedOutError, SyncServerError } from '../sync/api'
 import { InvalidSyncDocError, NewerFormatError } from '../sync/doc'
-import { deviceName, hasProgress, summarize } from '../sync/engine'
-import { startDoc } from '../sync/merge'
+import { deviceName, encodeForUpload, hasProgress, summarize } from '../sync/engine'
+import { assemble, startDoc } from '../sync/merge'
 import { answer, D1, run, withXp } from './sync-helpers'
 
 const doc = () => startDoc(run(answer(withXp(3450), 20, { day: D1, hour: 9 }), (s) => s.completeLesson('1.1', 90)), 'epoch-1')
@@ -116,5 +117,43 @@ describe('sync engine helpers', () => {
     expect(hasProgress(withXp(10))).toBe(true)
     expect(hasProgress({ ...EMPTY_PROGRESS, daily: { [D1]: { items: 0, correct: 0, xp: 0, activeMs: 60_000 } } })).toBe(true)
     expect(summarize(run(answer(withXp(100), 3, { day: D1, hour: 9 }), (s) => s.completeLesson('1.1', 90)))).toEqual({ xp: 180, exercises: 3, lessonsDone: 1, lastDay: D1 })
+  })
+})
+
+describe('sync upload size', () => {
+  it('drops the oldest review answers from an upload that nears the limit, and nothing else', async () => {
+    // About three years of heavy use: 13,000 review cards with 12 answers each.
+    const reviews: ProgressData['reviews'] = {}
+    for (let i = 0; i < 13_000; i++) {
+      const key = `form:w${i}:${ALL_SLOTS[i % ALL_SLOTS.length]}`
+      reviews[key] = {
+        key,
+        kind: 'form',
+        target: { lexemeId: `w${i}`, slot: ALL_SLOTS[i % ALL_SLOTS.length]! },
+        ease: 2.3 + (i % 5) / 10,
+        intervalDays: i % 40,
+        due: 1_790_000_000_000 + i * 86_400_000,
+        reps: i % 9,
+        lapses: i % 3,
+        lastReviewed: 1_790_000_000_000 + i * 1000,
+        history: Array.from({ length: 12 }, (_, h) => ({ at: 1_780_000_000_000 + i * 100_000 + h * 7_000_000, correct: (i + h) % 4 !== 0, ms: 2000 + ((i * 37 + h * 101) % 9000) })),
+      }
+    }
+    const big = startDoc({ ...withXp(123_456), reviews }, 'e')
+    expect((await encode(big)).length).toBeGreaterThan(1_500_000)
+
+    const text = await encodeForUpload(big)
+    expect(text.length).toBeLessThanOrEqual(1_500_000)
+    const sent = await decode(text)
+    expect(Object.keys(sent.reviews)).toHaveLength(13_000)
+    const card = Object.keys(reviews)[42]!
+    expect(sent.reviews[card]!.history).toEqual(big.reviews[card]!.history.slice(-6)) // the newest answers stay
+    expect({ ...sent, reviews: {} }).toEqual({ ...big, reviews: {} })
+    expect(assemble(sent).xp).toBe(123_456)
+  }, 60_000)
+
+  it('sends an ordinary upload untouched', async () => {
+    const d = doc()
+    expect(await decode(await encodeForUpload(d))).toEqual(d)
   })
 })

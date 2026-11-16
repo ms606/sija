@@ -84,6 +84,7 @@ function Summary({ title, s }: { title: string; s: ProgressSummary }) {
 }
 
 function Choice({ synced, local }: { synced: ProgressSummary; local: ProgressSummary }) {
+  const [error, setError] = useState<string | null>(null)
   return (
     <div className="space-y-3" role="group" aria-label="Which progress to keep">
       <p className="font-semibold">This device already has its own progress. Which progress do you want to keep?</p>
@@ -105,6 +106,17 @@ function Choice({ synced, local }: { synced: ProgressSummary; local: ProgressSum
       <div className="space-y-1">
         <Button onClick={() => void resolveChoice('mine')}>Use this device's progress</Button>
         <p className="text-sm text-muted">This replaces the synced progress on every device.</p>
+      </div>
+      <div className="space-y-1 border-t border-border pt-3">
+        <Button variant="ghost" onClick={() => void disconnectDevice(false).then(setError)}>
+          Not now
+        </Button>
+        <p className="text-sm text-muted">Disconnects this device. Its progress stays as it is, and nothing is synced.</p>
+        {error && (
+          <p role="alert" className="text-sm font-semibold text-error">
+            {error}
+          </p>
+        )}
       </div>
     </div>
   )

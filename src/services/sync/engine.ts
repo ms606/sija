@@ -29,6 +29,15 @@ const OFFLINE = "Not synced yet. Changes from this device upload when you're onl
 
 class TooLargeError extends Error {}
 class BusyError extends Error {}
+/** The device was disconnected while a sync was on its way: stop quietly. */
+class GoneError extends Error {}
+
+/** The sync info of a device that is still connected; throws GoneError otherwise. */
+function connected(): SyncInfo {
+  const sync = useProgress.getState().sync
+  if (!sync) throw new GoneError()
+  return sync
+}
 
 // ---------------------------------------------------------------------------
 // Progress and settings
@@ -124,7 +133,7 @@ async function fullPull(): Promise<api.Remote> {
 }
 
 /** Base64 of the compressed document, trimmed of old review answers if it nears the server's limit. */
-async function encodeForUpload(doc: SyncDoc): Promise<string> {
+export async function encodeForUpload(doc: SyncDoc): Promise<string> {
   let text = await api.encode(doc)
   for (const keep of [6, 2, 0]) {
     if (text.length <= TRIM_FROM_CHARS) break
@@ -187,7 +196,7 @@ function takeOver(remote: api.Remote & { doc: SyncDoc }): void {
 /** Uploads this device's progress as a new epoch on top of `base`. */
 async function uploadStart(base: number): Promise<api.PushResult> {
   const sentState = useProgress.getState()
-  const sync = sentState.sync!
+  const sync = connected()
   const prefs = localPrefs()
   const doc = startDoc(progressOf(sentState), crypto.randomUUID(), prefs)
   const pushed = await upload(doc, base)
@@ -225,15 +234,17 @@ async function firstSync(): Promise<void> {
 
 /** One sync of a connected device whose progress is already settled. */
 async function syncOnce(full: boolean): Promise<void> {
-  const known = info()!.state!.version
+  const known = connected().state?.version
+  if (known === undefined) throw new GoneError()
   let remote: api.Remote
   if (!full && cache?.version === known) {
     remote = cache
   } else {
     const got = await api.pull(known)
     if (got === 'unchanged') {
-      if (!info()!.dirty) {
-        save(null, { ...info()!, lastSyncedAt: Date.now() })
+      const now = connected()
+      if (!now.dirty) {
+        save(null, { ...now, lastSyncedAt: Date.now() })
         status('idle')
         return
       }
@@ -246,10 +257,11 @@ async function syncOnce(full: boolean): Promise<void> {
   for (let attempt = 1; ; attempt++) {
     if (!remote.doc) return replaceSynced(remote.version) // the server lost its copy: this device starts it again
     const sentState = useProgress.getState()
-    const sync = sentState.sync!
-    if (remote.doc.epoch !== sync.state!.epoch) return takeOver({ ...remote, doc: remote.doc }) // replaced on another device
+    const sync = connected()
+    if (!sync.state) throw new GoneError()
+    if (remote.doc.epoch !== sync.state.epoch) return takeOver({ ...remote, doc: remote.doc }) // replaced on another device
     const options = mergeOptions()
-    const result = mergeLocal(remote.doc, sync.state!, progressOf(sentState), options)
+    const result = mergeLocal(remote.doc, sync.state, progressOf(sentState), options)
     if (!sync.dirty) {
       finish(result, remote.version, sentState, options.prefs!) // nothing new here: just take the newer copy
       cache = { ...remote, doc: remote.doc }
@@ -290,6 +302,7 @@ function exclusive(fn: () => Promise<void>): Promise<void> {
 }
 
 function handle(e: unknown): void {
+  if (e instanceof GoneError || !info()) return status('idle', useSyncStatus.getState().message) // disconnected meanwhile
   if (e instanceof api.OfflineError) return status('offline', OFFLINE)
   if (e instanceof api.SignedOutError) {
     cache = null
