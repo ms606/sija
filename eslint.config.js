@@ -79,7 +79,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['tools/**/*.ts', 'tests/e2e/**/*.ts', '*.config.ts', 'worker/__tests__/**/*.ts'],
+    files: ['tools/**/*.ts', 'tests/e2e/**/*.ts', 'tests/sync-e2e/**/*.ts', '*.config.ts', 'worker/__tests__/**/*.ts'],
     languageOptions: {
       globals: globals.node,
     },

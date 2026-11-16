@@ -5,7 +5,9 @@ import { Card, CardTitle } from '../../components/ui/Card'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { Segmented } from '../../components/ui/Segmented'
 import { useAudio } from '../../hooks/useAudio'
+import { useProgress } from '../../stores/progress'
 import { DEFAULT_SETTINGS, useSettings, type LearnerMode, type MotionPref, type PictureStyle, type ThemePref } from '../../stores/settings'
+import { SyncSection } from './SyncSection'
 
 const SAMPLE = 'Hyvää päivää! Talossa, talosta, taloon.'
 
@@ -81,6 +83,7 @@ function VoiceSettings() {
 
 export default function SettingsPage() {
   const s = useSettings()
+  const connected = useProgress((p) => p.sync !== null)
   return (
     <div className="mx-auto max-w-3xl space-y-5">
       <PageHeader title="Settings" fi="Asetukset" />
@@ -165,10 +168,15 @@ export default function SettingsPage() {
         <VoiceSettings />
       </Card>
 
+      <Card id="sync">
+        <SyncSection />
+      </Card>
+
       <Card className="space-y-2">
         <CardTitle>Data and credits</CardTitle>
         <p className="text-sm text-muted">
-          Everything you do is stored on this device only. Export, import or reset your progress on the{' '}
+          {connected ? 'Your progress is saved on this device and synced to your other connected devices.' : 'Everything you do is stored on this device only.'} Export,
+          import or reset your progress on the{' '}
           <Link to="/progress" className="font-semibold text-primary hover:underline">
             Progress page
           </Link>

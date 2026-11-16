@@ -5,7 +5,7 @@ import type { ReviewItem } from '../learning/srs'
 
 export const BACKUP_FORMAT = 'sija-progress'
 
-/** A JSON backup of all progress (everything stays on this device unless the learner exports it). */
+/** A JSON backup of all progress. It never includes sync bookkeeping. */
 export function exportProgress(data: ProgressData): string {
   return JSON.stringify({ format: BACKUP_FORMAT, version: 1, exportedAt: new Date().toISOString(), data }, null, 2)
 }

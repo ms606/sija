@@ -86,6 +86,18 @@ export interface DeviceSync {
   base: ProgressData
 }
 
+/** A connected device's sync bookkeeping, saved in the same record as its progress, so both change in one write. */
+export interface SyncInfo {
+  deviceId: string
+  /** Null until the first sync after connecting has settled which progress to keep. */
+  state: DeviceSync | null
+  /** Progress changed on this device since its last successful sync. */
+  dirty: boolean
+  /** The next sync replaces the synced progress with this device's (reset, import, "use this device's progress"). */
+  replace: boolean
+  lastSyncedAt: number | null
+}
+
 export function emptyTally(): Tally {
   return { xp: 0, totalAttempts: 0, sessions: 0, perfectSessions: 0, skills: {}, daily: {} }
 }

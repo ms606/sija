@@ -23,6 +23,8 @@ const CSP = [
   "form-action 'none'",
 ].join('; ')
 
+const WORKER_DEV = 'http://127.0.0.1:8787'
+
 function contentSecurityPolicy(): Plugin {
   return {
     name: 'sija-csp',
@@ -64,11 +66,24 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,webp,woff2}'],
         navigateFallback: '/index.html',
+        // The sync API is never answered with the app page, or from the cache.
+        navigateFallbackDenylist: [/^\/api\//],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         cleanupOutdatedCaches: true,
       },
     }),
   ],
+  // `npm run dev` forwards the sync API to `npm run worker:dev`. The Worker only
+  // accepts changes whose Origin is its own, so the proxy presents that origin.
+  server: {
+    proxy: {
+      '/api': {
+        target: WORKER_DEV,
+        changeOrigin: true,
+        configure: (proxy) => proxy.on('proxyReq', (req) => req.setHeader('origin', WORKER_DEV)),
+      },
+    },
+  },
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },

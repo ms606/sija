@@ -12,44 +12,39 @@ import { ACHIEVEMENTS } from '../../services/learning/achievements'
 import { categoryMastery, overallMastery, tier, TIER_LABEL, weakAreas } from '../../services/learning/mastery'
 import { formatDuration, timeTotals } from '../../services/learning/time'
 import { dayKey, liveStreak } from '../../services/learning/xp'
-import { exportProgress, parseBackup } from '../../services/storage/backup'
+import { parseBackup } from '../../services/storage/backup'
+import { downloadBackup } from '../../services/storage/download'
 import { useProgress, type ProgressData } from '../../stores/progress'
 import { useSettings } from '../../stores/settings'
 import { cx } from '../../utils/cx'
 
-function snapshot(s: ProgressData): ProgressData {
-  const { schemaVersion, xp, streak, lessons, skills, achievements, recentNouns, daily, reviews, sessions, perfectSessions, totalAttempts } = s
-  return { schemaVersion, xp, streak, lessons, skills, achievements, recentNouns, daily, reviews, sessions, perfectSessions, totalAttempts }
-}
-
 function DataControls() {
   const importData = useProgress((s) => s.importData)
   const reset = useProgress((s) => s.reset)
+  const connected = useProgress((s) => s.sync !== null)
   const fileRef = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null)
   const [confirmReset, setConfirmReset] = useState(false)
 
   const download = () => {
-    const blob = new Blob([exportProgress(snapshot(useProgress.getState()))], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `sija-progress-${dayKey()}.json`
-    a.click()
-    URL.revokeObjectURL(url)
+    downloadBackup(useProgress.getState())
     setMessage({ tone: 'ok', text: 'Backup downloaded.' })
   }
   const onFile = async (file: File) => {
     try {
       importData(parseBackup(await file.text()))
-      setMessage({ tone: 'ok', text: 'Progress restored from the backup.' })
+      setMessage({ tone: 'ok', text: connected ? 'Progress restored from the backup. It replaces the synced progress on every device.' : 'Progress restored from the backup.' })
     } catch (e) {
       setMessage({ tone: 'error', text: e instanceof Error ? e.message : 'Could not read the file.' })
     }
   }
   return (
     <div className="space-y-3">
-      <p className="text-sm text-muted">Your progress is stored only in this browser. Export a backup to move it to another device.</p>
+      <p className="text-sm text-muted">
+        {connected
+          ? 'Your progress is saved in this browser and synced to your other connected devices. Importing a backup or resetting changes it on every device.'
+          : 'Your progress is stored only in this browser. Export a backup to move it to another device.'}
+      </p>
       <div className="flex flex-wrap gap-2">
         <Button onClick={download} icon={<Download aria-hidden className="size-4" />}>
           Export backup
@@ -75,7 +70,7 @@ function DataControls() {
           </Button>
         ) : (
           <span className="flex flex-wrap items-center gap-2 rounded-xl bg-error-soft px-3 py-1.5 text-sm">
-            Delete all progress on this device?
+            {connected ? 'Delete all progress on every connected device?' : 'Delete all progress on this device?'}
             <Button
               size="sm"
               variant="danger"
@@ -129,6 +124,7 @@ function TimeTotals({ daily, now }: { daily: ProgressData['daily']; now: number 
 
 export default function ProgressPage() {
   const p = useProgress()
+  const connected = p.sync !== null
   const dailyGoal = useSettings((s) => s.dailyGoal)
   const now = useNow()
   const [metric, setMetric] = useState<ActivityMetric>('exercises')
@@ -173,7 +169,7 @@ export default function ProgressPage() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
-          <CardTitle sub={metric === 'exercises' ? 'Last 14 days. Solid: correct answers.' : 'Last 14 days. Minutes with the app open and in use, on this device.'}>
+          <CardTitle sub={metric === 'exercises' ? 'Last 14 days. Solid: correct answers.' : connected ? 'Last 14 days. Minutes with the app open and in use, on all your connected devices.' : 'Last 14 days. Minutes with the app open and in use, on this device.'}>
             Activity
           </CardTitle>
           <Segmented label="Show" size="sm" value={metric} options={METRICS} onChange={setMetric} className="mb-2" />

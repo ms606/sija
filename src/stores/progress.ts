@@ -6,6 +6,7 @@ import { quality, schedule, type ReviewItem } from '../services/learning/srs'
 import type { DaySpans } from '../services/learning/time'
 import { dayKey, nextStreak, XP, xpFor } from '../services/learning/xp'
 import { idbStorage } from '../services/storage/idb'
+import type { SyncInfo } from '../services/sync/doc'
 import type { Exercise, Verdict } from '../types/exercise'
 
 export interface DailyStat {
@@ -13,7 +14,7 @@ export interface DailyStat {
   correct: number
   xp: number
   goalMet?: boolean
-  /** Time the app was in use on this device that day (visible, focused, not idle). */
+  /** Time the app was in use that day (visible, focused, not idle): on this device, plus connected devices once synced. */
   activeMs?: number
 }
 
@@ -55,6 +56,8 @@ export interface AttemptOutcome {
 
 interface ProgressStore extends ProgressData {
   hydrated: boolean
+  /** Sync bookkeeping when this device is connected to sync; null for a guest. Saved with the progress. */
+  sync: SyncInfo | null
   recordAttempt: (input: { exercise: Exercise; verdict: Verdict; ms: number; dailyGoal: number; now?: number }) => AttemptOutcome
   startLesson: (id: string) => void
   completeLesson: (id: string, score: number) => AttemptOutcome
@@ -63,6 +66,16 @@ interface ProgressStore extends ProgressData {
   addActiveTime: (spans: DaySpans) => void
   importData: (data: ProgressData) => void
   reset: () => void
+}
+
+/** Marks a change for the next sync, in the same write as the change itself. */
+function touched(s: ProgressStore): Partial<ProgressStore> {
+  return s.sync && !s.sync.dirty ? { sync: { ...s.sync, dirty: true } } : {}
+}
+
+/** A reset or import on a connected device replaces the synced progress on every device. */
+function replacing(s: ProgressStore): Partial<ProgressStore> {
+  return s.sync?.state ? { sync: { ...s.sync, replace: true, dirty: true } } : {}
 }
 
 function unlock(state: ProgressData, now: number): { achievements: Record<string, number>; unlocked: string[] } {
@@ -93,12 +106,13 @@ const sharedStorage: StateStorage = {
   },
 }
 
-/** Learner progress, persisted in IndexedDB. Everything stays on this device. */
+/** Learner progress, persisted in IndexedDB. A device connected to sync also keeps its sync bookkeeping here. */
 export const useProgress = create<ProgressStore>()(
   persist(
     (set, get) => ({
       ...EMPTY_PROGRESS,
       hydrated: false,
+      sync: null,
 
       recordAttempt: ({ exercise, verdict, ms, dailyGoal, now = Date.now() }) => {
         const s = get()
@@ -144,14 +158,14 @@ export const useProgress = create<ProgressStore>()(
           totalAttempts: s.totalAttempts + 1,
         }
         const { achievements, unlocked } = unlock(next, now)
-        set({ ...next, achievements })
+        set({ ...next, achievements, ...touched(s) })
         return { xp: gained + bonus, goalReached, unlocked }
       },
 
       startLesson: (id) => {
         const s = get()
         if (s.lessons[id]) return
-        set({ lessons: { ...s.lessons, [id]: { status: 'started', at: Date.now() } } })
+        set({ lessons: { ...s.lessons, [id]: { status: 'started', at: Date.now() } }, ...touched(s) })
       },
 
       completeLesson: (id, score) => {
@@ -162,7 +176,7 @@ export const useProgress = create<ProgressStore>()(
         const best = Math.max(score, s.lessons[id]?.score ?? 0)
         const next: ProgressData = { ...s, xp: s.xp + gained, lessons: { ...s.lessons, [id]: { status: 'done', score: best, at: now } } }
         const { achievements, unlocked } = unlock(next, now)
-        set({ xp: next.xp, lessons: next.lessons, achievements })
+        set({ xp: next.xp, lessons: next.lessons, achievements, ...touched(s) })
         return { xp: gained, goalReached: false, unlocked }
       },
 
@@ -171,33 +185,34 @@ export const useProgress = create<ProgressStore>()(
         const now = Date.now()
         const next: ProgressData = { ...s, sessions: s.sessions + 1, perfectSessions: s.perfectSessions + (total >= 5 && correct === total ? 1 : 0) }
         const { achievements, unlocked } = unlock(next, now)
-        set({ sessions: next.sessions, perfectSessions: next.perfectSessions, achievements })
+        set({ sessions: next.sessions, perfectSessions: next.perfectSessions, achievements, ...touched(s) })
         return unlocked
       },
 
       viewNoun: (id) => {
         const s = get()
-        set({ recentNouns: [{ id, at: Date.now() }, ...s.recentNouns.filter((r) => r.id !== id)].slice(0, 12) })
+        set({ recentNouns: [{ id, at: Date.now() }, ...s.recentNouns.filter((r) => r.id !== id)].slice(0, 12), ...touched(s) })
       },
 
       addActiveTime: (spans) => {
-        const daily = { ...get().daily }
+        const s = get()
+        const daily = { ...s.daily }
         for (const [key, ms] of Object.entries(spans)) {
           const day = daily[key] ?? { items: 0, correct: 0, xp: 0 }
           daily[key] = { ...day, activeMs: (day.activeMs ?? 0) + Math.round(ms) }
         }
-        set({ daily })
+        set({ daily, ...touched(s) })
       },
 
-      importData: (data) => set({ ...EMPTY_PROGRESS, ...data, schemaVersion: 1 }),
+      importData: (data) => set((s) => ({ ...EMPTY_PROGRESS, ...data, schemaVersion: 1, ...replacing(s) })),
 
-      reset: () => set({ ...EMPTY_PROGRESS }),
+      reset: () => set((s) => ({ ...EMPTY_PROGRESS, ...replacing(s) })),
     }),
     {
       name: 'sija-progress',
       version: 1,
       storage: createJSONStorage(() => sharedStorage),
-      partialize: (s): ProgressData => ({
+      partialize: (s): ProgressData & { sync: SyncInfo | null } => ({
         schemaVersion: 1,
         xp: s.xp,
         streak: s.streak,
@@ -210,6 +225,7 @@ export const useProgress = create<ProgressStore>()(
         sessions: s.sessions,
         perfectSessions: s.perfectSessions,
         totalAttempts: s.totalAttempts,
+        sync: s.sync,
       }),
       onRehydrateStorage: () => () => {
         useProgress.setState({ hydrated: true })

@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "e2e:sync": "playwright test --config playwright.sync.config.ts",
     "worker:dev": "wrangler dev --config worker/wrangler.local.jsonc",
     "worker:migrate": "wrangler d1 migrations apply DB --local --config worker/wrangler.local.jsonc",
     "worker:types": "wrangler types --config worker/wrangler.local.jsonc worker/worker-configuration.d.ts",
