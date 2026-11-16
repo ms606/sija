@@ -39,6 +39,9 @@ tools/audit/out
 .env.*
 !.env.example
 *.pem
+# Local Worker secrets for `wrangler dev`
+.dev.vars
+.dev.vars.*
 
 # Cloudflare local state
 .wrangler

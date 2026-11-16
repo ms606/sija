@@ -12,6 +12,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "worker:dev": "wrangler dev --config worker/wrangler.local.jsonc",
+    "worker:migrate": "wrangler d1 migrations apply DB --local --config worker/wrangler.local.jsonc",
+    "worker:types": "wrangler types --config worker/wrangler.local.jsonc worker/worker-configuration.d.ts",
     "export:paradigms": "tsx tools/export-paradigms.ts",
     "verify:kotus": "tsx tools/kotus/verify-kotus.ts",
     "verify:morph": "npm run export:paradigms && tools/morph-oracle/.venv/bin/python tools/morph-oracle/check.py && tools/morph-oracle/.venv/bin/python tools/morph-oracle/sentences.py",
@@ -44,11 +47,13 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "esbuild": "0.28.2",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.6",
     "globals": "^17.12.0",
     "jsdom": "^28.1.0",
+    "miniflare": "5.20261101.0-beta",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "~6.0.2",
@@ -56,7 +61,8 @@
     "vite": "^8.3.0",
     "vite-plugin-pwa": "^2.0.0",
     "vitest": "^5.0.3",
-    "workbox-window": "^7.4.1"
+    "workbox-window": "^7.4.1",
+    "wrangler": "4.156.1"
   },
   "description": "Sija — an interactive Finnish noun grammar lab (cases, stems, consonant gradation, -i nouns, plurals)."
 }

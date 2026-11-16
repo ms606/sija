@@ -76,7 +76,8 @@ export default defineConfig({
     // Engine and data tests run in plain Node; component tests opt into jsdom
     // with a `// @vitest-environment jsdom` comment at the top of the file.
     environment: 'node',
-    include: ['src/**/*.test.{ts,tsx}'],
+    // worker/: the sync API, run in Miniflare (the local Workers runtime) with a local D1.
+    include: ['src/**/*.test.{ts,tsx}', 'worker/**/*.test.ts'],
     setupFiles: ['src/test/setup.ts'],
   },
 })
