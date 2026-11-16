@@ -10,7 +10,6 @@ import { chromeLaunchOptions } from './tools/chrome.mjs'
  */
 const state = `node_modules/.cache/sync-e2e/${Date.now()}`
 const wrangler = 'npx wrangler'
-const config = 'worker/wrangler.local.jsonc'
 
 export default defineConfig({
   testDir: 'tests/sync-e2e',
@@ -27,8 +26,8 @@ export default defineConfig({
   webServer: {
     command: [
       'npm run build',
-      `${wrangler} d1 migrations apply DB --local --config ${config} --persist-to ${state}`,
-      `${wrangler} dev --config ${config} --port ${E2E_PORT} --persist-to ${state} --var SYNC_PASSPHRASE_HASH:${e2eHash()}`,
+      `${wrangler} d1 migrations apply DB --local --persist-to ${state}`,
+      `${wrangler} dev --port ${E2E_PORT} --persist-to ${state} --var SYNC_PASSPHRASE_HASH:${e2eHash()}`,
     ].join(' && '),
     url: `http://localhost:${E2E_PORT}`,
     reuseExistingServer: false,
