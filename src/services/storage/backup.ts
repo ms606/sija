@@ -86,9 +86,6 @@ function review(v: unknown): ReviewItem | null {
   }
 }
 
-/** Field validators shared with the sync data check. They return null for a malformed entry. */
-export { lesson as parseLessonEntry, review as parseReviewItem }
-
 function streak(v: unknown): ProgressData['streak'] {
   if (!isObj(v) || !isNum(v.current) || !isNum(v.best)) return EMPTY_PROGRESS.streak
   return { current: v.current, best: v.best, lastDay: isStr(v.lastDay) ? v.lastDay : null }

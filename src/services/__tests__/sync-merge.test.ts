@@ -129,7 +129,7 @@ describe('sync: starting point', () => {
       s.addActiveTime({ [D1]: 600_000, [D2]: 120_000 })
     })
     expect(p.daily[D1]?.goalMet).toBe(true)
-    expect(assemble(startDoc(p, 'e'))).toEqual(p)
+    expect(assemble(startDoc(p, 'e'))).toEqual(typed(p))
     expect(assemble(transport(startDoc(p, 'e')))).toEqual(typed(p))
   })
 
@@ -285,6 +285,21 @@ describe('sync: daily goal, bonuses and streak', () => {
     expect(laptop.local.streak.current).toBe(0)
   })
 
+  it('checks a combined goal against the synced daily goal, not the device setting', () => {
+    for (const [synced, device, met] of [
+      [30, 20, false],
+      [20, 30, true],
+    ] as const) {
+      const { cloud, phone, laptop } = pair()
+      const prefs = { dailyGoal: { value: synced, changedAt: 1 } }
+      phone.local = answer(phone.local, 12, { day: D1, hour: 8, goal: device })
+      laptop.local = answer(laptop.local, 10, { day: D1, hour: 20, goal: device })
+      cloud.sync(phone, { dailyGoal: device, prefs })
+      cloud.sync(laptop, { dailyGoal: device, prefs })
+      expect(laptop.local.daily[D1]?.goalMet ?? false).toBe(met)
+    }
+  })
+
   it('leaves past days as they were when the goal is lowered later', () => {
     const { cloud, phone, laptop } = pair()
     phone.local = answer(phone.local, 8, { day: D1, hour: 8 })
@@ -342,7 +357,11 @@ describe('sync: records', () => {
     cloud.sync(laptop)
 
     const card = laptop.local.reviews['form:talo:sg.genitive']
-    expect(card).toEqual({ ...laptopCard, history: [phone.local.reviews['form:talo:sg.genitive']!.history[0], laptopCard.history[0]] })
+    expect(card).toEqual({
+      ...laptopCard,
+      target: { lexemeId: 'talo', slot: 'sg.genitive' },
+      history: [phone.local.reviews['form:talo:sg.genitive']!.history[0], laptopCard.history[0]],
+    })
     expect(laptop.local.skills['case:genitive']).toEqual({
       attempts: 2,
       correct: 1,
@@ -416,6 +435,20 @@ describe('sync: merging copies', () => {
     expect(mergeDocs(mergeDocs(a, b), c)).toEqual(mergeDocs(a, mergeDocs(b, c)))
     expect(mergeDocs(a, a)).toEqual(a)
     expect(mergeDocs(mergeDocs(a, b), b)).toEqual(mergeDocs(a, b))
+  })
+
+  it('keeps only the typed fields of a card, so the order of copies never matters', () => {
+    const { cloud, phone, laptop } = pair()
+    phone.local = answer(phone.local, 1, { day: D1, hour: 8 })
+    const raw = phone.local.reviews['form:talo:sg.genitive']!
+    expect(raw.target).toHaveProperty('form') // the store saves the word form on the target
+    const options = { dailyGoal: GOAL, now: NOW }
+    const local = mergeLocal(cloud.doc, phone.sync, phone.local, options).doc // straight from the device
+    expect(local.reviews['form:talo:sg.genitive']?.target).toEqual({ lexemeId: 'talo', slot: 'sg.genitive' })
+    const downloaded = transport(local) // the same copy after a round trip
+    expect(mergeDocs(local, downloaded)).toEqual(mergeDocs(downloaded, local))
+    expect(startDoc(phone.local, 'e').reviews['form:talo:sg.genitive']?.target).toEqual({ lexemeId: 'talo', slot: 'sg.genitive' })
+    cloud.sync(laptop)
   })
 
   it('refuses to merge copies from different epochs', () => {

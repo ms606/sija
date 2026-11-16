@@ -85,13 +85,38 @@ describe('sync document check', () => {
     expect(pathOf(broken((d) => (d.tallies.laptop.xp = -5)))).toBe('tallies.laptop.xp')
     expect(pathOf(broken((d) => (d.tallies.laptop.daily['17.11.2026'] = { items: 1, correct: 1, xp: 10, activeMs: 0 })))).toBe('tallies.laptop.daily.17.11.2026')
     expect(pathOf(broken((d) => delete d.start.counters.skills['case:genitive'].correct))).toBe('start.counters.skills.case:genitive.correct')
-    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].target.slot = 'sg.bogus')))).toBe('reviews.form:talo:sg.genitive')
-    expect(pathOf(broken((d) => (d.lessons['1.1'].status = 'finished')))).toBe('lessons.1.1')
+    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].target.slot = 'sg.bogus')))).toBe('reviews.form:talo:sg.genitive.target.slot')
+    expect(pathOf(broken((d) => (d.lessons['1.1'].status = 'finished')))).toBe('lessons.1.1.status')
     expect(pathOf(broken((d) => (d.skillHistory['case:genitive'][0].ok = 'yes')))).toBe('skillHistory.case:genitive.0.ok')
     expect(pathOf(broken((d) => (d.recentNouns[0] = { at: 2 })))).toBe('recentNouns.0.id')
     expect(pathOf(broken((d) => (d.goalDays = ['yesterday'])))).toBe('goalDays.0')
     expect(pathOf(broken((d) => (d.start.streak.lastDay = 5)))).toBe('start.streak.lastDay')
     expect(pathOf(broken((d) => (d.prefs.dailyGoal.value = { n: 20 })))).toBe('prefs.dailyGoal.value')
+  })
+
+  it('rejects damaged parts of review cards and lessons too', () => {
+    const card = 'reviews.form:talo:sg.genitive'
+    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].history[0].ms = 'slow')))).toBe(`${card}.history.0.ms`)
+    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].history[0].correct = 1)))).toBe(`${card}.history.0.correct`)
+    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].lastReviewed = 'today')))).toBe(`${card}.lastReviewed`)
+    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].target.person = 'we')))).toBe(`${card}.target.person`)
+    expect(pathOf(broken((d) => (d.reviews['form:talo:sg.genitive'].reps = -1)))).toBe(`${card}.reps`)
+    expect(pathOf(broken((d) => (d.lessons['1.1'].score = 'high')))).toBe('lessons.1.1.score')
+  })
+
+  it('rejects days that are not on the calendar', () => {
+    expect(pathOf(broken((d) => (d.goalDays = ['2026-02-30'])))).toBe('goalDays.0')
+    expect(pathOf(broken((d) => (d.tallies.laptop.daily['2026-13-01'] = { items: 1, correct: 1, xp: 10, activeMs: 0 })))).toBe('tallies.laptop.daily.2026-13-01')
+  })
+
+  it('drops fields it does not know, such as the word form saved on a card target', () => {
+    const raw = broken((d) => {
+      d.reviews['form:talo:sg.genitive'].target.form = 'talon'
+      d.lessons['1.1'].note = 'x'
+    })
+    const doc = parseSyncDoc(raw)
+    expect(doc.reviews['form:talo:sg.genitive']?.target).toEqual({ lexemeId: 'talo', slot: 'sg.genitive' })
+    expect(doc.lessons['1.1']).toEqual({ status: 'done', score: 0.9, at: 5 })
   })
 
   it('rejects prototype keys', () => {

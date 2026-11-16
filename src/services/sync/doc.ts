@@ -1,7 +1,7 @@
+import { ALL_SLOTS, PERSONS, type PersonId, type SlotKey } from '../../grammar'
 import type { ProgressData } from '../../stores/progress'
 import type { SkillStat } from '../learning/mastery'
 import type { ReviewItem } from '../learning/srs'
-import { parseLessonEntry, parseReviewItem } from '../storage/backup'
 
 /**
  * The synced copy of the learner's progress: one document on the server, merged
@@ -111,7 +111,9 @@ export class InvalidSyncDocError extends Error {
 // --------------------------------------------------------------------------
 // Validation. A downloaded copy is untrusted. Unlike a backup import, nothing is
 // repaired: the device uploads what it reads, so a dropped entry would be lost
-// on every device. Any malformed part rejects the whole copy.
+// on every device. Any malformed known field rejects the whole copy. Fields this
+// version doesn't know are dropped, which is safe because a newer app that adds
+// fields also raises SYNC_FORMAT_VERSION, and this app then refuses to write.
 
 type Obj = Record<string, unknown>
 
@@ -142,8 +144,47 @@ function str(v: unknown, path: string): string {
   return typeof v === 'string' && v.length > 0 ? v : fail(path)
 }
 
+/** A real local calendar day in the app's "2026-11-16" form. */
 function day(v: unknown, path: string): DayKey {
-  return typeof v === 'string' && DAY_RE.test(v) ? v : fail(path)
+  if (typeof v !== 'string' || !DAY_RE.test(v)) return fail(path)
+  const [y, m, d] = v.split('-').map(Number) as [number, number, number]
+  const date = new Date(y, m - 1, d)
+  return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d ? v : fail(path)
+}
+
+function bool(v: unknown, path: string): boolean {
+  return typeof v === 'boolean' ? v : fail(path)
+}
+
+const SLOTS = new Set<string>(ALL_SLOTS)
+const PERSON_IDS = new Set<string>(PERSONS)
+
+function lesson(v: unknown, path: string): ProgressData['lessons'][string] {
+  const o = obj(v, path)
+  const status = o.status === 'started' || o.status === 'done' ? o.status : fail(`${path}.status`)
+  return { status, at: num(o.at, `${path}.at`), ...(o.score !== undefined ? { score: num(o.score, `${path}.score`) } : {}) }
+}
+
+function review(v: unknown, path: string): ReviewItem {
+  const o = obj(v, path)
+  const t = obj(o.target, `${path}.target`)
+  const slot = typeof t.slot === 'string' && SLOTS.has(t.slot) ? (t.slot as SlotKey) : fail(`${path}.target.slot`)
+  const person = t.person === undefined ? undefined : typeof t.person === 'string' && PERSON_IDS.has(t.person) ? (t.person as PersonId) : fail(`${path}.target.person`)
+  return {
+    key: str(o.key, `${path}.key`),
+    kind: o.kind === 'form' || o.kind === 'recognize' ? o.kind : fail(`${path}.kind`),
+    target: { lexemeId: str(t.lexemeId, `${path}.target.lexemeId`), slot, ...(person ? { person } : {}) },
+    ease: num(o.ease, `${path}.ease`),
+    intervalDays: count(o.intervalDays, `${path}.intervalDays`),
+    due: num(o.due, `${path}.due`),
+    reps: count(o.reps, `${path}.reps`),
+    lapses: count(o.lapses, `${path}.lapses`),
+    ...(o.lastReviewed !== undefined ? { lastReviewed: num(o.lastReviewed, `${path}.lastReviewed`) } : {}),
+    history: arr(o.history, `${path}.history`).map((h, i) => {
+      const e = obj(h, `${path}.history.${i}`)
+      return { at: num(e.at, `${path}.history.${i}.at`), correct: bool(e.correct, `${path}.history.${i}.correct`), ms: count(e.ms, `${path}.history.${i}.ms`) }
+    }),
+  }
 }
 
 function record<T>(v: unknown, path: string, parse: (x: unknown, p: string) => T, key: (k: string, p: string) => string = (k) => k): Record<string, T> {
@@ -221,13 +262,12 @@ export function parseSyncDoc(raw: unknown): SyncDoc {
     },
     tallies: record(o.tallies, 'tallies', tally),
     goalDays: sortedUnique(arr(o.goalDays, 'goalDays').map((d, i) => day(d, `goalDays.${i}`))),
-    lessons: record(o.lessons, 'lessons', (x, p) => parseLessonEntry(x) ?? fail(p)),
-    reviews: record(o.reviews, 'reviews', (x, p) => parseReviewItem(x) ?? fail(p)),
+    lessons: record(o.lessons, 'lessons', lesson),
+    reviews: record(o.reviews, 'reviews', review),
     skillHistory: record(o.skillHistory, 'skillHistory', (x, p) =>
       arr(x, p).map((r, i) => {
         const e = obj(r, `${p}.${i}`)
-        if (typeof e.ok !== 'boolean') fail(`${p}.${i}.ok`)
-        return { at: num(e.at, `${p}.${i}.at`), ok: e.ok as boolean }
+        return { at: num(e.at, `${p}.${i}.at`), ok: bool(e.ok, `${p}.${i}.ok`) }
       }),
     ),
     achievements: record(o.achievements, 'achievements', num),

@@ -42,6 +42,27 @@ export function goalDaysOf(p: ProgressData): DayKey[] {
     .sort()
 }
 
+/**
+ * A review card with only its typed fields. The store also saves the exercise's
+ * word form on the target, which nothing reads; keeping it would make the result
+ * of a merge depend on which copy came first.
+ */
+function cleanReview(r: ReviewItem): ReviewItem {
+  const { lexemeId, slot, person } = r.target
+  return {
+    key: r.key,
+    kind: r.kind,
+    target: { lexemeId, slot, ...(person ? { person } : {}) },
+    ease: r.ease,
+    intervalDays: r.intervalDays,
+    due: r.due,
+    reps: r.reps,
+    lapses: r.lapses,
+    ...(r.lastReviewed !== undefined ? { lastReviewed: r.lastReviewed } : {}),
+    history: r.history.map(({ at, correct, ms }) => ({ at, correct, ms })),
+  }
+}
+
 function doneLessonsOf(lessons: ProgressData['lessons']): string[] {
   return Object.keys(lessons)
     .filter((id) => lessons[id]?.status === 'done')
@@ -316,7 +337,7 @@ export function startDoc(progress: ProgressData, epoch: string, prefs: Record<st
     tallies: {},
     goalDays,
     lessons: { ...progress.lessons },
-    reviews: { ...progress.reviews },
+    reviews: mapValues(progress.reviews, cleanReview),
     skillHistory: mapValues(progress.skills, (s) => [...s.recent]),
     achievements: { ...progress.achievements },
     recentNouns: [...progress.recentNouns],
@@ -364,8 +385,17 @@ function unlockAchievements(doc: SyncDoc, now: number): SyncDoc {
   return changed ? { ...doc, achievements } : doc
 }
 
+/** The shared setting that holds the daily goal. Combined goal days are checked against its synced value. */
+export const DAILY_GOAL_PREF = 'dailyGoal'
+
+/** The synced daily goal, so every device checks a day against the same number. */
+function syncedGoal(doc: SyncDoc, fallback: number): number {
+  const v = doc.prefs[DAILY_GOAL_PREF]?.value
+  return typeof v === 'number' && v > 0 ? v : fallback
+}
+
 export interface MergeOptions {
-  /** The learner's daily goal (exercises per day). */
+  /** This device's daily goal (exercises per day). Used only until a daily goal has been synced. */
   dailyGoal: number
   now: number
   /** This device's synced settings. */
@@ -397,13 +427,14 @@ export function mergeLocal(server: SyncDoc, sync: DeviceSync, local: ProgressDat
     tallies: { [sync.deviceId]: absorbed.myTally },
     goalDays: goalDaysOf(local),
     lessons: local.lessons,
-    reviews: local.reviews,
+    reviews: mapValues(local.reviews, cleanReview),
     skillHistory: mapValues(local.skills, (s) => s.recent),
     achievements: local.achievements,
     recentNouns: local.recentNouns,
     prefs,
   }
-  const doc = unlockAchievements(markCombinedGoals(mergeDocs(server, mine), server, sync.deviceId, dailyGoal), now)
+  const merged = mergeDocs(server, mine)
+  const doc = unlockAchievements(markCombinedGoals(merged, server, sync.deviceId, syncedGoal(merged, dailyGoal)), now)
   const progress = assemble(doc)
   return { doc, progress, sync: { ...absorbed, myTally: doc.tallies[sync.deviceId] ?? absorbed.myTally, base: progress } }
 }
